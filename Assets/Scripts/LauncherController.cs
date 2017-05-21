@@ -1,21 +1,49 @@
 ﻿using Assets.Scripts.Util;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
+    [RequireComponent(typeof(SimpleObjectPool))]
     public class LauncherController : UnityBehavior
     {
+        public float ProjectileSpeed = 1;
         public float RotationSpeed = 4;
+
         public GameObject Camera;
+        public GameObject BulletContainer;
+
         private Camera _mainCamera;
+        private SimpleObjectPool _simpleObjectPool;
 
 
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
+            _simpleObjectPool = GetComponent<SimpleObjectPool>();
         }
 
         protected override void Update()
+        {
+            RotateToFaceCursor();
+
+            if (Input.touchCount == 1 || Input.GetMouseButtonDown(0))
+            {
+                var targetPoint = _mainCamera.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                var launcherPosition = new Vector3(transform.position.x, transform.position.y, 0);
+                var trajectory = targetPoint - launcherPosition;
+                trajectory.Normalize();
+                var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
+
+                var newProjectile = _simpleObjectPool.GetObjectFromPool();
+                newProjectile.transform.SetParent(BulletContainer.transform);
+                var projectileController = newProjectile.GetComponent<ProjectileController>();
+                WhenTargetIsActive(projectileController, () => { projectileController.Fire(transform.position, rotation, trajectory, ProjectileSpeed); });
+
+            }
+        }
+
+        private void RotateToFaceCursor()
         {
             var mousePosition = Input.mousePosition;
             var ourLocation = _mainCamera.WorldToScreenPoint(transform.position);
