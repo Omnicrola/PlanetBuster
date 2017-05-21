@@ -19,7 +19,7 @@ namespace Assets.Scripts
         }
 
 
-        void Awake()
+        protected override void Awake()
         {
             if (_instance == null)
             {
@@ -52,7 +52,7 @@ namespace Assets.Scripts
         private List<GameObject> _activeBalls;
 
 
-        void Start()
+        protected override void Start()
         {
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
             GenerateLevel();
