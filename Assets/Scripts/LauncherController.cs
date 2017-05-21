@@ -11,6 +11,7 @@ namespace Assets.Scripts
         public float RotationSpeed = 4;
 
         public GameObject Camera;
+        public GameObject LevelController;
         public GameObject BulletContainer;
 
         private Camera _mainCamera;
@@ -23,6 +24,7 @@ namespace Assets.Scripts
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
         }
 
+        private int count;
         protected override void Update()
         {
             RotateToFaceCursor();
@@ -35,10 +37,10 @@ namespace Assets.Scripts
                 trajectory.Normalize();
                 var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
 
-                var newProjectile = _simpleObjectPool.GetObjectFromPool();
-                newProjectile.transform.SetParent(BulletContainer.transform);
-                var projectileController = newProjectile.GetComponent<ProjectileController>();
-                WhenTargetIsActive(projectileController, () => { projectileController.Fire(transform.position, rotation, trajectory, ProjectileSpeed); });
+                var newProjectile = GameManager.Instance.GenerateBall(0, 0);
+                var ballController = newProjectile.GetComponent<BallController>();
+                ballController.IsProjectile = true;
+                ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);
 
             }
         }
