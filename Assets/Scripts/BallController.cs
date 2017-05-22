@@ -49,7 +49,7 @@ namespace Assets.Scripts
             if (OnHit != null)
             {
                 var otherObject = collision.gameObject.GetComponent<BallController>();
-                if (IsProjectile)
+                if (IsProjectile && otherObject != null)
                 {
                     OnHit.Invoke(this, new BallCollisionEventArgs(otherObject, this));
                 }
@@ -62,6 +62,7 @@ namespace Assets.Scripts
             transform.rotation = orientation;
             var rigidBody = GetComponent<Rigidbody2D>();
             rigidBody.bodyType = RigidbodyType2D.Dynamic;
+            trajectory.Normalize();
             rigidBody.velocity = trajectory * projectileSpeed;
         }
 
