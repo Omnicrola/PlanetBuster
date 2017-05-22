@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using Assets.Scripts.Balls;
 using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    [RequireComponent(typeof(SimpleObjectPool))]
     public class LauncherController : UnityBehavior
     {
         public float ProjectileSpeed = 1;
@@ -15,13 +15,11 @@ namespace Assets.Scripts
         public GameObject BulletContainer;
 
         private Camera _mainCamera;
-        private SimpleObjectPool _simpleObjectPool;
 
 
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
-            _simpleObjectPool = GetComponent<SimpleObjectPool>();
         }
 
         private int count;
@@ -37,7 +35,7 @@ namespace Assets.Scripts
                 var trajectory = targetPoint - launcherPosition;
                 var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
 
-                var newProjectile = GameManager.Instance.GenerateBall(0, 0);
+                var newProjectile = GameManager.Instance.GenerateBall(1);
                 var ballController = newProjectile.GetComponent<BallController>();
                 ballController.IsProjectile = true;
                 ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);

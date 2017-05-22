@@ -7,6 +7,7 @@ namespace Assets.Scripts
     public interface IGameManager
     {
         void WhenTargetIsActive(GameObject gameObject, Action action);
-        GameObject GenerateBall(int gridX, int gridY);
+        GameObject GenerateBall();
+        GameObject GenerateBall(int type);
     }
 }

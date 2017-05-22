@@ -1,9 +1,8 @@
 ﻿using System;
 using Assets.Scripts.Models;
-using Assets.Scripts.Util;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Balls
 {
     public class BallController : DirtyBehavior<BallModel>
     {
@@ -67,6 +66,10 @@ namespace Assets.Scripts
         }
 
 
+        public bool IsAtGrid(int gridX, int gridY)
+        {
+            return Model.GridX == gridX && Model.GridY == gridY;
+        }
     }
 
 }

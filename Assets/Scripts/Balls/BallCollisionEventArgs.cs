@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Balls
 {
     public class BallCollisionEventArgs : EventArgs
     {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Balls;
+using UnityEngine;
 
 namespace Assets.Scripts.Models
 {
@@ -16,9 +17,9 @@ namespace Assets.Scripts.Models
         public string IconName { get; set; }
         public int Type { get; set; }
 
-        public GameObject North { get; set; }
-        public GameObject South { get; set; }
-        public GameObject East { get; set; }
-        public GameObject West { get; set; }
+        public BallController North { get; set; }
+        public BallController South { get; set; }
+        public BallController East { get; set; }
+        public BallController West { get; set; }
     }
 }

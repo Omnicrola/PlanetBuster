@@ -1,0 +1,82 @@
+using Assets.Scripts.Models;
+using Assets.Scripts.Util;
+using UnityEngine;
+using Random = System.Random;
+
+namespace Assets.Scripts.Balls
+{
+    public class BallFactory
+    {
+        private readonly SimpleObjectPool _simpleObjectPool;
+        private readonly Vector2 _offset;
+        private readonly float _spacing;
+        private readonly Random _random = new Random(11);
+
+
+        private static readonly string[] Icons = new[]
+{
+            "PlanetIcons/planet_001",
+            "PlanetIcons/planet_002",
+            "PlanetIcons/planet_003",
+            "PlanetIcons/planet_004",
+        };
+
+        public BallFactory(SimpleObjectPool simpleObjectPool, Vector2 offset, float spacing)
+        {
+            _simpleObjectPool = simpleObjectPool;
+            _offset = offset;
+            _spacing = spacing;
+        }
+
+        public GameObject GenerateBall(int gridX, int gridY)
+        {
+            var newBall = _simpleObjectPool.GetObjectFromPool();
+            newBall.transform.position = GetGridPosition(gridX, gridY);
+            var ballModel = CreateBallModel(gridX, gridY);
+
+            var ballController = newBall.GetComponent<BallController>();
+            ballController.IsProjectile = false;
+            ballController.Model = ballModel;
+
+            return newBall;
+        }
+
+        public Vector3 GetGridPosition(int gridX, int gridY)
+        {
+            var x = gridX * _spacing + _offset.x;
+            var y = gridY * _spacing + _offset.y;
+            return new Vector3(x, y, 0);
+        }
+
+        private BallModel CreateBallModel(int gridX, int gridY)
+        {
+            var type = _random.Next(Icons.Length);
+            var icon = Icons[type];
+            var ballModel = new BallModel(gridX, gridY)
+            {
+                Type = type,
+                IconName = icon
+            };
+            return ballModel;
+        }
+
+
+        public GameObject GenerateBall(int type)
+        {
+            var ballModel = new BallModel(0, 0)
+            {
+                Type = type,
+                IconName = Icons[type]
+            };
+            var newBall = _simpleObjectPool.GetObjectFromPool();
+            var ballController = newBall.GetComponent<BallController>();
+            ballController.Model = ballModel;
+            return newBall;
+        }
+
+        public void Recycle(GameObject gameObject)
+        {
+            _simpleObjectPool.ReturnObjectToPool(gameObject);
+        }
+    }
+}
