@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
 using UnityEngine;
 
@@ -11,5 +12,6 @@ namespace Assets.Scripts
         GameObject GenerateBall(int type);
         int GetNextBallType();
         Sprite GetBallSpriteOfType(int type);
+        event EventHandler<BallGridMatchArgs> MatchFound;
     }
 }

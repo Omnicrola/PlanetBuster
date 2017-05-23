@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Random = System.Random;
@@ -7,6 +8,8 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridController
     {
+        public EventHandler<BallGridMatchArgs> MatchFound;
+
         private readonly Random random = new Random();
         private readonly BallGrid _ballGrid;
         private readonly BallFactory _ballFactory;
@@ -48,8 +51,12 @@ namespace Assets.Scripts.Balls
 
         private void OnMatchFound(object sender, BallGridMatchArgs e)
         {
-            if (e.BallPath.Count > 3)
+            if (e.BallPath.Count > GameConstants.MinimumMatchNumber)
             {
+                if (MatchFound != null)
+                {
+                    MatchFound.Invoke(this, e);
+                }
                 foreach (var ballController in e.BallPath)
                 {
                     ballController.OnHit -= OnBallCollision;

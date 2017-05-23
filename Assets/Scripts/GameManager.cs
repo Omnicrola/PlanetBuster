@@ -41,8 +41,7 @@ namespace Assets.Scripts
         {
         }
 
-        public GameObject Container;
-
+        public event EventHandler<BallGridMatchArgs> MatchFound;
         public int GridSize = 10;
         public Vector2 Offset = new Vector2(0, 0);
         public float Spacing = 1;
@@ -55,7 +54,16 @@ namespace Assets.Scripts
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
             _ballGrid = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
+            _ballGrid.MatchFound += OnMatchFound;
             GenerateLevel();
+        }
+
+        private void OnMatchFound(object sender, BallGridMatchArgs e)
+        {
+            if (MatchFound != null)
+            {
+                MatchFound.Invoke(this, e);
+            }
         }
 
         private void GenerateLevel()

@@ -21,6 +21,7 @@ namespace Assets.Scripts
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
+            GenerateNextBall();
         }
 
         private int count;
