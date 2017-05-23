@@ -41,11 +41,27 @@ namespace Assets.Scripts.Balls
 
         private void OnBallCollision(object sender, BallCollisionEventArgs e)
         {
-            if (e.ThisObject.IsProjectile)
+            if (e.BallInGrid.IsProjectile)
             {
-                var ballToAddToGrid = e.ThisObject;
-                var existingBall = e.OtherObject.Model;
-                _ballGrid.Append(ballToAddToGrid.gameObject, existingBall.GridX, existingBall.GridY - 1);
+                var ballToAddToGrid = e.BallInGrid;
+                var existingBall = e.IncomingBall.Model;
+                int offsetX = 0;
+                int offsetY = 0;
+                Debug.Log("angleOfImpact: " + e.AngleOfImpact + " " + e.BallInGrid.transform.position + " <- " + e.IncomingBall.transform.position);
+
+                if (e.AngleOfImpact >= 45 && e.AngleOfImpact < 135)
+                {
+                    offsetX = 1;
+                }
+                else if (e.AngleOfImpact >= 135 && e.AngleOfImpact < 225)
+                {
+                    offsetY = -1;
+                }
+                else if (e.AngleOfImpact >= 225 && e.AngleOfImpact < 315)
+                {
+                    offsetX = -1;
+                }
+                _ballGrid.Append(ballToAddToGrid.gameObject, existingBall.GridX + offsetX, existingBall.GridY + offsetY);
             }
         }
 

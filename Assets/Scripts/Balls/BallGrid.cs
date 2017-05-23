@@ -47,8 +47,6 @@ namespace Assets.Scripts.Balls
             }
         }
 
-
-
         private void UpdateGrid(int gridX, int gridY)
         {
             var center = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY));

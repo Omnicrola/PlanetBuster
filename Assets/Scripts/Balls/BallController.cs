@@ -70,7 +70,12 @@ namespace Assets.Scripts.Balls
                 var otherObject = collision.gameObject.GetComponent<BallController>();
                 if (IsProjectile && otherObject != null)
                 {
-                    OnHit.Invoke(this, new BallCollisionEventArgs(otherObject, this));
+                    var localPosition = transform.position;
+                    var otherPosition = collision.transform.position;
+                    var difference = localPosition - otherPosition;
+                    var angle = Vector3.Angle(difference, Vector3.up);
+                    if (difference.x < 0) angle += 180;
+                    OnHit.Invoke(this, new BallCollisionEventArgs(otherObject, this, angle));
                 }
             }
         }
