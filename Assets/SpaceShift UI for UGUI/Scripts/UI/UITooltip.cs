@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Tweens;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[DisallowMultipleComponent, AddComponentMenu("UI/Tooltip", 58), RequireComponent(typeof(RectTransform)), RequireComponent(typeof(CanvasGroup)), RequireComponent(typeof(VerticalLayoutGroup)), RequireComponent(typeof(ContentSizeFitter))]
 	public class UITooltip : MonoBehaviour {
@@ -112,7 +111,7 @@ namespace UnityEngine.UI
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UITooltip"/> should follow the mouse movement.
+		/// Gets or sets a value indicating whether this <see cref="UITooltip"/> should follow the mouse movement.
 		/// </summary>
 		/// <value><c>true</c> if follow mouse; otherwise, <c>false</c>.</value>
 		public bool followMouse

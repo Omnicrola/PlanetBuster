@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.Databases;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System;
+using UnityEngine;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Test_Scripts
 {
 	public class Test_UITalentSlot_Assign : MonoBehaviour {
 		

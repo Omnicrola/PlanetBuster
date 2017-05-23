@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[AddComponentMenu("UI/Joystick", 36), RequireComponent(typeof(RectTransform))]
 	public class UIJoystick : UIBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler {

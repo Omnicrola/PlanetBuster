@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.UI;
+using UnityEngine;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous
 {
 	public class UIToggleWindowAndTab : MonoBehaviour {
 		

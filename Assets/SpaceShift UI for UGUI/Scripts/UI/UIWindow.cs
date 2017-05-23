@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UI.Tweens;
+﻿using System;
+using System.Collections.Generic;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[DisallowMultipleComponent, ExecuteInEditMode, AddComponentMenu("UI/Window", 58), RequireComponent(typeof(CanvasGroup))]
 	public class UIWindow : MonoBehaviour, IEventSystemHandler, ISelectHandler, IPointerDownHandler {

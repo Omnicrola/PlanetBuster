@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace UnityEngine.UI.Tweens
+﻿namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening
 {
 	public enum TweenEasing
 	{

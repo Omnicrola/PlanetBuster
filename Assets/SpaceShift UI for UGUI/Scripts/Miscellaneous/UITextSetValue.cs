@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous
 {
 	[RequireComponent(typeof(Text))]
 	public class UITextSetValue : MonoBehaviour {

@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[AddComponentMenu("UI/Slider Extended", 58)]
 	public class UISliderExtended : Slider {

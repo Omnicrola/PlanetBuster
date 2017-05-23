@@ -6,10 +6,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.SpaceShift_UI_for_UGUI.Scripts;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.UI;
 
 namespace UnityEditor.UI
 {
-	[CanEditMultipleObjects, CustomEditor(typeof(UnityEngine.UI.UIWindow))]
+	[CanEditMultipleObjects, CustomEditor(typeof(UIWindow))]
 	public class UIWindowEditor : Editor {
 		
 		private SerializedProperty m_WindowIdProperty;

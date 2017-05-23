@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
-public class BitMaskAttribute : PropertyAttribute
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous
 {
-	public System.Type propType;
+    public class BitMaskAttribute : PropertyAttribute
+    {
+        public System.Type propType;
 	
-	public BitMaskAttribute(System.Type aType)
-	{
-		propType = aType;
-	}
+        public BitMaskAttribute(System.Type aType)
+        {
+            propType = aType;
+        }
+    }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI.Tweens;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	public class UILoadingBar : MonoBehaviour {
 		

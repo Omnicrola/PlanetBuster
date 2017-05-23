@@ -1,13 +1,13 @@
 using Assets.Scripts.Models;
-using Assets.Scripts.Util;
 using UnityEngine;
+using Random = System.Random;
 
 
 namespace Assets.Scripts.Balls
 {
     public class BallGridController
     {
-
+        private readonly Random random = new Random();
         private readonly BallGrid _ballGrid;
         private readonly BallFactory _ballFactory;
 
@@ -71,6 +71,12 @@ namespace Assets.Scripts.Balls
             var newBall = _ballFactory.GenerateBall(type);
             newBall.GetComponent<BallController>().OnHit += OnBallCollision;
             return newBall;
+        }
+
+        public int GetNextBallType()
+        {
+            var typesActive = _ballGrid.TypesLeftActive;
+            return typesActive[random.Next(typesActive.Length - 1)];
         }
     }
 }

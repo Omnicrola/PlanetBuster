@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.UI;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Demo
 {
 	[ExecuteInEditMode, RequireComponent(typeof(Image)), RequireComponent(typeof(CanvasGroup))]
 	public class UIBlackOverlay : MonoBehaviour {

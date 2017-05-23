@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[AddComponentMenu("UI/Progress Bar"), ExecuteInEditMode]
 	public class UIProgressBar : MonoBehaviour {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Assets.Scripts.Util
+namespace Assets.Scripts
 {
     public class SimpleObjectPool : UnityBehavior
     {
@@ -15,7 +14,9 @@ namespace Assets.Scripts.Util
         {
             if (inactiveInstances.Count > 0)
             {
-                return inactiveInstances.Pop();
+                var objectFromPool = inactiveInstances.Pop();
+                objectFromPool.SetActive(true);
+                return objectFromPool;
             }
             else
             {

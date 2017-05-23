@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System
 {
 	[AddComponentMenu("UI/Icon Slots/Item Slot", 12)]
 	public class UIItemSlot : UISlotBase {

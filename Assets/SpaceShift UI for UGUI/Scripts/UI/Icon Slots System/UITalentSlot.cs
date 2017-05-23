@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System
 {
 	[AddComponentMenu("UI/Icon Slots/Talent Slot", 12)]
 	public class UITalentSlot : UISlotBase

@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-#if UNITY_EDITOR
+﻿using System.Collections;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Raycast_Filters;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Object = UnityEngine.Object;
+#if UNITY_EDITOR
+
 #endif
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System
 {
 	[AddComponentMenu("UI/Icon Slots/Base Slot"), ExecuteInEditMode, DisallowMultipleComponent]
 	public class UISlotBase : UIBehaviour, IEventSystemHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
@@ -158,7 +159,7 @@ namespace UnityEngine.UI
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UISlotBase"/> tooltip should be enabled.
+		/// Gets or sets a value indicating whether this <see cref="UISlotBase"/> tooltip should be enabled.
 		/// </summary>
 		/// <value><c>true</c> if tooltip enabled; otherwise, <c>false</c>.</value>
 		public bool tooltipEnabled
@@ -190,7 +191,7 @@ namespace UnityEngine.UI
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UISlotBase"/> pressed state should transition out instantly.
+		/// Gets or sets a value indicating whether this <see cref="UISlotBase"/> pressed state should transition out instantly.
 		/// </summary>
 		/// <value><c>true</c> if press transition insta out; otherwise, <c>false</c>.</value>
 		public bool pressTransitionInstaOut
@@ -206,7 +207,7 @@ namespace UnityEngine.UI
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UISlotBase"/> pressed state should force normal state transition on the hover target.
+		/// Gets or sets a value indicating whether this <see cref="UISlotBase"/> pressed state should force normal state transition on the hover target.
 		/// </summary>
 		/// <value><c>true</c> if press force hover normal; otherwise, <c>false</c>.</value>
 		public bool pressForceHoverNormal
@@ -222,7 +223,7 @@ namespace UnityEngine.UI
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UISlotBase"/> drop was preformed.
+		/// Gets or sets a value indicating whether this <see cref="UISlotBase"/> drop was preformed.
 		/// </summary>
 		/// <value><c>true</c> if drop preformed; otherwise, <c>false</c>.</value>
 		public bool dropPreformed

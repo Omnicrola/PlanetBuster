@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI.Tweens;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Select_Field
 {
 	[ExecuteInEditMode, DisallowMultipleComponent, AddComponentMenu("UI/Select Field", 58), RequireComponent(typeof(Image))]
 	public class UISelectField : Toggle {

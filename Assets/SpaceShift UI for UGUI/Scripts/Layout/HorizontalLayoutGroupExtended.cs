@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Layout
 {
 	[AddComponentMenu("Layout/Horizontal Layout Group Extended", 150)]
 	public class HorizontalLayoutGroupExtended : HorizontalOrVerticalLayoutGroupExtended

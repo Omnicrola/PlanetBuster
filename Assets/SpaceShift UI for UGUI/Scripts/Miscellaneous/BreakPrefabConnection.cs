@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-[ExecuteInEditMode]
-public class BreakPrefabConnection : MonoBehaviour
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous
 {
-	void Start()
-	{
-		#if UNITY_EDITOR
-		PrefabUtility.DisconnectPrefabInstance(gameObject);
-		#endif
-		DestroyImmediate(this); // Remove this script
-	}
+    [ExecuteInEditMode]
+    public class BreakPrefabConnection : MonoBehaviour
+    {
+        void Start()
+        {
+#if UNITY_EDITOR
+            PrefabUtility.DisconnectPrefabInstance(gameObject);
+#endif
+            DestroyImmediate(this); // Remove this script
+        }
+    }
 }

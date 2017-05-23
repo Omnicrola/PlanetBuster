@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Graphic)), DisallowMultipleComponent, AddComponentMenu("UI/Flippable")]
 #if UNITY_5_2 || UNITY_5_3 || UNITY_5_4 || UNITY_5_5 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9
@@ -14,7 +14,7 @@ namespace UnityEngine.UI
 		[SerializeField] private bool m_Veritical = false;
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIFlippable"/> should be flipped horizontally.
+		/// Gets or sets a value indicating whether this <see cref="UIFlippable"/> should be flipped horizontally.
 		/// </summary>
 		/// <value><c>true</c> if horizontal; otherwise, <c>false</c>.</value>
 		public bool horizontal
@@ -24,7 +24,7 @@ namespace UnityEngine.UI
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIFlippable"/> should be flipped vertically.
+		/// Gets or sets a value indicating whether this <see cref="UIFlippable"/> should be flipped vertically.
 		/// </summary>
 		/// <value><c>true</c> if vertical; otherwise, <c>false</c>.</value>
 		public bool vertical

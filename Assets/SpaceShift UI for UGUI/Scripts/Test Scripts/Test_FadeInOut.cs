@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI.Tweens;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
+using UnityEngine;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Test_Scripts
 {
 	public class Test_FadeInOut : MonoBehaviour {
 		

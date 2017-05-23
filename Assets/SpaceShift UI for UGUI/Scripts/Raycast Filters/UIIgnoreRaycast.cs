@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Raycast_Filters
 {
 	[AddComponentMenu("UI/Raycast Filters/Ignore Raycast Filter")]
 	public class UIIgnoreRaycast : MonoBehaviour, ICanvasRaycastFilter 

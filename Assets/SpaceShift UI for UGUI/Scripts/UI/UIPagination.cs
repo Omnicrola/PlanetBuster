@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[AddComponentMenu("UI/Pagination", 82)]
 	public class UIPagination : MonoBehaviour {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Select_Field
 {
 	[ExecuteInEditMode, AddComponentMenu("UI/Select Field - Arrow", 58), RequireComponent(typeof(Image))]
 	public class UISelectField_Arrow : MonoBehaviour {

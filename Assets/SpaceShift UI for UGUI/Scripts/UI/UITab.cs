@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[DisallowMultipleComponent, AddComponentMenu("UI/Tab", 58)]
 	public class UITab : Toggle {

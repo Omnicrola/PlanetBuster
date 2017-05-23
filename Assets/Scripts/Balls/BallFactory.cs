@@ -1,5 +1,4 @@
 using Assets.Scripts.Models;
-using Assets.Scripts.Util;
 using UnityEngine;
 using Random = System.Random;
 
@@ -77,6 +76,11 @@ namespace Assets.Scripts.Balls
         public void Recycle(GameObject gameObject)
         {
             _simpleObjectPool.ReturnObjectToPool(gameObject);
+        }
+
+        public Sprite GetBallSpriteOfType(int type)
+        {
+            return Resources.Load<Sprite>(Icons[type]);
         }
     }
 }

@@ -15,6 +15,10 @@ namespace Assets.Scripts.Balls
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
 
         public int Size { private set; get; }
+        public int[] TypesLeftActive
+        {
+            get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
+        }
 
         public BallGrid(int gridSize, BallFactory ballFactory)
         {

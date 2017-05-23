@@ -8,6 +8,7 @@ namespace Assets.Scripts.Balls
     {
         private SpriteRenderer _spriteRenderer;
         private bool _isProjectile;
+        private bool _active;
 
         public EventHandler<BallCollisionEventArgs> OnHit { get; set; }
 
@@ -29,6 +30,25 @@ namespace Assets.Scripts.Balls
             }
         }
 
+        public bool Active
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                if (value)
+                {
+                    tag = Tags.Balls;
+                    GetComponent<Rigidbody2D>().isKinematic = false;
+                }
+                else
+                {
+                    tag = Tags.InactiveBall;
+                    GetComponent<Rigidbody2D>().isKinematic = true;
+                }
+            }
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -45,7 +65,7 @@ namespace Assets.Scripts.Balls
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (OnHit != null)
+            if (OnHit != null && collision.gameObject.tag == Tags.Balls)
             {
                 var otherObject = collision.gameObject.GetComponent<BallController>();
                 if (IsProjectile && otherObject != null)

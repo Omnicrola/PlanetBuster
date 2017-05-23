@@ -1,9 +1,9 @@
 ﻿using System;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Demo;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
 using UnityEngine;
-using UnityEngine.UI.Tweens;
-using System.Collections;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Test_Scripts
 {
 	public class Test_UIUnitFrame_Bar : MonoBehaviour {
 		

@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
-using System;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[AddComponentMenu("UI/Button Extended", 58)]
 	public class UIButtonExtended : Button {

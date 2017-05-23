@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[ExecuteInEditMode, RequireComponent(typeof(UnityEngine.UI.Toggle))]
 	public class UIToggle_OnOff : MonoBehaviour, IEventSystemHandler, IPointerDownHandler, IPointerUpHandler {

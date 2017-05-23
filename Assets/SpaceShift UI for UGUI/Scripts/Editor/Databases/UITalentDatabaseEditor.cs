@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEditor;
 using System.Collections;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Databases;
 
 public class UITalentDatabaseEditor
 {

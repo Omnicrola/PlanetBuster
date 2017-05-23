@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
 	[ExecuteInEditMode, AddComponentMenu("UI/Button Extended - Target", 58), RequireComponent(typeof(UIButtonExtended))]
 	public class UIButtonExtended_Target : MonoBehaviour {

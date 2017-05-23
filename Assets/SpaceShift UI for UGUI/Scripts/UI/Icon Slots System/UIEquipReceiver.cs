@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System
 {
 	[AddComponentMenu("UI/Icon Slots/Equip Receiver", 46), ExecuteInEditMode]
 	public class UIEquipReceiver : UIBehaviour, IEventSystemHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler {

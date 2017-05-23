@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI.Icon_Slots_System
 {
 	[AddComponentMenu("UI/Icon Slots/Spell Slot", 12)]
 	public class UISpellSlot : UISlotBase {

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEditor.UI;
 using System.Collections;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.UI;
 
 namespace UnityEditor.UI
 {

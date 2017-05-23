@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Util;
-
-namespace Assets.Scripts
+﻿namespace Assets.Scripts
 {
     public abstract class DirtyBehavior<T> : UnityBehavior
     {

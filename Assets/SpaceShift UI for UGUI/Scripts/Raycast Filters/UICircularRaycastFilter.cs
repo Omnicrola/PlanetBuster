@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Raycast_Filters
 {
 	[AddComponentMenu("UI/Raycast Filters/Circular Raycast Filter"), RequireComponent(typeof(RectTransform))]
 	public class UICircularRaycastFilter : MonoBehaviour, ICanvasRaycastFilter

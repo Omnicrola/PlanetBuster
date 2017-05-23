@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Assets.Scripts.Balls;
-using Assets.Scripts.Util;
+using Assets.Scripts.Extensions;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -11,11 +11,12 @@ namespace Assets.Scripts
         public float RotationSpeed = 4;
 
         public GameObject Camera;
-        public GameObject LevelController;
-        public GameObject BulletContainer;
+        public GameObject BallContainer;
 
         private Camera _mainCamera;
 
+        public GameObject NextProjectile;
+        private int _nextProjectileType;
 
         protected override void Start()
         {
@@ -29,18 +30,38 @@ namespace Assets.Scripts
 
             if (TouchWasReleased() || Input.GetMouseButtonUp(0))
             {
-                var targetPoint = _mainCamera.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-                targetPoint.z = 0;
-                var launcherPosition = new Vector3(transform.position.x, transform.position.y, 0);
-                var trajectory = targetPoint - launcherPosition;
+                var trajectory = CalculateTrajectory();
                 var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
 
-                var newProjectile = GameManager.Instance.GenerateBall(1);
-                var ballController = newProjectile.GetComponent<BallController>();
-                ballController.IsProjectile = true;
-                ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);
-
+                FireNextBall(rotation, trajectory);
+                GenerateNextBall();
             }
+        }
+
+        private void GenerateNextBall()
+        {
+            _nextProjectileType = GameManager.Instance.GetNextBallType();
+            var ballSprite = GameManager.Instance.GetBallSpriteOfType(_nextProjectileType);
+            NextProjectile.GetComponent<SpriteRenderer>().sprite = ballSprite;
+        }
+
+        private void FireNextBall(Quaternion rotation, Vector3 trajectory)
+        {
+            var nextProjectile = GameManager.Instance.GenerateBall(_nextProjectileType);
+
+            var ballController = nextProjectile.GetComponent<BallController>();
+            ballController.Active = true;
+            ballController.IsProjectile = true;
+            ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);
+        }
+
+        private Vector3 CalculateTrajectory()
+        {
+            var targetPoint = _mainCamera.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            targetPoint.z = 0;
+            var launcherPosition = new Vector3(transform.position.x, transform.position.y, 0);
+            var trajectory = targetPoint - launcherPosition;
+            return trajectory;
         }
 
         private bool TouchWasReleased()

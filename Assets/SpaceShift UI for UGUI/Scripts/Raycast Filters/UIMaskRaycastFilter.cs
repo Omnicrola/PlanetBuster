@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Raycast_Filters
 {
 	[AddComponentMenu("UI/Raycast Filters/Mask Raycast Filter"), ExecuteInEditMode, RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
 	public class UIMaskRaycastFilter : MonoBehaviour, ICanvasRaycastFilter

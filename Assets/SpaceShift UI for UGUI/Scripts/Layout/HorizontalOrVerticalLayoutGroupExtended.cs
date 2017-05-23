@@ -1,6 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Layout
 {
 	public abstract class HorizontalOrVerticalLayoutGroupExtended : HorizontalOrVerticalLayoutGroup {
 		

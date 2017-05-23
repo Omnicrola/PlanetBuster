@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 
-namespace UnityEngine.UI.Tweens
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening
 {
 	internal class TweenEasingHandler
 	{

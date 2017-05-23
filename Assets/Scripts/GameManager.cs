@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
-using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -49,12 +48,13 @@ namespace Assets.Scripts
         public float Spacing = 1;
 
         private BallGridController _ballGrid;
+        private BallFactory _ballFactory;
 
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
-            var ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
-            _ballGrid = new BallGridController(ballFactory, new BallGrid(GridSize, ballFactory));
+            _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
+            _ballGrid = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
             GenerateLevel();
         }
 
@@ -74,5 +74,14 @@ namespace Assets.Scripts
             return _ballGrid.GenerateBall(type);
         }
 
+        public int GetNextBallType()
+        {
+            return _ballGrid.GetNextBallType();
+        }
+
+        public Sprite GetBallSpriteOfType(int type)
+        {
+            return _ballFactory.GetBallSpriteOfType(type);
+        }
     }
 }

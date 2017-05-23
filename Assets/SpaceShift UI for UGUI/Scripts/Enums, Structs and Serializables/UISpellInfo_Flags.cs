@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts
 {
 	[Flags]
 	public enum UISpellInfo_Flags

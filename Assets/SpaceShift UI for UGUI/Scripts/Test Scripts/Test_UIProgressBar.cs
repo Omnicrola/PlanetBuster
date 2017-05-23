@@ -1,9 +1,10 @@
 ﻿using System;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.UI;
 using UnityEngine;
-using UnityEngine.UI.Tweens;
-using System.Collections;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Test_Scripts
 {
 	public class Test_UIProgressBar : MonoBehaviour {
 		

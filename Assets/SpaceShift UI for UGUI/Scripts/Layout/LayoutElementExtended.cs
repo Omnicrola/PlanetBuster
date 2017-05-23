@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Layout
 {
 	[AddComponentMenu("Layout/Layout Element Extended", 140), ExecuteInEditMode, RequireComponent(typeof(RectTransform))]
 	public class LayoutElementExtended : LayoutElement, ILayoutElementExtended

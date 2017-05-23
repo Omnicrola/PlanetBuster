@@ -1,8 +1,10 @@
 ﻿using System;
+using Assets.SpaceShift_UI_for_UGUI.Scripts.Miscellaneous;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace UnityEngine.UI
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.UI
 {
     [AddComponentMenu("UI/Drag Object", 82)]
     public class UIDragObject : UIBehaviour, IEventSystemHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -62,7 +64,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIDragObject"/> is allowed horizontal movement.
+        /// Gets or sets a value indicating whether this <see cref="UIDragObject"/> is allowed horizontal movement.
         /// </summary>
         /// <value><c>true</c> if horizontal; otherwise, <c>false</c>.</value>
         public bool horizontal
@@ -72,7 +74,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIDragObject"/> is allowed vertical movement.
+        /// Gets or sets a value indicating whether this <see cref="UIDragObject"/> is allowed vertical movement.
         /// </summary>
         /// <value><c>true</c> if vertical; otherwise, <c>false</c>.</value>
         public bool vertical
@@ -82,7 +84,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIDragObject"/> should use inertia.
+        /// Gets or sets a value indicating whether this <see cref="UIDragObject"/> should use inertia.
         /// </summary>
         /// <value><c>true</c> if intertia; otherwise, <c>false</c>.</value>
         public bool inertia
@@ -102,7 +104,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.UIDragObject"/> should be constrained within it's canvas.
+        /// Gets or sets a value indicating whether this <see cref="UIDragObject"/> should be constrained within it's canvas.
         /// </summary>
         /// <value><c>true</c> if constrain within canvas; otherwise, <c>false</c>.</value>
         public bool constrainWithinCanvas

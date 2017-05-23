@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace UnityEngine.UI.Tweens
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening
 {
 	public struct ColorTween : ITweenValue
 	{
@@ -55,7 +55,7 @@ namespace UnityEngine.UI.Tweens
 		}
 		
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="UnityEngine.UI.Tweens.ColorTween"/> should ignore time scale.
+		/// Gets or sets a value indicating whether this <see cref="ColorTween"/> should ignore time scale.
 		/// </summary>
 		/// <value><c>true</c> if ignore time scale; otherwise, <c>false</c>.</value>
 		public bool ignoreTimeScale

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
+using UnityEngine;
 
-namespace UnityEngine.UI.Tweens
+namespace Assets.SpaceShift_UI_for_UGUI.Scripts.Tweening
 {
 	// Tween runner, executes the given tween.
 	// The coroutine will live within the given 
