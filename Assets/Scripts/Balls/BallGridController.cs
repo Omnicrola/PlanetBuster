@@ -47,7 +47,10 @@ namespace Assets.Scripts.Balls
                 var existingBall = e.IncomingBall.Model;
                 int offsetX = 0;
                 int offsetY = 0;
-                Debug.Log("angleOfImpact: " + e.AngleOfImpact + " " + e.BallInGrid.transform.position + " <- " + e.IncomingBall.transform.position);
+                Debug.Log(
+                    string.Format("Impacted: ({0}, {1}) angleOfImpact: {2} projectilePosition: {3} gridPosition: {4}",
+                        existingBall.GridX, existingBall.GridY, e.AngleOfImpact, ballToAddToGrid.transform.position,
+                        e.BallInGrid.transform.position));
 
                 if (e.AngleOfImpact >= 45 && e.AngleOfImpact < 135)
                 {

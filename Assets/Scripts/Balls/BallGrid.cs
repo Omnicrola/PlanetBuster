@@ -30,8 +30,10 @@ namespace Assets.Scripts.Balls
 
         public void Append(GameObject newBall, int gridX, int gridY)
         {
+            Debug.Log("Appending (" + gridX + "," + gridY + ") occupied: " + IsOccupied(gridX, gridY));
             var ballController = newBall.GetComponent<BallController>();
             _activeBalls.Add(ballController);
+
 
             ballController.IsProjectile = false;
             ballController.transform.position = _ballFactory.GetGridPosition(gridX, gridY);
@@ -47,6 +49,10 @@ namespace Assets.Scripts.Balls
             }
         }
 
+        private bool IsOccupied(int x, int y)
+        {
+            return _activeBalls.Any(b => b.Model.GridX == x && b.Model.GridY == y);
+        }
         private void UpdateGrid(int gridX, int gridY)
         {
             var center = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY));
@@ -82,12 +88,18 @@ namespace Assets.Scripts.Balls
 
         private static void ClearNeighbors(BallController ballController)
         {
-            if (ballController.Model != null)
+            var ballModel = ballController.Model;
+            if (ballModel != null)
             {
-                ballController.Model.North = null;
-                ballController.Model.South = null;
-                ballController.Model.East = null;
-                ballController.Model.West = null;
+                if (ballModel.North != null) ballModel.North.Model.South = null;
+                if (ballModel.South != null) ballModel.South.Model.North = null;
+                if (ballModel.East != null) ballModel.East.Model.West = null;
+                if (ballModel.West != null) ballModel.West.Model.East = null;
+
+                ballModel.North = null;
+                ballModel.South = null;
+                ballModel.East = null;
+                ballModel.West = null;
                 ballController.Model = null;
             }
         }

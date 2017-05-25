@@ -9,6 +9,8 @@ namespace Assets.Scripts.Balls
         private SpriteRenderer _spriteRenderer;
         private bool _isProjectile;
         private bool _active;
+        private AngleOfImpactCalculator angleOfImpactCalculator
+             = new AngleOfImpactCalculator();
 
         public EventHandler<BallCollisionEventArgs> OnHit { get; set; }
 
@@ -70,12 +72,9 @@ namespace Assets.Scripts.Balls
                 var otherObject = collision.gameObject.GetComponent<BallController>();
                 if (IsProjectile && otherObject != null)
                 {
-                    var localPosition = transform.position;
-                    var otherPosition = collision.transform.position;
-                    var difference = localPosition - otherPosition;
-                    var angle = Vector3.Angle(difference, Vector3.up);
-                    if (difference.x < 0) angle += 180;
-                    OnHit.Invoke(this, new BallCollisionEventArgs(otherObject, this, angle));
+                    var angle = angleOfImpactCalculator.Calculate(transform.position, collision.transform.position);
+                    var ballCollisionEventArgs = new BallCollisionEventArgs(otherObject, this, angle);
+                    OnHit.Invoke(this, ballCollisionEventArgs);
                 }
             }
         }

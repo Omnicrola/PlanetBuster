@@ -1,0 +1,38 @@
+Version 1.8:
+- Updated scripts for Unity 5.3.
+- Added Joystick element with a custom script.
+- Added Nameplate element.
+- Added vertical progress bars.
+- Added horizontal progress bar.
+- Added 3 new button icons.
+- Added new demo scene.
+
+Version 1.7:
+- Updated vertex modifing scripts (Unity 5.2.2f1 changes).
+
+Version 1.6:
+- Fixed and improved Letter Spacing text effect.
+
+Version 1.5:
+- Updated vertex modifing scripts (Unity 5.2 changes).
+- Improved UIDragObject, now handles canvas scaling and all canvas render modes.
+
+Version 1.4:
+- Fixed Toggle OnOff press transition issues.
+- Fixed a bug causing duplicate icons when dragging an empty slot onto an assigned one.
+
+Version 1.3:
+- Fixed WP8 compile error (note that the internal bug is fixed in Unity Patch 5.0.1p1).
+
+Version 1.2:
+- Fixed highlight transition editor script.
+- Moved the database creation menu to section assets.
+- Fixed SelectField Label editor script.
+- Improved UIDragObject inertia dampening.
+- Fixed the Circular Raycast filter editor script not including the canvas scaling factor.
+
+Version 1.1:
+- Added constrain within canvas option to the UIDragObject script.
+
+Version 1.0:
+- Initial release.
