@@ -17,9 +17,9 @@ namespace Assets.Scripts.Models
         public string IconName { get; set; }
         public int Type { get; set; }
 
-        public BallController North { get; set; }
-        public BallController South { get; set; }
-        public BallController East { get; set; }
-        public BallController West { get; set; }
+        public IBallController North { get; set; }
+        public IBallController South { get; set; }
+        public IBallController East { get; set; }
+        public IBallController West { get; set; }
     }
 }

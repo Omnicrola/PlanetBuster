@@ -4,15 +4,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.Balls
 {
-    public class BallController : DirtyBehavior<BallModel>
+    public class BallController : DirtyBehavior<BallModel>, IBallController
     {
         private SpriteRenderer _spriteRenderer;
         private bool _isProjectile;
         private bool _active;
-        private AngleOfImpactCalculator angleOfImpactCalculator
-             = new AngleOfImpactCalculator();
+        private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
 
-        public EventHandler<BallCollisionEventArgs> OnHit { get; set; }
+        private bool _isFalling;
+
+        public event EventHandler<BallCollisionEventArgs> OnHit;
 
         public bool IsProjectile
         {
@@ -38,18 +39,40 @@ namespace Assets.Scripts.Balls
             set
             {
                 _active = value;
+                var rigidBody = GetComponent<Rigidbody2D>();
                 if (value)
                 {
                     tag = Tags.Balls;
-                    GetComponent<Rigidbody2D>().isKinematic = false;
+                    rigidBody.isKinematic = false;
                 }
                 else
                 {
                     tag = Tags.InactiveBall;
-                    GetComponent<Rigidbody2D>().isKinematic = true;
+                    rigidBody.isKinematic = true;
                 }
             }
         }
+
+        public bool IsFalling
+        {
+            get { return _isFalling; }
+            set
+            {
+                _isFalling = value;
+                var rigidBody = GetComponent<Rigidbody2D>();
+                if (value)
+                {
+                    rigidBody.bodyType = RigidbodyType2D.Dynamic;
+                    rigidBody.gravityScale = 1;
+                }
+                else
+                {
+                    rigidBody.bodyType = RigidbodyType2D.Static;
+                    rigidBody.gravityScale = 0;
+                }
+            }
+        }
+
 
         protected override void Start()
         {
@@ -69,7 +92,7 @@ namespace Assets.Scripts.Balls
         {
             if (OnHit != null && collision.gameObject.tag == Tags.Balls)
             {
-                var otherObject = collision.gameObject.GetComponent<BallController>();
+                var otherObject = collision.gameObject.GetComponent<IBallController>();
                 if (IsProjectile && otherObject != null)
                 {
                     var angle = angleOfImpactCalculator.Calculate(transform.position, collision.transform.position);
@@ -95,5 +118,4 @@ namespace Assets.Scripts.Balls
             return Model.GridX == gridX && Model.GridY == gridY;
         }
     }
-
 }

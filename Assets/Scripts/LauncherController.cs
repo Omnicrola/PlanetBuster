@@ -50,7 +50,7 @@ namespace Assets.Scripts
         {
             var nextProjectile = GameManager.Instance.GenerateBall(_nextProjectileType);
 
-            var ballController = nextProjectile.GetComponent<BallController>();
+            var ballController = nextProjectile.GetComponent<IBallController>();
             ballController.Active = true;
             ballController.IsProjectile = true;
             ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);

@@ -4,11 +4,11 @@ namespace Assets.Scripts.Balls
 {
     public class BallCollisionEventArgs : EventArgs
     {
-        public BallController IncomingBall { get; private set; }
-        public BallController BallInGrid { get; private set; }
+        public IBallController IncomingBall { get; private set; }
+        public IBallController BallInGrid { get; private set; }
         public float AngleOfImpact { get; private set; }
 
-        public BallCollisionEventArgs(BallController incomingBall, BallController ballInGrid, float angleOfImpact)
+        public BallCollisionEventArgs(IBallController incomingBall, IBallController ballInGrid, float angleOfImpact)
         {
             IncomingBall = incomingBall;
             BallInGrid = ballInGrid;

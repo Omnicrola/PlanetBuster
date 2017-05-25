@@ -42,20 +42,31 @@ namespace Assets.Scripts
         }
 
         public event EventHandler<BallGridMatchArgs> MatchFound;
+        public event EventHandler<OrphanedBallsEventArgs> OrphansFound;
+
         public int GridSize = 10;
         public Vector2 Offset = new Vector2(0, 0);
         public float Spacing = 1;
 
-        private BallGridController _ballGrid;
+        private BallGridController _ballGridController;
         private BallFactory _ballFactory;
 
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
-            _ballGrid = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
-            _ballGrid.MatchFound += OnMatchFound;
+            _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
+            _ballGridController.MatchFound += OnMatchFound;
+            _ballGridController.OrphansFound += OnOrphansFound;
             GenerateLevel();
+        }
+
+        private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)
+        {
+            if (OrphansFound != null)
+            {
+                OrphansFound.Invoke(this, e);
+            }
         }
 
         private void OnMatchFound(object sender, BallGridMatchArgs e)
@@ -68,23 +79,23 @@ namespace Assets.Scripts
 
         private void GenerateLevel()
         {
-            _ballGrid.Clear();
-            _ballGrid.Generate();
+            _ballGridController.Clear();
+            _ballGridController.Generate();
         }
 
         public GameObject GenerateBall()
         {
-            return _ballGrid.GenerateBall(0, 0);
+            return _ballGridController.GenerateBall(0, 0);
         }
 
         public GameObject GenerateBall(int type)
         {
-            return _ballGrid.GenerateBall(type);
+            return _ballGridController.GenerateBall(type);
         }
 
         public int GetNextBallType()
         {
-            return _ballGrid.GetNextBallType();
+            return _ballGridController.GetNextBallType();
         }
 
         public Sprite GetBallSpriteOfType(int type)

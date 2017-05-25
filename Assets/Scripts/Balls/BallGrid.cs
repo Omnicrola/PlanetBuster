@@ -9,10 +9,12 @@ namespace Assets.Scripts.Balls
     public class BallGrid
     {
         private readonly BallFactory _ballFactory;
-        public EventHandler<BallGridMatchArgs> MatchFound;
+        public event EventHandler<BallGridMatchArgs> MatchFound;
+        public event EventHandler<OrphanedBallsEventArgs> OrphansFound;
 
-        private readonly List<BallController> _activeBalls;
+        private readonly List<IBallController> _activeBalls;
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
+        private readonly OrphanedBallFinder _orphanedBallFinder;
 
         public int Size { private set; get; }
         public int[] TypesLeftActive
@@ -24,28 +26,65 @@ namespace Assets.Scripts.Balls
         {
             _ballFactory = ballFactory;
             Size = gridSize;
-            _activeBalls = new List<BallController>(gridSize * gridSize);
+            _activeBalls = new List<IBallController>(gridSize * gridSize);
             _matchedBallSetFinder = new MatchedBallSetFinder();
+            _orphanedBallFinder = new OrphanedBallFinder();
         }
 
         public void Append(GameObject newBall, int gridX, int gridY)
         {
-            Debug.Log("Appending (" + gridX + "," + gridY + ") occupied: " + IsOccupied(gridX, gridY));
-            var ballController = newBall.GetComponent<BallController>();
+            var ballModel = newBall.GetComponent<IBallController>().Model;
+            ballModel.GridX = gridX;
+            ballModel.GridY = gridY;
+            var ballController = AddBallToGrid(newBall);
+            HandleMatches(ballController);
+            HandleOrphanedBalls();
+        }
+
+        public void Initialize(List<GameObject> newBalls)
+        {
+            foreach (var newBall in newBalls)
+            {
+                AddBallToGrid(newBall);
+            }
+        }
+
+
+        private IBallController AddBallToGrid(GameObject newBall)
+        {
+            var ballModel = newBall.GetComponent<IBallController>().Model;
+            var ballController = newBall.GetComponent<IBallController>();
             _activeBalls.Add(ballController);
 
 
             ballController.IsProjectile = false;
-            ballController.transform.position = _ballFactory.GetGridPosition(gridX, gridY);
-            ballController.Model.GridX = gridX;
-            ballController.Model.GridY = gridY;
+            ballController.transform.position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
 
-            UpdateGrid(gridX, gridY);
+            UpdateGrid(ballModel.GridX, ballModel.GridY);
+            return ballController;
+        }
 
+        private void HandleMatches(IBallController ballController)
+        {
             var ballPath = _matchedBallSetFinder.FindPath(ballController);
             if (MatchFound != null)
             {
                 MatchFound.Invoke(this, new BallGridMatchArgs(ballPath));
+            }
+        }
+
+        private void HandleOrphanedBalls()
+        {
+            int ceiling = _activeBalls.Max(b => b.Model.GridY);
+            List<IBallController> orphanedBalls = _orphanedBallFinder.Find(ceiling, _activeBalls.ToList());
+            foreach (var ballController in orphanedBalls)
+            {
+                ballController.IsFalling = true;
+            }
+
+            if (orphanedBalls.Count > 0 && OrphansFound != null)
+            {
+                OrphansFound.Invoke(this, new OrphanedBallsEventArgs(orphanedBalls));
             }
         }
 
@@ -86,7 +125,7 @@ namespace Assets.Scripts.Balls
             _activeBalls.Clear();
         }
 
-        private static void ClearNeighbors(BallController ballController)
+        private static void ClearNeighbors(IBallController ballController)
         {
             var ballModel = ballController.Model;
             if (ballModel != null)
@@ -111,5 +150,6 @@ namespace Assets.Scripts.Balls
             _activeBalls.Remove(ballController);
             _ballFactory.Recycle(gameObject);
         }
+
     }
 }

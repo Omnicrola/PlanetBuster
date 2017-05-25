@@ -10,19 +10,19 @@ namespace Assets.Scripts.Balls
             get { return _balls.Count; }
         }
 
-        private readonly List<BallController> _balls;
+        private readonly List<IBallController> _balls;
 
         public BallPath()
         {
-            _balls = new List<BallController>();
+            _balls = new List<IBallController>();
         }
 
-        public void Append(BallController ballController)
+        public void Append(IBallController ballController)
         {
             _balls.Add(ballController);
         }
 
-        IEnumerator<BallController> IEnumerable<BallController>.GetEnumerator()
+        IEnumerator<IBallController> IEnumerable<IBallController>.GetEnumerator()
         {
             return _balls.GetEnumerator();
         }

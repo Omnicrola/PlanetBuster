@@ -33,7 +33,7 @@ namespace Assets.Scripts.Balls
             newBall.transform.position = GetGridPosition(gridX, gridY);
             var ballModel = CreateBallModel(gridX, gridY);
 
-            var ballController = newBall.GetComponent<BallController>();
+            var ballController = newBall.GetComponent<IBallController>();
             ballController.IsProjectile = false;
             ballController.Model = ballModel;
 
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Balls
                 IconName = Icons[type]
             };
             var newBall = _simpleObjectPool.GetObjectFromPool();
-            var ballController = newBall.GetComponent<BallController>();
+            var ballController = newBall.GetComponent<IBallController>();
             ballController.Model = ballModel;
             return newBall;
         }

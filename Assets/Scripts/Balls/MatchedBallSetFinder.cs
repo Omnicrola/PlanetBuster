@@ -5,18 +5,18 @@ namespace Assets.Scripts.Balls
 {
     public class MatchedBallSetFinder
     {
-        private Dictionary<int, List<BallController>> ballsAlreadyChecked;
+        private Dictionary<int, List<IBallController>> ballsAlreadyChecked;
 
-        public IBallPath FindPath(BallController ballController)
+        public IBallPath FindPath(IBallController ballController)
         {
-            ballsAlreadyChecked = new Dictionary<int, List<BallController>>();
+            ballsAlreadyChecked = new Dictionary<int, List<IBallController>>();
             var ballpath = new BallPath();
             ballpath.Append(ballController);
             WalkPath(ballpath, ballController);
             return ballpath;
         }
 
-        private void WalkPath(BallPath ballPath, BallController ballController)
+        private void WalkPath(BallPath ballPath, IBallController ballController)
         {
             var targetType = ballController.Model.Type;
             CheckForType(ballPath, targetType, ballController.Model.North, ballController, "north");
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Balls
             CheckForType(ballPath, targetType, ballController.Model.West, ballController, "west");
         }
 
-        private void CheckForType(BallPath ballPath, int targetType, BallController potentialStep, BallController source, string direction)
+        private void CheckForType(BallPath ballPath, int targetType, IBallController potentialStep, IBallController source, string direction)
         {
             if (potentialStep == null)
             {
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Balls
 
             if (!ballsAlreadyChecked.ContainsKey(row))
             {
-                ballsAlreadyChecked[row] = new List<BallController>();
+                ballsAlreadyChecked[row] = new List<IBallController>();
             }
             if (ballsAlreadyChecked[row].Contains(potentialStep))
             {
