@@ -1,60 +1,31 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Balls
 {
     public class OrphanedBallFinder
     {
-        public List<IBallController> Find(int ceiling, List<IBallController> activeBalls)
+        public List<IBallController> Find(int ceiling, List<IBallController> allActiveBalls)
         {
-            var orphanedBalls = new List<IBallController>();
-            var ballsExamined = new List<IBallController>();
-            //            var ballsStillConnected = new List<BallController>();
-            foreach (var activeBall in activeBalls)
+            var ballsOnCeiling = allActiveBalls.Where(b => b.Model.GridY == ceiling).ToList();
+            foreach (var ballOnCeiling in ballsOnCeiling)
             {
-                if (IsConnected(ceiling, activeBall, ballsExamined))
-                {
-                    //                    ballsStillConnected.Add(activeBall);
-                }
-                else
-                {
-                    orphanedBalls.Add(activeBall);
-                }
+                MarkConnected(ballOnCeiling, allActiveBalls);
             }
-            return orphanedBalls;
+
+            return allActiveBalls;
         }
 
-        private bool IsConnected(int ceiling, IBallController activeBall, List<IBallController> ballsExamined)
+        private void MarkConnected(IBallController connectedBall, List<IBallController> remainingBalls)
         {
-            if (activeBall == null)
+            if (remainingBalls.Contains(connectedBall))
             {
-                return false;
+                remainingBalls.Remove(connectedBall);
+                MarkConnected(connectedBall.Model.North, remainingBalls);
+                MarkConnected(connectedBall.Model.South, remainingBalls);
+                MarkConnected(connectedBall.Model.East, remainingBalls);
+                MarkConnected(connectedBall.Model.West, remainingBalls);
             }
-            if (ballsExamined.Contains(activeBall))
-            {
-                return false;
-            }
-            ballsExamined.Add(activeBall);
-            if (activeBall.Model.GridY == ceiling)
-            {
-                return true;
-            }
-            if (IsConnected(ceiling, activeBall.Model.East, ballsExamined))
-            {
-                return true;
-            }
-            if (IsConnected(ceiling, activeBall.Model.West, ballsExamined))
-            {
-                return true;
-            }
-            if (IsConnected(ceiling, activeBall.Model.North, ballsExamined))
-            {
-                return true;
-            }
-            if (IsConnected(ceiling, activeBall.Model.South, ballsExamined))
-            {
-                return true;
-            }
-            return false;
         }
     }
 }
