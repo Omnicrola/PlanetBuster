@@ -20,7 +20,7 @@ namespace Assets.Scripts
         }
         private void UpdateScore()
         {
-            ScoreText.GetComponent<Text>().text = _scoreKeeper.CurrentScore;
+            ScoreText.GetComponent<Text>().text = _scoreKeeper.CurrentScore.ToString();
         }
 
         private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)

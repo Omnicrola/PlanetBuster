@@ -8,9 +8,12 @@ namespace Assets.Scripts.Core
     {
         public event EventHandler<ScoreChangedEventArgs> ScoreChanged;
         public event EventHandler<OrphanedBallsEventArgs> BallOrphansFound;
+
         public event EventHandler<BallGridMatchArgs> BallMatchFound;
         public event EventHandler<BallCollisionEventArgs> BallCollision;
         public event EventHandler<BallOutOfBoundsEventArgs> BallOutOfBounds;
+
+        public event EventHandler<ScoreBonusEventArgs> ScoreBonus;
 
         public void BroadcastScoreChanged(object source, ScoreChangedEventArgs scoreChangeArgs)
         {
@@ -49,6 +52,14 @@ namespace Assets.Scripts.Core
             if (BallOutOfBounds != null)
             {
                 BallOutOfBounds.Invoke(source, ballOutOfBoundsEventArgs);
+            }
+        }
+
+        public void BroadcastScorBonusEvent(object source, ScoreBonusEventArgs scoreBonusEventArgs)
+        {
+            if (ScoreBonus != null)
+            {
+                ScoreBonus.Invoke(source, scoreBonusEventArgs);
             }
         }
     }
