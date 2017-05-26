@@ -118,11 +118,11 @@ namespace Assets.Scripts.Balls
 
         public void Clear()
         {
-            foreach (var ballController in _activeBalls)
+            var activeCopy = _activeBalls.ToList();
+            foreach (var ballController in activeCopy)
             {
-                ClearNeighbors(ballController);
+                Remove(ballController.gameObject);
             }
-            _activeBalls.Clear();
         }
 
         private static void ClearNeighbors(IBallController ballController)

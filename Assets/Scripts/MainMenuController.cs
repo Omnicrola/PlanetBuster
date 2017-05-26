@@ -10,7 +10,6 @@ namespace Assets.Scripts
 
         public void OnClick_Start()
         {
-            GameManager.Instance.StartNewLevel();
             SceneManager.LoadScene("PlayScene");
         }
 

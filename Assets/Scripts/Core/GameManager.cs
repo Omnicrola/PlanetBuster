@@ -3,6 +3,7 @@ using Assets.Scripts.Balls;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Core
 {
@@ -55,10 +56,6 @@ namespace Assets.Scripts.Core
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
             _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
-            if (Application.isEditor)
-            {
-                StartNewLevel();
-            }
         }
 
         public void StartNewLevel()
