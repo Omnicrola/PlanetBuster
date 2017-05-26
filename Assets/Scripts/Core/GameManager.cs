@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Assets.Scripts.Balls;
-using Assets.Scripts.Models;
+using Assets.Scripts.Core.Events;
+using Assets.Scripts.Util;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Core
 {
     public class GameManager : UnityBehavior, IGameManager
     {
@@ -34,6 +33,7 @@ namespace Assets.Scripts
 
         public GameManager()
         {
+            EventBus = new EventBus();
         }
         #endregion
 
@@ -41,8 +41,7 @@ namespace Assets.Scripts
         {
         }
 
-        public event EventHandler<BallGridMatchArgs> MatchFound;
-        public event EventHandler<OrphanedBallsEventArgs> OrphansFound;
+        public EventBus EventBus { get; private set; }
 
         public int GridSize = 10;
         public Vector2 Offset = new Vector2(0, 0);
@@ -56,26 +55,9 @@ namespace Assets.Scripts
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
             _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
-            _ballGridController.MatchFound += OnMatchFound;
-            _ballGridController.OrphansFound += OnOrphansFound;
             GenerateLevel();
         }
 
-        private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)
-        {
-            if (OrphansFound != null)
-            {
-                OrphansFound.Invoke(this, e);
-            }
-        }
-
-        private void OnMatchFound(object sender, BallGridMatchArgs e)
-        {
-            if (MatchFound != null)
-            {
-                MatchFound.Invoke(this, e);
-            }
-        }
 
         private void GenerateLevel()
         {

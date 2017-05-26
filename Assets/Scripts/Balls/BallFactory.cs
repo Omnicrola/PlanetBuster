@@ -1,4 +1,5 @@
 using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 using Random = System.Random;
 
@@ -75,6 +76,7 @@ namespace Assets.Scripts.Balls
 
         public void Recycle(GameObject gameObject)
         {
+            gameObject.GetComponent<IBallController>().ResetBall();
             _simpleObjectPool.ReturnObjectToPool(gameObject);
         }
 

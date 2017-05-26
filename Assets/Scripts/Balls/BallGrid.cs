@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls
@@ -9,8 +11,6 @@ namespace Assets.Scripts.Balls
     public class BallGrid
     {
         private readonly BallFactory _ballFactory;
-        public event EventHandler<BallGridMatchArgs> MatchFound;
-        public event EventHandler<OrphanedBallsEventArgs> OrphansFound;
 
         private readonly List<IBallController> _activeBalls;
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
@@ -67,9 +67,9 @@ namespace Assets.Scripts.Balls
         private void HandleMatches(IBallController ballController)
         {
             var ballPath = _matchedBallSetFinder.FindPath(ballController);
-            if (MatchFound != null)
+            if (ballPath.Count >= GameConstants.MinimumMatchNumber)
             {
-                MatchFound.Invoke(this, new BallGridMatchArgs(ballPath));
+                GameManager.Instance.EventBus.BroadcastBallMatch(this, new BallGridMatchArgs(ballPath));
             }
         }
 
@@ -77,21 +77,13 @@ namespace Assets.Scripts.Balls
         {
             int ceiling = _activeBalls.Max(b => b.Model.GridY);
             List<IBallController> orphanedBalls = _orphanedBallFinder.Find(ceiling, _activeBalls.ToList());
-            foreach (var ballController in orphanedBalls)
-            {
-                ballController.IsFalling = true;
-            }
 
-            if (orphanedBalls.Count > 0 && OrphansFound != null)
+            if (orphanedBalls.Count > 0)
             {
-                OrphansFound.Invoke(this, new OrphanedBallsEventArgs(orphanedBalls));
+                GameManager.Instance.EventBus.BroadcastOrphanedBalls(this, new OrphanedBallsEventArgs(orphanedBalls));
             }
         }
 
-        private bool IsOccupied(int x, int y)
-        {
-            return _activeBalls.Any(b => b.Model.GridX == x && b.Model.GridY == y);
-        }
         private void UpdateGrid(int gridX, int gridY)
         {
             var center = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY));
@@ -147,6 +139,7 @@ namespace Assets.Scripts.Balls
         {
             var ballController = gameObject.GetComponent<BallController>();
             ClearNeighbors(ballController);
+
             _activeBalls.Remove(ballController);
             _ballFactory.Recycle(gameObject);
         }

@@ -1,4 +1,7 @@
 ﻿using Assets.Scripts.Balls;
+using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -9,7 +12,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            GameManager.Instance.MatchFound += OnMatchFound;
+            GameManager.Instance.EventBus.BallMatchFound += OnMatchFound;
         }
 
         private void OnMatchFound(object sender, BallGridMatchArgs e)
@@ -25,7 +28,7 @@ namespace Assets.Scripts
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.MatchFound -= OnMatchFound;
+            GameManager.Instance.EventBus.BallMatchFound -= OnMatchFound;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Assets.Scripts.Balls;
+using Assets.Scripts.Core;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -53,7 +55,7 @@ namespace Assets.Scripts
             var ballController = nextProjectile.GetComponent<IBallController>();
             ballController.Active = true;
             ballController.IsProjectile = true;
-            ballController.Fire(transform.position, rotation, trajectory, ProjectileSpeed);
+            ballController.Launch(transform.position, rotation, trajectory, ProjectileSpeed);
         }
 
         private Vector3 CalculateTrajectory()

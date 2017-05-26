@@ -1,9 +1,9 @@
 ﻿using System;
 using Assets.Scripts.Balls;
-using Assets.Scripts.Models;
+using Assets.Scripts.Core.Events;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Core
 {
     public interface IGameManager
     {
@@ -13,7 +13,6 @@ namespace Assets.Scripts
         int GetNextBallType();
         Sprite GetBallSpriteOfType(int type);
 
-        event EventHandler<BallGridMatchArgs> MatchFound;
-        event EventHandler<OrphanedBallsEventArgs> OrphansFound;
+        EventBus EventBus { get; }
     }
 }

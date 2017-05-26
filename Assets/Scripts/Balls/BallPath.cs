@@ -10,11 +10,11 @@ namespace Assets.Scripts.Balls
             get { return _balls.Count; }
         }
 
-        private readonly List<IBallController> _balls;
+        private readonly HashSet<IBallController> _balls;
 
         public BallPath()
         {
-            _balls = new List<IBallController>();
+            _balls = new HashSet<IBallController>();
         }
 
         public void Append(IBallController ballController)

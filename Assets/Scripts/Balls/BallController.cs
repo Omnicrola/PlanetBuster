@@ -1,5 +1,8 @@
 ﻿using System;
+using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls
@@ -12,8 +15,6 @@ namespace Assets.Scripts.Balls
         private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
 
         private bool _isFalling;
-
-        public event EventHandler<BallCollisionEventArgs> OnHit;
 
         public bool IsProjectile
         {
@@ -53,27 +54,6 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public bool IsFalling
-        {
-            get { return _isFalling; }
-            set
-            {
-                _isFalling = value;
-                var rigidBody = GetComponent<Rigidbody2D>();
-                if (value)
-                {
-                    rigidBody.bodyType = RigidbodyType2D.Dynamic;
-                    rigidBody.gravityScale = 1;
-                }
-                else
-                {
-                    rigidBody.bodyType = RigidbodyType2D.Static;
-                    rigidBody.gravityScale = 0;
-                }
-            }
-        }
-
-
         protected override void Start()
         {
             base.Start();
@@ -90,19 +70,19 @@ namespace Assets.Scripts.Balls
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (OnHit != null && collision.gameObject.tag == Tags.Balls)
+            if (collision.gameObject.tag == Tags.Balls)
             {
                 var otherObject = collision.gameObject.GetComponent<IBallController>();
                 if (IsProjectile && otherObject != null)
                 {
                     var angle = angleOfImpactCalculator.Calculate(transform.position, collision.transform.position);
                     var ballCollisionEventArgs = new BallCollisionEventArgs(otherObject, this, angle);
-                    OnHit.Invoke(this, ballCollisionEventArgs);
+                    GameManager.Instance.EventBus.BroadcastBallCollision(this, ballCollisionEventArgs);
                 }
             }
         }
 
-        public void Fire(Vector3 position, Quaternion orientation, Vector3 trajectory, float projectileSpeed)
+        public void Launch(Vector3 position, Quaternion orientation, Vector3 trajectory, float projectileSpeed)
         {
             transform.position = position;
             transform.rotation = orientation;
@@ -116,6 +96,13 @@ namespace Assets.Scripts.Balls
         public bool IsAtGrid(int gridX, int gridY)
         {
             return Model.GridX == gridX && Model.GridY == gridY;
+        }
+
+        public void ResetBall()
+        {
+            IsProjectile = false;
+            Active = false;
+            Model = null;
         }
     }
 }

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Balls;
 
-namespace Assets.Scripts.Balls
+namespace Assets.Scripts.Core.Events
 {
     public class OrphanedBallsEventArgs : EventArgs
     {

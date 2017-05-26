@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Util
 {
     public class SimpleObjectPool : UnityBehavior
     {

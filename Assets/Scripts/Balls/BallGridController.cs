@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Random = System.Random;
@@ -9,9 +11,6 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridController
     {
-        public event EventHandler<BallGridMatchArgs> MatchFound;
-        public event EventHandler<OrphanedBallsEventArgs> OrphansFound;
-
         private readonly Random random = new Random();
         private readonly BallGrid _ballGrid;
         private readonly BallFactory _ballFactory;
@@ -20,8 +19,9 @@ namespace Assets.Scripts.Balls
         {
             _ballFactory = ballFactory;
             _ballGrid = ballGrid;
-            _ballGrid.MatchFound += OnMatchFound;
-            _ballGrid.OrphansFound += OnOrphansFound;
+            GameManager.Instance.EventBus.BallCollision += OnBallCollision;
+            GameManager.Instance.EventBus.BallMatchFound += OnBallMatch;
+            GameManager.Instance.EventBus.BallOrphansFound += OnBallOrphansFound;
         }
 
 
@@ -73,41 +73,31 @@ namespace Assets.Scripts.Balls
             }
         }
 
-
-        private void OnMatchFound(object sender, BallGridMatchArgs e)
+        private void OnBallMatch(object sender, BallGridMatchArgs e)
         {
-            if (e.BallPath.Count > GameConstants.MinimumMatchNumber)
+            foreach (var ballController in e.BallPath)
             {
-                if (MatchFound != null)
-                {
-                    MatchFound.Invoke(this, e);
-                }
-                foreach (var ballController in e.BallPath)
-                {
-                    ballController.OnHit -= OnBallCollision;
-                    _ballGrid.Remove(ballController.gameObject);
-                }
+                _ballGrid.Remove(ballController.gameObject);
             }
         }
-        private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)
+
+        private void OnBallOrphansFound(object sender, OrphanedBallsEventArgs e)
         {
-            if (OrphansFound != null)
+            foreach (var ballController in e.OrphanedBalls)
             {
-                OrphansFound.Invoke(this, e);
+                _ballGrid.Remove(ballController.gameObject);
             }
         }
 
         public GameObject GenerateBall(int gridX, int gridY)
         {
             var newBall = _ballFactory.GenerateBall(gridX, gridY);
-            newBall.GetComponent<BallController>().OnHit += OnBallCollision;
             return newBall;
         }
 
         public GameObject GenerateBall(int type)
         {
             var newBall = _ballFactory.GenerateBall(type);
-            newBall.GetComponent<BallController>().OnHit += OnBallCollision;
             return newBall;
         }
 
