@@ -17,14 +17,16 @@ namespace Assets.Scripts.Scorekeeping
             var scores = highScoreService.GetScores().OrderBy(s => s.Score);
 
             var stringBuilder = new StringBuilder();
-            int i = 0;
+            int i = 1;
             foreach (var highScore in scores)
             {
                 stringBuilder.Append(i);
-                stringBuilder.Append(")");
+                stringBuilder.Append(") ");
                 stringBuilder.Append(highScore.Name);
                 stringBuilder.Append(" ");
                 stringBuilder.Append(highScore.Score);
+                stringBuilder.Append("\n");
+                i++;
             }
             var displayText = stringBuilder.ToString();
             ScoreText.GetComponent<Text>().text = displayText;
