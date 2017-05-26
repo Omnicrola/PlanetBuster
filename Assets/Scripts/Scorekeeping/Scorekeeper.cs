@@ -3,7 +3,7 @@ using Assets.Scripts.Balls;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Scorekeeping
 {
     public class Scorekeeper
     {

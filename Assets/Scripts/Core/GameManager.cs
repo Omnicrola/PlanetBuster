@@ -55,14 +55,18 @@ namespace Assets.Scripts.Core
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
             _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
-            GenerateLevel();
+            if (Application.isEditor)
+            {
+                StartNewLevel();
+            }
         }
 
-
-        private void GenerateLevel()
+        public void StartNewLevel()
         {
+            EventBus.BroadcastGamePrestart(this, EventArgs.Empty);
             _ballGridController.Clear();
             _ballGridController.Generate();
+            EventBus.BroadcastGameStart(this, EventArgs.Empty);
         }
 
         public GameObject GenerateBall()

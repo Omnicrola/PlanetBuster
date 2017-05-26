@@ -1,6 +1,4 @@
 ﻿using System;
-using Assets.Scripts.Balls;
-using Assets.Scripts.Core.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -14,5 +12,6 @@ namespace Assets.Scripts.Core
         Sprite GetBallSpriteOfType(int type);
 
         EventBus EventBus { get; }
+        void StartNewLevel();
     }
 }

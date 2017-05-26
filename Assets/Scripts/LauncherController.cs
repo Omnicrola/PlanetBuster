@@ -23,7 +23,7 @@ namespace Assets.Scripts
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
-            GenerateNextBall();
+            GameManager.Instance.EventBus.GameStart += (s, e) => { GenerateNextBall(); };
         }
 
         private int count;

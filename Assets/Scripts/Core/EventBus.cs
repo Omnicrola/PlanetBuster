@@ -6,6 +6,10 @@ namespace Assets.Scripts.Core
 {
     public class EventBus
     {
+        public event EventHandler GameOver;
+        public event EventHandler GamePrestart;
+        public event EventHandler GameStart;
+
         public event EventHandler<ScoreChangedEventArgs> ScoreChanged;
         public event EventHandler<OrphanedBallsEventArgs> BallOrphansFound;
 
@@ -60,6 +64,29 @@ namespace Assets.Scripts.Core
             if (ScoreBonus != null)
             {
                 ScoreBonus.Invoke(source, scoreBonusEventArgs);
+            }
+        }
+
+        public void BroadcastGameOver(object source, GameOverEventArgs gameOverEventArgs)
+        {
+            if (GameOver != null)
+            {
+                GameOver.Invoke(source, gameOverEventArgs);
+            }
+        }
+
+        public void BroadcastGamePrestart(object source, EventArgs empty)
+        {
+            if (GamePrestart != null)
+            {
+                GamePrestart.Invoke(source, empty);
+            }
+        }
+        public void BroadcastGameStart(object source, EventArgs empty)
+        {
+            if (GameStart != null)
+            {
+                GameStart.Invoke(source, empty);
             }
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +38,15 @@ namespace Assets.Scripts.Balls
             var ballController = AddBallToGrid(newBall);
             HandleMatches(ballController);
             HandleOrphanedBalls();
+            CheckForWin();
+        }
+
+        private void CheckForWin()
+        {
+            if (_activeBalls.Count == 0)
+            {
+                GameManager.Instance.EventBus.BroadcastGameOver(this, new GameOverEventArgs());
+            }
         }
 
         public void Initialize(List<GameObject> newBalls)
