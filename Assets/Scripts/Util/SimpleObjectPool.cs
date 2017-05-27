@@ -23,7 +23,7 @@ namespace Assets.Scripts.Util
                 var newGameObject = GameObject.Instantiate(Prefab);
                 newGameObject.name = newGameObject.name + "(" + (cloneId++) + ")";
                 PooledObject pooledObjectComponent = newGameObject.AddComponent<PooledObject>();
-                pooledObjectComponent.pool = this;
+                pooledObjectComponent.ObjectPool = this;
                 newGameObject.transform.SetParent(transform);
                 newGameObject.SetActive(true);
                 return newGameObject;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Util
         public void ReturnObjectToPool(GameObject objectToReturn)
         {
             var pooledObject = objectToReturn.GetComponent<PooledObject>();
-            if (pooledObject != null && pooledObject.pool == this)
+            if (pooledObject != null && pooledObject.ObjectPool == this)
             {
                 objectToReturn.transform.SetParent(null);
                 objectToReturn.SetActive(false);
@@ -56,6 +56,6 @@ namespace Assets.Scripts.Util
 
     public class PooledObject : MonoBehaviour
     {
-        public SimpleObjectPool pool;
+        public SimpleObjectPool ObjectPool { get; set; }
     }
 }

@@ -30,6 +30,17 @@ namespace Assets.Scripts.Util
             doWork();
         }
 
+        protected void WaitForSeconds(float seconds, Action doWork)
+        {
+            StartCoroutine(ExecuteAfterSeconds(seconds, doWork));
+        }
+
+        private IEnumerator ExecuteAfterSeconds(float seconds, Action doWork)
+        {
+            yield return new WaitForSeconds(seconds);
+            doWork();
+        }
+
         #endregion
 
         #region Lifecycle Behaviors
