@@ -15,5 +15,6 @@ namespace Assets.Scripts.Balls
         void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
         bool IsAtGrid(int gridX, int gridY);
         void ResetBall();
+        Vector2 Position();
     }
 }

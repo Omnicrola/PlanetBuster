@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls
@@ -16,6 +18,7 @@ namespace Assets.Scripts.Balls
         private readonly OrphanedBallFinder _orphanedBallFinder;
 
         public int Size { private set; get; }
+
         public int[] TypesLeftActive
         {
             get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
@@ -35,10 +38,16 @@ namespace Assets.Scripts.Balls
             var ballModel = newBall.GetComponent<IBallController>().Model;
             ballModel.GridX = gridX;
             ballModel.GridY = gridY;
+            LogAppend(ballModel);
             var ballController = AddBallToGrid(newBall);
             HandleMatches(ballController);
             HandleOrphanedBalls();
             CheckForWin();
+        }
+
+        private void LogAppend(BallModel ballModel)
+        {
+            Logging.Instance.Log(LogLevel.Debug, string.Format("Appending to grid : {0},{1} type: {2}", ballModel.GridX, ballModel.GridY, ballModel.Type));
         }
 
         private void CheckForWin()
@@ -146,11 +155,15 @@ namespace Assets.Scripts.Balls
         public void Remove(GameObject gameObject)
         {
             var ballController = gameObject.GetComponent<BallController>();
+
+            var ballModel = ballController.Model;
+            var logMessage = "Removing ball from grid: " + ballModel.GridX + ", " + ballModel.GridY + " type:" + ballModel.Type;
+            Logging.Instance.Log(LogLevel.Debug, logMessage);
+
             ClearNeighbors(ballController);
 
             _activeBalls.Remove(ballController);
             _ballFactory.Recycle(gameObject);
         }
-
     }
 }

@@ -1,7 +1,11 @@
+using Assets.Scripts.Util;
+
 namespace Assets.Scripts
 {
     internal class GameConstants
     {
+        public static readonly LogLevel LoggingLevel = LogLevel.Debug;
+
         public static readonly int MinimumMatchNumber = 3;
 
         public static readonly int ScorePerBall = 10;

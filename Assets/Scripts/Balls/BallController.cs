@@ -104,5 +104,10 @@ namespace Assets.Scripts.Balls
             Active = false;
             Model = null;
         }
+
+        public Vector2 Position()
+        {
+            return new Vector2(Model.GridX, Model.GridY);
+        }
     }
 }

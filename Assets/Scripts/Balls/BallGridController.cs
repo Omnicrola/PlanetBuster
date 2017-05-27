@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 using Random = System.Random;
 
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Balls
                 var existingBall = e.IncomingBall.Model;
                 int offsetX = 0;
                 int offsetY = 0;
-                Debug.Log(
+                Logging.Instance.Log(LogLevel.Debug,
                     string.Format("Impacted: ({0}, {1}) angleOfImpact: {2} projectilePosition: {3} gridPosition: {4}",
                         existingBall.GridX, existingBall.GridY, e.AngleOfImpact, ballToAddToGrid.transform.position,
                         e.BallInGrid.transform.position));

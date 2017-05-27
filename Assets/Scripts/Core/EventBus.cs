@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.Core
 {
@@ -27,39 +29,56 @@ namespace Assets.Scripts.Core
             }
         }
 
-        public void BroadcastOrphanedBalls(object source, OrphanedBallsEventArgs scoreChangeArgs)
+        public void BroadcastOrphanedBalls(object source, OrphanedBallsEventArgs orphanedBallsEventArgs)
         {
+            var path = orphanedBallsEventArgs.OrphanedBalls
+                   .Select(b => b.Model)
+                   .Select(m => "(" + m.GridX + "," + m.GridY + ")")
+                   .Aggregate((s, e) => s + " " + e);
+
+            Logging.Instance.Log(LogLevel.Info, string.Format("Orphaned balls: " + path));
             if (BallOrphansFound != null)
             {
-                BallOrphansFound.Invoke(source, scoreChangeArgs);
+                BallOrphansFound.Invoke(source, orphanedBallsEventArgs);
             }
         }
 
-        public void BroadcastBallMatch(object source, BallGridMatchArgs scoreChangeArgs)
+        public void BroadcastBallMatch(object source, BallGridMatchArgs matchArgs)
         {
+            var path = matchArgs.BallPath
+                .Select(b => b.Model)
+                .Select(m => "(" + m.GridX + "," + m.GridY + ")")
+                .Aggregate((s, e) => s + " -> " + e);
+
+            Logging.Instance.Log(LogLevel.Info, string.Format("Matched set found: " + path));
+
             if (BallMatchFound != null)
             {
-                BallMatchFound.Invoke(source, scoreChangeArgs);
+                BallMatchFound.Invoke(source, matchArgs);
             }
         }
 
-        public void BroadcastBallCollision(object source, BallCollisionEventArgs scoreChangeArgs)
+        public void BroadcastBallCollision(object source, BallCollisionEventArgs collisionEventArgs)
         {
+            Logging.Instance.Log(LogLevel.Info,
+                "Collision: " + collisionEventArgs.AngleOfImpact + " " + collisionEventArgs.IncomingBall.Position() +
+                "->" + collisionEventArgs.BallInGrid.Position());
             if (BallCollision != null)
             {
-                BallCollision.Invoke(source, scoreChangeArgs);
+                BallCollision.Invoke(source, collisionEventArgs);
             }
         }
 
         public void BroadcastBallOutOfBounds(object source, BallOutOfBoundsEventArgs ballOutOfBoundsEventArgs)
         {
+            Logging.Instance.Log(LogLevel.Debug, "Ball out of bounds: " + ballOutOfBoundsEventArgs.Ball.name);
             if (BallOutOfBounds != null)
             {
                 BallOutOfBounds.Invoke(source, ballOutOfBoundsEventArgs);
             }
         }
 
-        public void BroadcastScorBonusEvent(object source, ScoreBonusEventArgs scoreBonusEventArgs)
+        public void BroadcastScoreBonusEvent(object source, ScoreBonusEventArgs scoreBonusEventArgs)
         {
             if (ScoreBonus != null)
             {
@@ -82,6 +101,7 @@ namespace Assets.Scripts.Core
                 GamePrestart.Invoke(source, empty);
             }
         }
+
         public void BroadcastGameStart(object source, EventArgs empty)
         {
             if (GameStart != null)

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Balls
 
 
         private static readonly string[] Icons = new[]
-{
+        {
             "PlanetIcons/planet_001",
             "PlanetIcons/planet_002",
             "PlanetIcons/planet_003",
@@ -37,6 +37,8 @@ namespace Assets.Scripts.Balls
             var ballController = newBall.GetComponent<IBallController>();
             ballController.IsProjectile = false;
             ballController.Model = ballModel;
+
+            Logging.Instance.Log(LogLevel.Debug, "Created ball at grid : " + gridX + ", " + gridY);
 
             return newBall;
         }
@@ -71,6 +73,8 @@ namespace Assets.Scripts.Balls
             var newBall = _simpleObjectPool.GetObjectFromPool();
             var ballController = newBall.GetComponent<IBallController>();
             ballController.Model = ballModel;
+
+            Logging.Instance.Log(LogLevel.Debug, "Created ball outside of grid, of type : " + type);
             return newBall;
         }
 
