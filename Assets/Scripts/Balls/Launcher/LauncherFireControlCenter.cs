@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Core;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void FireNextBall(Quaternion rotation, Vector3 trajectory, int nextProjectileType)
         {
+
             var nextProjectile = GameManager.Instance.GenerateBall(nextProjectileType);
 
             var ballController = nextProjectile.GetComponent<IBallController>();
@@ -43,7 +45,7 @@ namespace Assets.Scripts.Balls.Launcher
             ballController.IsProjectile = true;
             ballController.Launch(_localTransform.position, rotation, trajectory, _projectileSpeed);
 
-
+            GameManager.Instance.EventBus.BroadcastBallFired(this, EventArgs.Empty);
         }
 
     }

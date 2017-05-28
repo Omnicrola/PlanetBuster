@@ -11,7 +11,9 @@ namespace Assets.Scripts.Balls
 
         protected override void Update()
         {
-            transform.Rotate(Vector3.forward, RotationZ);
+            if (RotationX != 0) transform.Rotate(Vector3.left, RotationX * Time.deltaTime);
+            if (RotationY != 0) transform.Rotate(Vector3.up, RotationY * Time.deltaTime);
+            if (RotationZ != 0) transform.Rotate(Vector3.forward, RotationZ * Time.deltaTime);
         }
     }
 }

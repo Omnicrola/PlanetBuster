@@ -35,14 +35,26 @@ namespace Assets.Scripts.Balls
 
         public void Append(GameObject newBall, int gridX, int gridY)
         {
-            var ballModel = newBall.GetComponent<IBallController>().Model;
-            ballModel.GridX = gridX;
-            ballModel.GridY = gridY;
+            var ballModel = DetermineBallPosition(newBall, gridX, gridY);
             LogAppend(ballModel);
+
             var ballController = AddBallToGrid(newBall);
             HandleMatches(ballController);
             HandleOrphanedBalls();
             CheckForWin();
+        }
+
+        private BallModel DetermineBallPosition(GameObject newBall, int gridX, int gridY)
+        {
+            if (_activeBalls.Any(b => b.Model.GridX == gridX && b.Model.GridY == gridY))
+            {
+                Debug.Log("**** Overlapping at position : " + gridX + ", " + gridY);
+            }
+
+            var ballModel = newBall.GetComponent<IBallController>().Model;
+            ballModel.GridX = gridX;
+            ballModel.GridY = gridY;
+            return ballModel;
         }
 
         private void LogAppend(BallModel ballModel)
@@ -77,7 +89,7 @@ namespace Assets.Scripts.Balls
             ballController.IsProjectile = false;
             ballController.transform.position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
 
-            UpdateGrid(ballModel.GridX, ballModel.GridY);
+            UpdateGrid(ballController, ballModel.GridX, ballModel.GridY);
             return ballController;
         }
 
@@ -101,22 +113,19 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void UpdateGrid(int gridX, int gridY)
+        private void UpdateGrid(IBallController ballController, int gridX, int gridY)
         {
-            var center = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY));
+            var center = ballController;
 
             var north = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY + 1));
             var south = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY - 1));
             var east = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX + 1, gridY));
             var west = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX - 1, gridY));
 
-            if (center != null)
-            {
-                center.Model.East = east;
-                center.Model.West = west;
-                center.Model.North = north;
-                center.Model.South = south;
-            }
+            center.Model.East = east;
+            center.Model.West = west;
+            center.Model.North = north;
+            center.Model.South = south;
 
             if (east != null) east.Model.West = center;
             if (west != null) west.Model.East = center;
@@ -139,15 +148,7 @@ namespace Assets.Scripts.Balls
             var ballModel = ballController.Model;
             if (ballModel != null)
             {
-                if (ballModel.North != null) ballModel.North.Model.South = null;
-                if (ballModel.South != null) ballModel.South.Model.North = null;
-                if (ballModel.East != null) ballModel.East.Model.West = null;
-                if (ballModel.West != null) ballModel.West.Model.East = null;
-
-                ballModel.North = null;
-                ballModel.South = null;
-                ballModel.East = null;
-                ballModel.West = null;
+                ballModel.ClearNeighbors();
                 ballController.Model = null;
             }
         }

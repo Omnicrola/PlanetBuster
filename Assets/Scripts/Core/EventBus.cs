@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
+using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Core
         public event EventHandler<BallOutOfBoundsEventArgs> BallOutOfBounds;
 
         public event EventHandler<ScoreBonusEventArgs> ScoreBonus;
+        public event EventHandler BallFired;
 
         public void BroadcastScoreChanged(object source, ScoreChangedEventArgs scoreChangeArgs)
         {
@@ -32,9 +34,9 @@ namespace Assets.Scripts.Core
         public void BroadcastOrphanedBalls(object source, OrphanedBallsEventArgs orphanedBallsEventArgs)
         {
             var path = orphanedBallsEventArgs.OrphanedBalls
-                   .Select(b => b.Model)
-                   .Select(m => "(" + m.GridX + "," + m.GridY + ")")
-                   .Aggregate((s, e) => s + " " + e);
+                .Select(b => b.Model)
+                .Select(m => "(" + m.GridX + "," + m.GridY + ")")
+                .Aggregate((s, e) => s + " " + e);
 
             Logging.Instance.Log(LogLevel.Info, string.Format("Orphaned balls: " + path));
             if (BallOrphansFound != null)
@@ -107,6 +109,14 @@ namespace Assets.Scripts.Core
             if (GameStart != null)
             {
                 GameStart.Invoke(source, empty);
+            }
+        }
+
+        public void BroadcastBallFired(object source, EventArgs empty)
+        {
+            if (BallFired != null)
+            {
+                BallFired.Invoke(source, empty);
             }
         }
     }
