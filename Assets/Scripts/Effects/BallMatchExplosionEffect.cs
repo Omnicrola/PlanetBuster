@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Effects
 {
-    public class EffectsManager : UnityBehavior
+    public class BallMatchExplosionEffect : UnityBehavior
     {
         private SimpleObjectPool _simpleObjectPool;
 

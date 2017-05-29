@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -29,9 +30,14 @@ namespace Assets.Scripts.Balls.Launcher
             _particleSystem = ParticleEmitter.GetComponent<ParticleSystem>();
             _particleSystem.Stop();
 
-            GameManager.Instance.EventBus.GameStart += (s, e) => { GenerateNextBall(); };
+            GameManager.Instance.EventBus.GameStart += OnGameStart;
             _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera,
                 ProjectileSpeed);
+        }
+
+        private void OnGameStart(object sender, EventArgs e)
+        {
+            GenerateNextBall();
         }
 
 
@@ -67,6 +73,11 @@ namespace Assets.Scripts.Balls.Launcher
         private bool TouchWasReleased()
         {
             return Input.touches.Any(t => t.phase == TouchPhase.Ended);
+        }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.GameStart -= OnGameStart;
         }
     }
 }

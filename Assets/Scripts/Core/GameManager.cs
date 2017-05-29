@@ -51,6 +51,8 @@ namespace Assets.Scripts.Core
         private BallGridController _ballGridController;
         private BallFactory _ballFactory;
 
+        public bool Pause { get; set; }
+
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();

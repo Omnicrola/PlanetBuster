@@ -17,5 +17,12 @@ namespace Assets.Scripts
         public static readonly int BallBonus_8 = 500;
         public static readonly int BallBonus_9 = 1000;
         public static readonly int BallBonus_10 = 5000;
+
+        public class SceneNames
+        {
+            public static string MainPlay = "PlayScene";
+            public static string HighScores = "HighScores";
+            public static string MainMenu = "MainMenu";
+        }
     }
 }

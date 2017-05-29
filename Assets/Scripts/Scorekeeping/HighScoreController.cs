@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Util;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Scorekeeping
@@ -30,6 +31,11 @@ namespace Assets.Scripts.Scorekeeping
             }
             var displayText = stringBuilder.ToString();
             ScoreText.GetComponent<Text>().text = displayText;
+        }
+
+        public void OnClick_GotoMainMenu()
+        {
+            SceneManager.LoadScene(GameConstants.SceneNames.MainMenu);
         }
     }
 }

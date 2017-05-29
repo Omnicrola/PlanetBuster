@@ -44,5 +44,11 @@ namespace Assets.Scripts.Effects
             _launcherEffectAudioSource.clip = LauncherEffect;
             _launcherEffectAudioSource.Play();
         }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.BallFired -= OnBallFired;
+            GameManager.Instance.EventBus.BallMatchFound -= OnBallMatch;
+        }
     }
 }

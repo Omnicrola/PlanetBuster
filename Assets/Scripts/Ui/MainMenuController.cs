@@ -10,13 +10,15 @@ namespace Assets.Scripts
 
         public void OnClick_Start()
         {
-            SceneManager.LoadScene("PlayScene");
+            SceneManager.LoadScene(GameConstants.SceneNames.MainPlay);
         }
 
         public void OnClick_HighScores()
         {
-            SceneManager.LoadScene("HighScores");
+            SceneManager.LoadScene(GameConstants.SceneNames.HighScores);
         }
 
     }
+
+
 }

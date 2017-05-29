@@ -13,6 +13,7 @@ namespace Assets.Scripts.Core
         Sprite GetBallSpriteOfType(int type);
 
         IGameEventBus EventBus { get; }
+        bool Pause { get; set; }
         void StartNewLevel();
     }
 }
