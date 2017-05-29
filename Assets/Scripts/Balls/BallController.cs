@@ -14,8 +14,6 @@ namespace Assets.Scripts.Balls
         private bool _active;
         private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
 
-        private bool _isFalling;
-
         public bool IsProjectile
         {
             get { return _isProjectile; }
@@ -53,6 +51,8 @@ namespace Assets.Scripts.Balls
                 }
             }
         }
+
+        public Vector3 Position { get { return transform.position; } set { transform.position = value; } }
 
         protected override void Start()
         {
@@ -92,7 +92,6 @@ namespace Assets.Scripts.Balls
             rigidBody.velocity = trajectory * projectileSpeed;
         }
 
-
         public bool IsAtGrid(int gridX, int gridY)
         {
             return Model.GridX == gridX && Model.GridY == gridY;
@@ -105,9 +104,5 @@ namespace Assets.Scripts.Balls
             Model = null;
         }
 
-        public Vector2 Position()
-        {
-            return new Vector2(Model.GridX, Model.GridY);
-        }
     }
 }

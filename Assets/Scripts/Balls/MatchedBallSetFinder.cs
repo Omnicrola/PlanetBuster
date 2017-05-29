@@ -19,13 +19,13 @@ namespace Assets.Scripts.Balls
         private void WalkPath(BallPath ballPath, IBallController ballController)
         {
             var targetType = ballController.Model.Type;
-            CheckForType(ballPath, targetType, ballController.Model.North, ballController, "north");
-            CheckForType(ballPath, targetType, ballController.Model.South, ballController, "south");
-            CheckForType(ballPath, targetType, ballController.Model.East, ballController, "east");
-            CheckForType(ballPath, targetType, ballController.Model.West, ballController, "west");
+            CheckForType(ballPath, targetType, ballController.Model.North);
+            CheckForType(ballPath, targetType, ballController.Model.South);
+            CheckForType(ballPath, targetType, ballController.Model.East);
+            CheckForType(ballPath, targetType, ballController.Model.West);
         }
 
-        private void CheckForType(BallPath ballPath, int targetType, IBallController potentialStep, IBallController source, string direction)
+        private void CheckForType(BallPath ballPath, int targetType, IBallController potentialStep)
         {
             if (potentialStep == null)
             {

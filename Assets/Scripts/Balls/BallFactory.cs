@@ -5,7 +5,7 @@ using Random = System.Random;
 
 namespace Assets.Scripts.Balls
 {
-    public class BallFactory
+    public class BallFactory : IBallFactory
     {
         private readonly SimpleObjectPool _simpleObjectPool;
         private readonly Vector2 _offset;
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Balls
             _spacing = spacing;
         }
 
-        public GameObject GenerateBall(int gridX, int gridY)
+        public IBallController GenerateBall(int gridX, int gridY)
         {
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetGridPosition(gridX, gridY);
@@ -40,10 +40,10 @@ namespace Assets.Scripts.Balls
 
             Logging.Instance.Log(LogLevel.Debug, "Created ball at grid : " + gridX + ", " + gridY);
 
-            return newBall;
+            return ballController;
         }
 
-        public Vector3 GetGridPosition(int gridX, int gridY)
+        public virtual Vector3 GetGridPosition(int gridX, int gridY)
         {
             var x = gridX * _spacing + _offset.x;
             var y = gridY * _spacing + _offset.y;

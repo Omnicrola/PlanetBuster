@@ -20,7 +20,7 @@ namespace Assets.Scripts.Effects
             foreach (var ball in e.BallPath)
             {
 
-                var ballPosition = ball.transform.position;
+                var ballPosition = ball.Position;
                 var newExplosion = _simpleObjectPool.GetObjectFromPool();
                 newExplosion.transform.SetParent(transform);
                 newExplosion.transform.position = ballPosition;

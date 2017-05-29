@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Balls
 {
-    public class BallGrid
+    public class BallGrid : IBallGrid
     {
         private readonly BallFactory _ballFactory;
 
@@ -24,6 +24,8 @@ namespace Assets.Scripts.Balls
             get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
         }
 
+        public int ActiveBalls { get { return _activeBalls.Count; } }
+
         public BallGrid(int gridSize, BallFactory ballFactory)
         {
             _ballFactory = ballFactory;
@@ -33,25 +35,25 @@ namespace Assets.Scripts.Balls
             _orphanedBallFinder = new OrphanedBallFinder();
         }
 
-        public void Append(GameObject newBall, int gridX, int gridY)
+        public void Append(IBallController newBall, int gridX, int gridY)
         {
             var ballModel = DetermineBallPosition(newBall, gridX, gridY);
             LogAppend(ballModel);
 
-            var ballController = AddBallToGrid(newBall);
-            HandleMatches(ballController);
+            AddBallToGrid(newBall);
+            HandleMatches(newBall);
             HandleOrphanedBalls();
             CheckForWin();
         }
 
-        private BallModel DetermineBallPosition(GameObject newBall, int gridX, int gridY)
+        private BallModel DetermineBallPosition(IBallController newBall, int gridX, int gridY)
         {
             if (_activeBalls.Any(b => b.Model.GridX == gridX && b.Model.GridY == gridY))
             {
                 Debug.Log("**** Overlapping at position : " + gridX + ", " + gridY);
             }
 
-            var ballModel = newBall.GetComponent<IBallController>().Model;
+            var ballModel = newBall.Model;
             ballModel.GridX = gridX;
             ballModel.GridY = gridY;
             return ballModel;
@@ -70,7 +72,7 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public void Initialize(List<GameObject> newBalls)
+        public void Initialize(List<IBallController> newBalls)
         {
             foreach (var newBall in newBalls)
             {
@@ -79,18 +81,16 @@ namespace Assets.Scripts.Balls
         }
 
 
-        private IBallController AddBallToGrid(GameObject newBall)
+        private void AddBallToGrid(IBallController newBall)
         {
-            var ballModel = newBall.GetComponent<IBallController>().Model;
-            var ballController = newBall.GetComponent<IBallController>();
-            _activeBalls.Add(ballController);
+            var ballModel = newBall.Model;
+            _activeBalls.Add(newBall);
 
 
-            ballController.IsProjectile = false;
-            ballController.transform.position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
+            newBall.IsProjectile = false;
+            newBall.Position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
 
-            UpdateGrid(ballController, ballModel.GridX, ballModel.GridY);
-            return ballController;
+            UpdateGrid(newBall, ballModel.GridX, ballModel.GridY);
         }
 
         private void HandleMatches(IBallController ballController)

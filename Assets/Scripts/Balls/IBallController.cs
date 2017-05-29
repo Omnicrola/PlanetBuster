@@ -10,11 +10,12 @@ namespace Assets.Scripts.Balls
         bool Active { get; set; }
         bool IsProjectile { get; set; }
         BallModel Model { get; set; }
-        Transform transform { get; }
+
         GameObject gameObject { get; }
         void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
         bool IsAtGrid(int gridX, int gridY);
         void ResetBall();
-        Vector2 Position();
+
+        Vector3 Position { get; set; }
     }
 }

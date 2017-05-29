@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Assets.Scripts.Util
 {
-    public class Logging
+    public class Logging : ILogging
     {
-        private static Logging _instance;
+        private static ILogging _instance;
         private LogLevel _currentLogLevel;
 
-        public static Logging Instance
+        public static ILogging Instance
         {
             get
             {

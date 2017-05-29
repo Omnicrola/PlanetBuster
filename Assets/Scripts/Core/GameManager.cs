@@ -10,7 +10,7 @@ namespace Assets.Scripts.Core
     public class GameManager : UnityBehavior, IGameManager
     {
         #region Singleton
-        private static GameManager _instance = null;
+        private static IGameManager _instance = null;
 
         public static IGameManager Instance
         {
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Core
         {
         }
 
-        public EventBus EventBus { get; private set; }
+        public IGameEventBus EventBus { get; private set; }
 
         public int GridSize = 10;
         public Vector2 Offset = new Vector2(0, 0);
@@ -66,7 +66,7 @@ namespace Assets.Scripts.Core
             EventBus.BroadcastGameStart(this, EventArgs.Empty);
         }
 
-        public GameObject GenerateBall()
+        public IBallController GenerateBall()
         {
             return _ballGridController.GenerateBall(0, 0);
         }

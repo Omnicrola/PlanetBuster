@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-    public class EventBus
+    public class EventBus : IGameEventBus
     {
         public event EventHandler GameOver;
         public event EventHandler GamePrestart;
@@ -63,8 +63,8 @@ namespace Assets.Scripts.Core
         public void BroadcastBallCollision(object source, BallCollisionEventArgs collisionEventArgs)
         {
             Logging.Instance.Log(LogLevel.Info,
-                "Collision: " + collisionEventArgs.AngleOfImpact + " " + collisionEventArgs.IncomingBall.Position() +
-                "->" + collisionEventArgs.BallInGrid.Position());
+                "Collision: " + collisionEventArgs.AngleOfImpact + " " + collisionEventArgs.IncomingBall.Position +
+                "->" + collisionEventArgs.BallInGrid.Position);
             if (BallCollision != null)
             {
                 BallCollision.Invoke(source, collisionEventArgs);

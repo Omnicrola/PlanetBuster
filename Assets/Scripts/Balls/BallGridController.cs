@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
-using Assets.Scripts.Models;
-using Assets.Scripts.Util;
 using UnityEngine;
 using Random = System.Random;
 
@@ -13,10 +10,10 @@ namespace Assets.Scripts.Balls
     public class BallGridController
     {
         private readonly Random random = new Random();
-        private readonly BallGrid _ballGrid;
-        private readonly BallFactory _ballFactory;
+        private readonly IBallGrid _ballGrid;
+        private readonly IBallFactory _ballFactory;
 
-        public BallGridController(BallFactory ballFactory, BallGrid ballGrid)
+        public BallGridController(IBallFactory ballFactory, IBallGrid ballGrid)
         {
             _ballFactory = ballFactory;
             _ballGrid = ballGrid;
@@ -33,7 +30,7 @@ namespace Assets.Scripts.Balls
 
         public void Generate()
         {
-            var newBalls = new List<GameObject>();
+            var newBalls = new List<IBallController>();
             for (int gridX = 0; gridX < _ballGrid.Size; gridX++)
             {
                 for (int gridY = 0; gridY < _ballGrid.Size; gridY++)
@@ -47,10 +44,10 @@ namespace Assets.Scripts.Balls
 
         private void OnBallCollision(object sender, BallCollisionEventArgs e)
         {
-            if (e.BallInGrid.IsProjectile)
+            if (e.IncomingBall.IsProjectile)
             {
-                var ballToAddToGrid = e.BallInGrid;
-                var existingBall = e.IncomingBall.Model;
+                var ballToAddToGrid = e.IncomingBall;
+                var existingBall = e.BallInGrid.Model;
                 int offsetX = 0;
                 int offsetY = 0;
 
@@ -66,7 +63,7 @@ namespace Assets.Scripts.Balls
                 {
                     offsetX = -1;
                 }
-                _ballGrid.Append(ballToAddToGrid.gameObject, existingBall.GridX + offsetX, existingBall.GridY + offsetY);
+                _ballGrid.Append(ballToAddToGrid, existingBall.GridX + offsetX, existingBall.GridY + offsetY);
             }
         }
 
@@ -86,10 +83,9 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public GameObject GenerateBall(int gridX, int gridY)
+        public IBallController GenerateBall(int gridX, int gridY)
         {
-            var newBall = _ballFactory.GenerateBall(gridX, gridY);
-            return newBall;
+            return _ballFactory.GenerateBall(gridX, gridY);
         }
 
         public GameObject GenerateBall(int type)

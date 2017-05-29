@@ -16,5 +16,17 @@ namespace planetbuster.Test.TestUtil
             }
             propertyInfo.SetValue(target, value);
         }
+
+        public static void CallPrivateMethod(this object target, string methodName, params object[] arguments)
+        {
+            var targetType = target.GetType();
+            var methodInfo = targetType.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (methodInfo == null)
+            {
+                throw new AssertFailedException(string.Format("Type {0} has no method named {1}", targetType.Name, methodName));
+            }
+            methodInfo.Invoke(target, arguments);
+
+        }
     }
 }
