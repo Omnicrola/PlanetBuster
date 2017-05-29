@@ -12,19 +12,21 @@ namespace planetbuster.Test.Balls
     {
         public static object[] AngleSources = new object[]
         {
-            new object[] {0f, new Vector3(0,5,0), new Vector3(0,0,0)},
-            new object[] {90f, new Vector3(5,0,0), new Vector3(0,0,0)},
-            new object[] {270f, new Vector3(-5,0,0), new Vector3(0,0,0)},
-            new object[] {180f, new Vector3(0,-5,0), new Vector3(0,0,0)},
-
-            new object[] {45f, new Vector3(5,5,0), new Vector3(0,0,0)},
-            new object[] {135f, new Vector3(5,-5,0), new Vector3(0,0,0)},
-            new object[] {225f, new Vector3(-5,-5,0), new Vector3(0,0,0)},
-            new object[] {315f, new Vector3(-5,5,0), new Vector3(0,0,0)},
-
-            new object[] {322.352386f, new Vector3(-51,75,0), new Vector3(3,5,0)},
-            new object[] {91.2730255f, new Vector3(53,1,0), new Vector3(8,2,0)},
-            new object[] {223.331665f, new Vector3(-28,3,0), new Vector3(22,56,0)},
+            new object[] {0f, new Vector3(0, 5, 0), new Vector3(0, 0, 0)},
+            new object[] {90f, new Vector3(5, 0, 0), new Vector3(0, 0, 0)},
+            new object[] {270f, new Vector3(-5, 0, 0), new Vector3(0, 0, 0)},
+            new object[] {180f, new Vector3(0, -5, 0), new Vector3(0, 0, 0)},
+            new object[] {45f, new Vector3(5, 5, 0), new Vector3(0, 0, 0)},
+            new object[] {135f, new Vector3(5, -5, 0), new Vector3(0, 0, 0)},
+            new object[] {225f, new Vector3(-5, -5, 0), new Vector3(0, 0, 0)},
+            new object[] {315f, new Vector3(-5, 5, 0), new Vector3(0, 0, 0)},
+            new object[] {322.352386f, new Vector3(-51, 75, 0), new Vector3(3, 5, 0)},
+            new object[] {91.2730255f, new Vector3(53, 1, 0), new Vector3(8, 2, 0)},
+            new object[] {223.331665f, new Vector3(-28, 3, 0), new Vector3(22, 56, 0)},
+            new object[] {322.352386f, new Vector3(-51, 75, 100), new Vector3(3, 5, 22)},
+            new object[] {91.2730255f, new Vector3(53, 1, -500), new Vector3(8, 2, -1)},
+            new object[] {223.331665f, new Vector3(-28, 3, 7), new Vector3(22, 56, -10)},
+            new object[] {172.837891f, new Vector3(0.15979f, -1.475769f, 3.591863f), new Vector3(0.1000061f, -1, 0)},
         };
 
         [Test]

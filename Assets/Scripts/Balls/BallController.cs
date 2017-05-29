@@ -75,8 +75,10 @@ namespace Assets.Scripts.Balls
                 var otherObject = collision.gameObject.GetComponent<IBallController>();
                 if (IsProjectile && otherObject != null)
                 {
-                    var angle = angleOfImpactCalculator.Calculate(transform.position, collision.transform.position);
-                    var ballCollisionEventArgs = new BallCollisionEventArgs(otherObject, this, angle);
+                    var projectilePosition = transform.position;
+                    var gridBallPosition = collision.transform.position;
+                    var angle = angleOfImpactCalculator.Calculate(projectilePosition, gridBallPosition);
+                    var ballCollisionEventArgs = new BallCollisionEventArgs(this, otherObject, angle);
                     GameManager.Instance.EventBus.BroadcastBallCollision(this, ballCollisionEventArgs);
                 }
             }
