@@ -9,6 +9,7 @@ namespace Assets.Scripts.Ui
     {
         public GameObject BallGridManager;
         public GameObject PopupMenu;
+        public GameObject GameOverWindow;
 
         public void OnClick_ShowMenu()
         {
@@ -29,7 +30,7 @@ namespace Assets.Scripts.Ui
 
         public void OnClick_ExitToMainMenu()
         {
-            SceneManager.LoadScene(GameConstants.SceneNames.MainMenu);
+            GameOverWindow.SetActive(true);
         }
     }
 }

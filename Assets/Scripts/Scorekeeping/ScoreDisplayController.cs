@@ -10,6 +10,7 @@ namespace Assets.Scripts.Scorekeeping
     {
         public GameObject ScoreText;
         private Scorekeeper _scoreKeeper;
+        public int CurrentScore { get { return _scoreKeeper.CurrentScore; } }
 
         protected override void Start()
         {
@@ -33,6 +34,12 @@ namespace Assets.Scripts.Scorekeeping
         {
             _scoreKeeper.ScoreMatch(e.BallPath);
             UpdateScore();
+        }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.BallMatchFound -= OnMatchFound;
+            GameManager.Instance.EventBus.BallOrphansFound -= OnOrphansFound;
         }
     }
 }
