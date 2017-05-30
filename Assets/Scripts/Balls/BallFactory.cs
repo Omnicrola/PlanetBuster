@@ -10,22 +10,16 @@ namespace Assets.Scripts.Balls
         private readonly SimpleObjectPool _simpleObjectPool;
         private readonly Vector2 _offset;
         private readonly float _spacing;
+
+        private readonly Sprite[] _ballTypes;
         private readonly Random _random = new Random(11);
 
-
-        private static readonly string[] Icons = new[]
-        {
-            "PlanetIcons/planet_001",
-            "PlanetIcons/planet_002",
-            "PlanetIcons/planet_003",
-            "PlanetIcons/planet_004",
-        };
-
-        public BallFactory(SimpleObjectPool simpleObjectPool, Vector2 offset, float spacing)
+        public BallFactory(SimpleObjectPool simpleObjectPool, Vector2 offset, float spacing, Sprite[] ballTypes)
         {
             _simpleObjectPool = simpleObjectPool;
             _offset = offset;
             _spacing = spacing;
+            _ballTypes = ballTypes;
         }
 
         public IBallController GenerateBall(int gridX, int gridY)
@@ -52,8 +46,8 @@ namespace Assets.Scripts.Balls
 
         private BallModel CreateBallModel(int gridX, int gridY)
         {
-            var type = _random.Next(Icons.Length);
-            var icon = Icons[type];
+            var type = _random.Next(_ballTypes.Length);
+            var icon = _ballTypes[type];
             var ballModel = new BallModel(gridX, gridY)
             {
                 Type = type,
@@ -68,7 +62,7 @@ namespace Assets.Scripts.Balls
             var ballModel = new BallModel(0, 0)
             {
                 Type = type,
-                IconName = Icons[type]
+                IconName = _ballTypes[type]
             };
             var newBall = _simpleObjectPool.GetObjectFromPool();
             var ballController = newBall.GetComponent<IBallController>();
@@ -86,7 +80,7 @@ namespace Assets.Scripts.Balls
 
         public Sprite GetBallSpriteOfType(int type)
         {
-            return Resources.Load<Sprite>(Icons[type]);
+            return _ballTypes[type];
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Assets.Scripts.Balls
         {
             if (_spriteRenderer != null && Model != null)
             {
-                _spriteRenderer.sprite = Resources.Load<Sprite>(Model.IconName);
+                _spriteRenderer.sprite = Model.IconName;
             }
         }
 

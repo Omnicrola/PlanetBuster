@@ -14,7 +14,7 @@ namespace Assets.Scripts.Models
             GridY = gridY;
         }
 
-        public string IconName { get; set; }
+        public Sprite IconName { get; set; }
         public int Type { get; set; }
 
         public IBallController North { get; set; }

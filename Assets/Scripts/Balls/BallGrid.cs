@@ -104,12 +104,15 @@ namespace Assets.Scripts.Balls
 
         private void HandleOrphanedBalls()
         {
-            int ceiling = _activeBalls.Max(b => b.Model.GridY);
-            List<IBallController> orphanedBalls = _orphanedBallFinder.Find(ceiling, _activeBalls.ToList());
-
-            if (orphanedBalls.Count > 0)
+            if (_activeBalls.Any())
             {
-                GameManager.Instance.EventBus.BroadcastOrphanedBalls(this, new OrphanedBallsEventArgs(orphanedBalls));
+                int ceiling = _activeBalls.Max(b => b.Model.GridY);
+                List<IBallController> orphanedBalls = _orphanedBallFinder.Find(ceiling, _activeBalls.ToList());
+
+                if (orphanedBalls.Count > 0)
+                {
+                    GameManager.Instance.EventBus.BroadcastOrphanedBalls(this, new OrphanedBallsEventArgs(orphanedBalls));
+                }
             }
         }
 
