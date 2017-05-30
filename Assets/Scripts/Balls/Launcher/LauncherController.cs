@@ -13,6 +13,7 @@ namespace Assets.Scripts.Balls.Launcher
         public float ShotDelay = .5f;
 
         public GameObject Camera;
+        public GameObject BallGridManager;
         public GameObject BallContainer;
         public GameObject NextProjectile;
         public GameObject ParticleEmitter;
@@ -23,15 +24,17 @@ namespace Assets.Scripts.Balls.Launcher
         private LauncherFireControlCenter _launcherFireControlCenter;
         private Camera _mainCamera;
         private double _lastShotTime;
+        private IBallGridManager _ballGridManager;
 
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
+            _ballGridManager = BallGridManager.GetComponent<IBallGridManager>();
             _particleSystem = ParticleEmitter.GetComponent<ParticleSystem>();
             _particleSystem.Stop();
 
             GameManager.Instance.EventBus.GameStart += OnGameStart;
-            _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera,
+            _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera, _ballGridManager,
                 ProjectileSpeed);
         }
 
@@ -63,8 +66,8 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void GenerateNextBall()
         {
-            _nextProjectileType = GameManager.Instance.GetNextBallType();
-            var ballSprite = GameManager.Instance.GetBallSpriteOfType(_nextProjectileType);
+            _nextProjectileType = _ballGridManager.GetNextBallType();
+            var ballSprite = _ballGridManager.GetBallSpriteOfType(_nextProjectileType);
 
             NextProjectile.GetComponent<NextBallController>().SetNextBall(ballSprite);
         }

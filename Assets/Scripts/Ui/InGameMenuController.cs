@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core;
+﻿using Assets.Scripts.Balls;
+using Assets.Scripts.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,7 @@ namespace Assets.Scripts.Ui
 {
     public class InGameMenuController : MonoBehaviour
     {
+        public GameObject BallGridManager;
         public GameObject PopupMenu;
 
         public void OnClick_ShowMenu()
@@ -22,7 +24,7 @@ namespace Assets.Scripts.Ui
 
         public void OnClick_Restart()
         {
-            GameManager.Instance.StartNewLevel();
+            BallGridManager.GetComponent<IBallGridManager>().StartNewLevel();
         }
 
         public void OnClick_ExitToMainMenu()

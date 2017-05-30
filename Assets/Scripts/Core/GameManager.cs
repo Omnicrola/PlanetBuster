@@ -44,48 +44,11 @@ namespace Assets.Scripts.Core
 
         public IGameEventBus EventBus { get; private set; }
 
-        public int GridSize = 10;
-        public Vector2 Offset = new Vector2(0, 0);
-        public float Spacing = 1;
-
-        private BallGridController _ballGridController;
-        private BallFactory _ballFactory;
-
         public bool Pause { get; set; }
 
         protected override void Start()
         {
-            var simpleObjectPool = GetComponent<SimpleObjectPool>();
-            _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing);
-            _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
         }
 
-        public void StartNewLevel()
-        {
-            EventBus.BroadcastGamePrestart(this, EventArgs.Empty);
-            _ballGridController.Clear();
-            _ballGridController.Generate();
-            EventBus.BroadcastGameStart(this, EventArgs.Empty);
-        }
-
-        public IBallController GenerateBall()
-        {
-            return _ballGridController.GenerateBall(0, 0);
-        }
-
-        public GameObject GenerateBall(int type)
-        {
-            return _ballGridController.GenerateBall(type);
-        }
-
-        public int GetNextBallType()
-        {
-            return _ballGridController.GetNextBallType();
-        }
-
-        public Sprite GetBallSpriteOfType(int type)
-        {
-            return _ballFactory.GetBallSpriteOfType(type);
-        }
     }
 }
