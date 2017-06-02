@@ -25,10 +25,12 @@ namespace Assets.Scripts.Balls.Launcher
         private Camera _mainCamera;
         private double _lastShotTime;
         private IBallGridManager _ballGridManager;
+        private GiantLaserController _giantLaserControl;
 
         protected override void Start()
         {
             _mainCamera = Camera.GetComponent<Camera>();
+            _giantLaserControl = GetComponent<GiantLaserController>();
             _ballGridManager = BallGridManager.GetComponent<IBallGridManager>();
             _particleSystem = ParticleEmitter.GetComponent<ParticleSystem>();
             _particleSystem.Stop();
@@ -48,7 +50,8 @@ namespace Assets.Scripts.Balls.Launcher
         {
             if (TouchWasReleased() || Input.GetMouseButtonUp(0))
             {
-                if (Time.time - _lastShotTime >= ShotDelay)
+                var enoughTimeHasPassed = Time.time - _lastShotTime >= ShotDelay;
+                if (enoughTimeHasPassed && !_giantLaserControl.IsCurrentlyActive)
                 {
                     _lastShotTime = Time.time;
                     _launcherFireControlCenter.Fire(_nextProjectileType);
