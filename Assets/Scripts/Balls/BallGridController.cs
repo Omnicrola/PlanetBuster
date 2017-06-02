@@ -9,6 +9,8 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridController
     {
+        private static readonly Random _random = new Random(55);
+
         private readonly Random random = new Random();
         private readonly IBallGrid _ballGrid;
         private readonly IBallFactory _ballFactory;
@@ -85,7 +87,13 @@ namespace Assets.Scripts.Balls
 
         public IBallController GenerateBall(int gridX, int gridY)
         {
-            return _ballFactory.GenerateBall(gridX, gridY);
+            var ballController = _ballFactory.GenerateBall(gridX, gridY);
+            bool chanceForPower = _random.Next(100) < GameConstants.ChanceForPowerGems;
+            if (chanceForPower)
+            {
+                ballController.Model.HasPowerGem = true;
+            }
+            return ballController;
         }
 
         public GameObject GenerateBall(int type)

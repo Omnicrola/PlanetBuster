@@ -16,6 +16,7 @@ namespace Assets.Scripts.Models
 
         public Sprite IconName { get; set; }
         public int Type { get; set; }
+        public bool HasPowerGem { get; set; }
 
         public IBallController North { get; set; }
         public IBallController South { get; set; }

@@ -9,6 +9,8 @@ namespace Assets.Scripts.Balls
 {
     public class BallController : DirtyBehavior<BallModel>, IBallController
     {
+        public GameObject PowerGem;
+
         private SpriteRenderer _spriteRenderer;
         private bool _isProjectile;
         private bool _active;
@@ -52,7 +54,11 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public Vector3 Position { get { return transform.position; } set { transform.position = value; } }
+        public Vector3 Position
+        {
+            get { return transform.position; }
+            set { transform.position = value; }
+        }
 
         protected override void Start()
         {
@@ -65,6 +71,7 @@ namespace Assets.Scripts.Balls
             if (_spriteRenderer != null && Model != null)
             {
                 _spriteRenderer.sprite = Model.IconName;
+                PowerGem.SetActive(Model.HasPowerGem);
             }
         }
 
@@ -105,6 +112,5 @@ namespace Assets.Scripts.Balls
             Active = false;
             Model = null;
         }
-
     }
 }

@@ -15,6 +15,8 @@ namespace Assets.Scripts.Core
         event EventHandler<BallOutOfBoundsEventArgs> BallOutOfBounds;
         event EventHandler<ScoreBonusEventArgs> ScoreBonus;
         event EventHandler BallFired;
+        event EventHandler<PowerChangeEventArgs> PowerChanged;
+
         void BroadcastScoreChanged(object source, ScoreChangedEventArgs scoreChangeArgs);
         void BroadcastOrphanedBalls(object source, OrphanedBallsEventArgs orphanedBallsEventArgs);
         void BroadcastBallMatch(object source, BallGridMatchArgs matchArgs);
@@ -25,5 +27,7 @@ namespace Assets.Scripts.Core
         void BroadcastGamePrestart(object source, EventArgs empty);
         void BroadcastGameStart(object source, EventArgs empty);
         void BroadcastBallFired(object source, EventArgs empty);
+
+        void BroadcastPowerChanged(object source, PowerChangeEventArgs empty);
     }
 }

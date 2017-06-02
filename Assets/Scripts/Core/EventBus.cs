@@ -21,6 +21,7 @@ namespace Assets.Scripts.Core
         public event EventHandler<BallOutOfBoundsEventArgs> BallOutOfBounds;
 
         public event EventHandler<ScoreBonusEventArgs> ScoreBonus;
+        public event EventHandler<PowerChangeEventArgs> PowerChanged;
         public event EventHandler BallFired;
 
         public void BroadcastScoreChanged(object source, ScoreChangedEventArgs scoreChangeArgs)
@@ -117,6 +118,14 @@ namespace Assets.Scripts.Core
             if (BallFired != null)
             {
                 BallFired.Invoke(source, empty);
+            }
+        }
+
+        public void BroadcastPowerChanged(object source, PowerChangeEventArgs eventArgs)
+        {
+            if (PowerChanged != null)
+            {
+                PowerChanged.Invoke(source, eventArgs);
             }
         }
     }

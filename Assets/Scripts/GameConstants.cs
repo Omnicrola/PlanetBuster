@@ -24,5 +24,10 @@ namespace Assets.Scripts
             public static string HighScores = "HighScores";
             public static string MainMenu = "MainMenu";
         }
+
+        public static int ChanceForPowerGems = 20;
+        public static float LaserChargePercentPerGem = 0.1f;
+        public static float LaserMinimumPercentCharge = 0.3f;
+        public static float LaserDrainPercentPerSecond = 0.5f;
     }
 }
