@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core;
+﻿using System.Linq;
+using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -17,14 +18,22 @@ namespace Assets.Scripts.Effects
 
         private void OnMatchFound(object sender, BallGridMatchArgs e)
         {
-            foreach (var ball in e.BallPath)
-            {
+            var balls = e.BallPath.OrderBy(b => b.gameObject.transform.position.y).ToList();
 
+            float delay = 0;
+            float baseOffset = balls.First().gameObject.transform.position.y;
+            foreach (var ball in balls)
+            {
                 var ballPosition = ball.Position;
                 var newExplosion = _simpleObjectPool.GetObjectFromPool();
+
                 newExplosion.transform.SetParent(transform);
                 newExplosion.transform.position = ballPosition;
-                newExplosion.GetComponent<BallDestroyEffect>().PlayEffect();
+
+                var planetSprite = ball.gameObject.GetComponent<SpriteRenderer>().sprite;
+                newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite);
+
+                delay += (ball.gameObject.transform.position.y - baseOffset) * 0.05f;
             }
         }
 
