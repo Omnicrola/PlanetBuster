@@ -128,5 +128,20 @@ namespace Assets.Scripts.Core
                 PowerChanged.Invoke(source, eventArgs);
             }
         }
+
+        public void Broadcast(object source, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Subscribe<T>(object subscriber) where T : EventArgs
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Unsubscribe<T>(object subscriber) where T : EventArgs
+        {
+            throw new NotImplementedException();
+        }
     }
 }

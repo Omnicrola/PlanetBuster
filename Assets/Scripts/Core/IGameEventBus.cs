@@ -1,4 +1,5 @@
 using System;
+using Assets.Scripts.Balls.Launcher;
 using Assets.Scripts.Core.Events;
 
 namespace Assets.Scripts.Core
@@ -29,5 +30,9 @@ namespace Assets.Scripts.Core
         void BroadcastBallFired(object source, EventArgs empty);
 
         void BroadcastPowerChanged(object source, PowerChangeEventArgs empty);
+
+        void Broadcast(object source, EventArgs eventArgs);
+        void Subscribe<T>(object subscriber) where T : EventArgs;
+        void Unsubscribe<T>(object subscriber) where T : EventArgs;
     }
 }
