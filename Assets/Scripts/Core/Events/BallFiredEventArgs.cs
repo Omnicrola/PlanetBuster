@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Core.Events
 {
-    public class BallFiredEventArgs : EventArgs
+    public class BallFiredEventArgs : IGameEvent
     {
 
     }

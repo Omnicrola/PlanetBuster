@@ -4,6 +4,7 @@ using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Balls.Launcher
 {
@@ -36,31 +37,35 @@ namespace Assets.Scripts.Balls.Launcher
             _particleSystem = ParticleEmitter.GetComponent<ParticleSystem>();
             _particleSystem.Stop();
 
-            GameManager.Instance.EventBus.Subscribe<GameStartEventArgs>(OnGameStart);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Subscribe<GameStartEventArgs>(OnGameStart);
+            gameEventBus.Subscribe<GameInputEventArgs>(OnInputEvent);
+
             _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera, _ballGridManager,
                 ProjectileSpeed);
         }
 
-        private void OnGameStart(EventArgs e)
+        private void OnGameStart(IGameEvent e)
         {
             GenerateNextBall();
         }
 
-
-        protected override void Update()
+        private void OnInputEvent(GameInputEventArgs eventArgs)
         {
-            if (TouchWasReleased() || Input.GetMouseButtonUp(0))
+            if (eventArgs.EventType == InputEventType.Release)
             {
                 var enoughTimeHasPassed = Time.time - _lastShotTime >= ShotDelay;
                 if (enoughTimeHasPassed && !_giantLaserControl.IsCurrentlyActive)
                 {
                     _lastShotTime = Time.time;
-                    _launcherFireControlCenter.Fire(_nextProjectileType);
+                    _launcherFireControlCenter.Fire(_nextProjectileType, eventArgs.MousePosition);
                     EmitParticles();
                     GenerateNextBall();
                 }
             }
+
         }
+
 
         private void EmitParticles()
         {
@@ -77,14 +82,12 @@ namespace Assets.Scripts.Balls.Launcher
         }
 
 
-        private bool TouchWasReleased()
-        {
-            return Input.touches.Any(t => t.phase == TouchPhase.Ended);
-        }
-
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.Unsubscribe<GameStartEventArgs>(OnGameStart);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Unsubscribe<GameStartEventArgs>(OnGameStart);
+            gameEventBus.Unsubscribe<GameInputEventArgs>(OnInputEvent);
+
         }
     }
 }

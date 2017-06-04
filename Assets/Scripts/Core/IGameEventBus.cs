@@ -6,8 +6,8 @@ namespace Assets.Scripts.Core
 {
     public interface IGameEventBus
     {
-        void Broadcast(EventArgs eventArgs);
-        void Subscribe<T>(Action<T> eventHandlerOne) where T : EventArgs;
-        void Unsubscribe<T>(Action<T> eventHandlerOne) where T : EventArgs;
+        void Broadcast(IGameEvent eventArgs);
+        void Subscribe<T>(Action<T> eventHandlerOne) where T : IGameEvent;
+        void Unsubscribe<T>(Action<T> eventHandlerOne) where T : IGameEvent;
     }
 }

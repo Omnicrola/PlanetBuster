@@ -21,17 +21,17 @@ namespace Assets.Scripts.Balls.Launcher
             _ballGridManager = ballGridManager;
         }
 
-        public void Fire(int nextProjectileType)
+        public void Fire(int nextProjectileType, Vector2 inputPosition)
         {
-            var trajectory = CalculateTrajectory();
+            var trajectory = CalculateTrajectory(inputPosition);
             var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
 
             FireNextBall(rotation, trajectory, nextProjectileType);
         }
 
-        private Vector3 CalculateTrajectory()
+        private Vector3 CalculateTrajectory(Vector2 inputPosition)
         {
-            var targetPoint = _mainCamera.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            var targetPoint = _mainCamera.ScreenToWorldPoint(inputPosition);
             targetPoint.z = 0;
             var launcherPosition = new Vector3(_localTransform.position.x, _localTransform.position.y, 0);
             var trajectory = targetPoint - launcherPosition;

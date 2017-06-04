@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class GameOverEventArgs : EventArgs
+    public class GameOverEventArgs : IGameEvent
     {
     }
 }

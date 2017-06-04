@@ -3,7 +3,7 @@ using Assets.Scripts.Balls;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class BallDestroyEventArgs : EventArgs
+    public class BallDestroyEventArgs : IGameEvent
     {
         public IBallController BallController { get; private set; }
 

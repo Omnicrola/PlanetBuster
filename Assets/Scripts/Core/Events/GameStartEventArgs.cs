@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Core.Events
 {
-    public class GameStartEventArgs : EventArgs
+    public class GameStartEventArgs : IGameEvent
     {
 
     }

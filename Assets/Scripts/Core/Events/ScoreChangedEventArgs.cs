@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class ScoreChangedEventArgs : EventArgs
+    public class ScoreChangedEventArgs : IGameEvent
     {
         public ScoreChangedEventArgs(int newScore)
         {

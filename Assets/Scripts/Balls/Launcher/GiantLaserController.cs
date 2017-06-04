@@ -33,12 +33,17 @@ namespace Assets.Scripts.Balls.Launcher
             _audioSource.clip = BeamAudio;
             _particleChargeupEffect = BeamChargeupEffect.GetComponent<ParticleChargeupEffect>();
 
-            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Subscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
+            gameEventBus.Subscribe<GameInputEventArgs>(OnInputEvent);
         }
+
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
+            gameEventBus.Unsubscribe<GameInputEventArgs>(OnInputEvent);
         }
 
         private void OnBallMatch_ChargeLaser(BallGridMatchArgs e)
@@ -58,17 +63,9 @@ namespace Assets.Scripts.Balls.Launcher
             }
         }
 
-        public void FireGiantLaser()
+        private void OnInputEvent(GameInputEventArgs obj)
         {
-            if (IsAbleToFire)
-            {
-                _isPrimedToFire = true;
-            }
-        }
-
-        protected override void Update()
-        {
-            if (TouchWasStarted() || Input.GetMouseButtonDown(0))
+            if (obj.EventType == InputEventType.Press)
             {
                 if (_isPrimedToFire && !IsCurrentlyActive && IsAbleToFire)
                 {
@@ -80,6 +77,15 @@ namespace Assets.Scripts.Balls.Launcher
             }
         }
 
+        public void PrimeZeeLazer()
+        {
+            if (IsAbleToFire)
+            {
+                _isPrimedToFire = true;
+            }
+        }
+
+
         private void ActuallyFireLaser()
         {
             float totalDuration = ChargeLevel / GameConstants.LaserDrainPercentPerSecond;
@@ -87,8 +93,11 @@ namespace Assets.Scripts.Balls.Launcher
             _audioSource.Play();
             WaitForSeconds(totalDuration, StopFiring);
 
-            Hashtable ht = iTween.Hash("from", ChargeLevel, "to", 0, "time", totalDuration, "onupdate",
-                "DecrementChargeLevel");
+            Hashtable ht = iTween.Hash(
+                "from", ChargeLevel,
+                "to", 0,
+                "time", totalDuration,
+                "onupdate", "DecrementChargeLevel");
             iTween.ValueTo(gameObject, ht);
         }
 
@@ -104,12 +113,6 @@ namespace Assets.Scripts.Balls.Launcher
             IsCurrentlyActive = false;
             _audioSource.Stop();
             ChargeLevel = 0;
-        }
-
-
-        private bool TouchWasStarted()
-        {
-            return Input.touches.Any(t => t.phase == TouchPhase.Began);
         }
     }
 }

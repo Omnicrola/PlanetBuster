@@ -3,7 +3,7 @@ using Assets.Scripts.Balls;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class BallGridMatchArgs : EventArgs
+    public class BallGridMatchArgs : IGameEvent
     {
         public IBallPath BallPath { get; private set; }
 

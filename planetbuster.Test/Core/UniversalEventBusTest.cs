@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using NSubstitute;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -121,11 +122,11 @@ namespace planetbuster.Test.Core
     }
 
 
-    internal class TestEventArgsOne : EventArgs
+    internal class TestEventArgsOne : IGameEvent
     {
     }
 
-    internal class TestEventArgsTwo : EventArgs
+    internal class TestEventArgsTwo : IGameEvent
     {
     }
 }

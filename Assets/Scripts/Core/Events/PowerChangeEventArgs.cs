@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Core.Events
 {
-    public class PowerChangeEventArgs : EventArgs
+    public class PowerChangeEventArgs : IGameEvent
     {
         public PowerChangeEventArgs(float newPowerLevel)
         {

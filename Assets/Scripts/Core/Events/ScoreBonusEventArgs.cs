@@ -2,7 +2,7 @@ using System;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class ScoreBonusEventArgs : EventArgs
+    public class ScoreBonusEventArgs : IGameEvent
     {
         public int Size { get; private set; }
         public int BonusScore { get; private set; }

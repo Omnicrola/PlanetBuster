@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class BallOutOfBoundsEventArgs : EventArgs
+    public class BallOutOfBoundsEventArgs : IGameEvent
     {
         public GameObject Ball { get; set; }
 

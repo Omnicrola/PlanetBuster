@@ -23,7 +23,7 @@ namespace Assets.Scripts
             GameManager.Instance.EventBus.Subscribe<GameOverEventArgs>(OnGameOver);
         }
 
-        private void OnGameOver(EventArgs e)
+        private void OnGameOver(IGameEvent e)
         {
             GameOverWindow.SetActive(true);
             GameOverWindow.GetComponent<GameOverWindowController>().UpdateStats();

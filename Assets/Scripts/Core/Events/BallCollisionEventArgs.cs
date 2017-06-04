@@ -3,7 +3,7 @@ using Assets.Scripts.Balls;
 
 namespace Assets.Scripts.Core.Events
 {
-    public class BallCollisionEventArgs : EventArgs
+    public class BallCollisionEventArgs : IGameEvent
     {
         public IBallController IncomingBall { get; private set; }
         public IBallController BallInGrid { get; private set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Assets.Scripts.Core.Events;
 
 namespace Assets.Scripts.Core
 {
@@ -10,7 +11,7 @@ namespace Assets.Scripts.Core
         private readonly Dictionary<Type, List<SubscriberInvoker>> _eventHandlers =
             new Dictionary<Type, List<SubscriberInvoker>>();
 
-        public void Broadcast(EventArgs eventArgs)
+        public void Broadcast(IGameEvent eventArgs)
         {
             var eventType = eventArgs.GetType();
             if (_eventHandlers.ContainsKey(eventType))
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Core
             }
         }
 
-        public void Subscribe<T>(Action<T> eventHandlerOne) where T : EventArgs
+        public void Subscribe<T>(Action<T> eventHandlerOne) where T : IGameEvent
         {
             if (!_eventHandlers.ContainsKey(typeof(T)))
             {
@@ -36,7 +37,7 @@ namespace Assets.Scripts.Core
             _eventHandlers[typeof(T)].Add(new SubscriberInvoker(eventHandlerOne.Target, eventHandlerOne.Method));
         }
 
-        public void Unsubscribe<T>(Action<T> eventHandlerOne) where T : EventArgs
+        public void Unsubscribe<T>(Action<T> eventHandlerOne) where T : IGameEvent
         {
 
             _eventHandlers[typeof(T)].RemoveAll(si => si.Match(eventHandlerOne.Target, eventHandlerOne.Method));
