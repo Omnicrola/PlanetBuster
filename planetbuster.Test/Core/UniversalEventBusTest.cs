@@ -12,73 +12,71 @@ namespace planetbuster.Test.Core
     [TestFixture]
     public class UniversalEventBusTest : TestBase
     {
+        private TestEventArgsOne _argsOneRecieved;
+        private TestEventArgsTwo _argsTwoRecieved;
+
+        [SetUp]
+        public void Setup()
+        {
+            _argsOneRecieved = null;
+            _argsTwoRecieved = null;
+        }
+
+        private void EventHandlerOne(TestEventArgsOne args)
+        {
+            _argsOneRecieved = args;
+        }
+
+        private void EventHandlerTwo(TestEventArgsTwo args)
+        {
+            _argsTwoRecieved = args;
+        }
+
         [Test]
         public void TestBroadcastsToSubscribers()
         {
-            var mockEventSubscriberOne = new MockEventSubscriberOne();
             var testEventArgsOne = new TestEventArgsOne();
 
             var universalEventBus = new UniversalEventBus();
-            universalEventBus.Subscribe<TestEventArgsOne>(mockEventSubscriberOne);
+            universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
 
             universalEventBus.Broadcast(this, testEventArgsOne);
 
-            Assert.AreEqual(testEventArgsOne, mockEventSubscriberOne.ArgsOneReceived);
-            Assert.AreEqual(this, mockEventSubscriberOne._sourceOneRecieved);
+            Assert.AreEqual(testEventArgsOne, _argsOneRecieved);
         }
 
-
-        [Test]
-        public void TestBroadcastsToSubscribers_ExtendedClass()
-        {
-            var mockEventSubscriberTwo = new MockEventSubscriberTwo();
-            var testEventArgsOne = new TestEventArgsOne();
-
-            var universalEventBus = new UniversalEventBus();
-            universalEventBus.Subscribe<TestEventArgsOne>(mockEventSubscriberTwo);
-
-            universalEventBus.Broadcast(this, testEventArgsOne);
-
-            Assert.AreEqual(testEventArgsOne, mockEventSubscriberTwo.ArgsOneReceived);
-            Assert.AreEqual(this, mockEventSubscriberTwo._sourceOneRecieved);
-        }
 
         [Test]
         public void TestUnsubscribes()
         {
-            var mockEventSubscriberOne = new MockEventSubscriberOne();
             var testEventArgsOne = new TestEventArgsOne();
 
             var universalEventBus = new UniversalEventBus();
-            universalEventBus.Subscribe<TestEventArgsOne>(mockEventSubscriberOne);
-            universalEventBus.Unsubscribe<TestEventArgsOne>(mockEventSubscriberOne);
+            universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
+            universalEventBus.Unsubscribe<TestEventArgsOne>(EventHandlerOne);
 
             universalEventBus.Broadcast(this, testEventArgsOne);
 
-            Assert.IsNull(mockEventSubscriberOne.ArgsOneReceived);
-            Assert.IsNull(mockEventSubscriberOne._sourceOneRecieved);
+            Assert.IsNull(_argsOneRecieved);
         }
 
         [Test]
         public void TestSelectivelySendsMessages()
         {
-            var mockEventSubscriberOne = new MockEventSubscriberOne();
-            var mockEventSubscriberTwo = new MockEventSubscriberTwo();
             var testEventArgsOne = new TestEventArgsOne();
             var testEventArgsTwo = new TestEventArgsTwo();
 
             var universalEventBus = new UniversalEventBus();
-            universalEventBus.Subscribe<TestEventArgsOne>(mockEventSubscriberOne);
-            universalEventBus.Subscribe<TestEventArgsTwo>(mockEventSubscriberTwo);
+            universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
+            universalEventBus.Subscribe<TestEventArgsTwo>(EventHandlerTwo);
 
             universalEventBus.Broadcast(this, testEventArgsOne);
+
+            Assert.AreSame(testEventArgsOne, _argsOneRecieved);
+            Assert.IsNull(_argsTwoRecieved);
+
             universalEventBus.Broadcast(this, testEventArgsTwo);
-
-            Assert.AreSame(testEventArgsOne, mockEventSubscriberOne.ArgsOneReceived);
-            Assert.IsNull(mockEventSubscriberOne.ArgsTwoReceived);
-
-            Assert.AreSame(testEventArgsTwo, mockEventSubscriberTwo.ArgsTwoReceived);
-            Assert.IsNull(mockEventSubscriberTwo.ArgsOneReceived);
+            Assert.AreSame(testEventArgsTwo, _argsTwoRecieved);
         }
 
         [Test]
@@ -90,7 +88,7 @@ namespace planetbuster.Test.Core
             for (int i = 0; i < subscriberCount; i++)
             {
                 var subscriber = new MockEventSubscriberOne();
-                universalEventBus.Subscribe<TestEventArgsOne>(subscriber);
+                universalEventBus.Subscribe<TestEventArgsOne>(subscriber.Handle);
             }
 
             var events = new List<TestEventArgsOne>();
@@ -114,35 +112,20 @@ namespace planetbuster.Test.Core
 
     internal class MockEventSubscriberOne
     {
-        public TestEventArgsOne ArgsOneReceived;
-        public TestEventArgsTwo ArgsTwoReceived;
-        public object _sourceOneRecieved;
-        public object _sourceTwoRecieved;
+        public TestEventArgsOne _argsRecieved;
 
-        private void OnEventTwo(object source, TestEventArgsTwo eventArgs)
+        public void Handle(TestEventArgsOne args)
         {
-            _sourceTwoRecieved = source;
-            ArgsTwoReceived = eventArgs;
-        }
-
-        private void OnEventOne(object source, TestEventArgsOne eventArgs)
-        {
-            _sourceOneRecieved = source;
-            ArgsOneReceived = eventArgs;
+            _argsRecieved = args;
         }
     }
 
-    internal class MockEventSubscriberTwo : MockEventSubscriberOne
-    {
-    }
 
     internal class TestEventArgsOne : EventArgs
     {
-        public int eventNumber;
     }
 
     internal class TestEventArgsTwo : EventArgs
     {
-        public int eventNumber;
     }
 }

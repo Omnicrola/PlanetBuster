@@ -7,18 +7,18 @@ namespace Assets.Scripts.Core
 {
     public class UniversalEventBus
     {
-        private readonly Dictionary<Type, List<EventSubscriberInvoker>> _subscribers =
-            new Dictionary<Type, List<EventSubscriberInvoker>>();
+        private readonly Dictionary<Type, List<SubscriberInvoker>> _eventHandlers =
+            new Dictionary<Type, List<SubscriberInvoker>>();
 
         public void Broadcast(object source, EventArgs eventArgs)
         {
             var eventType = eventArgs.GetType();
-            if (_subscribers.ContainsKey(eventType))
+            if (_eventHandlers.ContainsKey(eventType))
             {
-                var subscribers = _subscribers[eventType];
+                var subscribers = _eventHandlers[eventType];
                 foreach (var subscriber in subscribers)
                 {
-                    subscriber.Send(source, eventArgs);
+                    subscriber.Invoke(eventArgs);
                 }
             }
             else
@@ -27,75 +27,40 @@ namespace Assets.Scripts.Core
             }
         }
 
-        public void Subscribe<T>(object subscriber) where T : EventArgs
+        public void Subscribe<T>(Action<T> eventHandlerOne) where T : EventArgs
         {
-            var eventType = typeof(T);
-            if (!_subscribers.ContainsKey(eventType))
+            if (!_eventHandlers.ContainsKey(typeof(T)))
             {
-                _subscribers[eventType] = new List<EventSubscriberInvoker>();
+                _eventHandlers[typeof(T)] = new List<SubscriberInvoker>();
             }
-            _subscribers[eventType].Add(new EventSubscriberInvoker(subscriber, typeof(T)));
+            _eventHandlers[typeof(T)].Add(new SubscriberInvoker(eventHandlerOne.Target, eventHandlerOne.Method));
         }
 
-        public void Unsubscribe<T>(object subscriber) where T : EventArgs
+        public void Unsubscribe<T>(Action<T> eventHandlerOne) where T : EventArgs
         {
-            var eventType = typeof(T);
-            _subscribers[eventType].RemoveAll(s => s.Subscriber == subscriber);
+
+            _eventHandlers[typeof(T)].RemoveAll(si => si.Match(eventHandlerOne.Target, eventHandlerOne.Method));
         }
 
-        private class EventSubscriberInvoker
+        private class SubscriberInvoker
         {
-            public object Subscriber { get; private set; }
-            private readonly List<MethodInfo> _handlerMethods;
+            private readonly object _target;
+            private readonly MethodInfo _method;
 
-
-            public EventSubscriberInvoker(object subscriber, Type eventType)
+            public SubscriberInvoker(object target, MethodInfo method)
             {
-                Subscriber = subscriber;
-                _handlerMethods = FindHandlerMethods(subscriber, eventType);
-                if (!_handlerMethods.Any())
-                {
-                    throw new ArgumentException(
-                        string.Format("Class '{0}' has no methods that can accept an event of type '{1}'",
-                            subscriber.GetType().Name, eventType.Name));
-                }
+                _target = target;
+                _method = method;
             }
 
-            public void Send(object source, EventArgs eventArgs)
+            public bool Match(object target, MethodInfo method)
             {
-                foreach (var handlerMethod in _handlerMethods)
-                {
-                    handlerMethod.Invoke(Subscriber, new object[] { source, eventArgs });
-                }
+                return method == _method && target == _target;
             }
 
-            private static List<MethodInfo> FindHandlerMethods(object subscriber, Type eventArgType)
+            public void Invoke(object eventArgs)
             {
-                var allMethods = new List<MethodInfo>();
-                RecursivelyGetAllMethods(allMethods, subscriber.GetType());
-
-                return allMethods.Where(m => HasEventParameter(m, eventArgType)).ToList();
-            }
-
-            private static void RecursivelyGetAllMethods(List<MethodInfo> methods, Type type)
-            {
-                methods.AddRange(
-                    type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public |
-                                    BindingFlags.FlattenHierarchy));
-                if (typeof(object) != type.BaseType)
-                {
-                    RecursivelyGetAllMethods(methods, type.BaseType);
-                }
-            }
-
-            private static bool HasEventParameter(MethodInfo methodInfo, Type eventArgType)
-            {
-                var parameterInfos = methodInfo.GetParameters();
-                if (parameterInfos.Length < 2)
-                {
-                    return false;
-                }
-                return parameterInfos[1].ParameterType == eventArgType;
+                _method.Invoke(_target, new object[] { eventArgs });
             }
         }
     }
