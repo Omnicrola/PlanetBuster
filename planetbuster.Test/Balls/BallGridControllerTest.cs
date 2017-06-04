@@ -66,7 +66,7 @@ namespace planetbuster.Test.Balls
             incomingBall.IsProjectile.Returns(true);
 
             var ballCollisionEventArgs = new BallCollisionEventArgs(incomingBall, ballInGrid, angleOfImpact);
-            _ballGridController.CallPrivateMethod("OnBallCollision", null, ballCollisionEventArgs);
+            _ballGridController.CallPrivateMethod("OnBallCollision", ballCollisionEventArgs);
 
             _mockBallGrid.Received().Append(incomingBall, expectedX, expectedY);
         }

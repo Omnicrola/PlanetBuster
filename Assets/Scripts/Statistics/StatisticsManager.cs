@@ -35,9 +35,9 @@ namespace Assets.Scripts.Statistics
         protected override void Start()
         {
             _scorekeeper = ScoreManager.GetComponent<ScoreDisplayController>();
-            GameManager.Instance.EventBus.BallMatchFound += OnMatchFound;
-            GameManager.Instance.EventBus.BallOrphansFound += OnOrphansFound;
-            GameManager.Instance.EventBus.BallFired += OnBallFired;
+            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
+            GameManager.Instance.EventBus.Subscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            GameManager.Instance.EventBus.Subscribe<BallFiredEventArgs>(OnBallFired);
 
         }
 
@@ -46,17 +46,17 @@ namespace Assets.Scripts.Statistics
             _timeElapsed += Time.deltaTime;
         }
 
-        private void OnBallFired(object sender, EventArgs e)
+        private void OnBallFired(BallFiredEventArgs e)
         {
             BallsLaunched++;
         }
 
-        private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)
+        private void OnOrphansFound(OrphanedBallsEventArgs e)
         {
             BallsOrphaned += e.OrphanedBalls.Count;
         }
 
-        private void OnMatchFound(object sender, BallGridMatchArgs e)
+        private void OnMatchFound(BallGridMatchArgs e)
         {
             TotalMatches++;
             if (e.BallPath.Count > LargestMatch)
@@ -67,9 +67,9 @@ namespace Assets.Scripts.Statistics
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.BallMatchFound -= OnMatchFound;
-            GameManager.Instance.EventBus.BallOrphansFound -= OnOrphansFound;
-            GameManager.Instance.EventBus.BallFired -= OnBallFired;
+            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
+            GameManager.Instance.EventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            GameManager.Instance.EventBus.Unsubscribe<BallFiredEventArgs>(OnBallFired);
         }
     }
 }

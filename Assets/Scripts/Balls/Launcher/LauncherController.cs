@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -35,12 +36,12 @@ namespace Assets.Scripts.Balls.Launcher
             _particleSystem = ParticleEmitter.GetComponent<ParticleSystem>();
             _particleSystem.Stop();
 
-            GameManager.Instance.EventBus.GameStart += OnGameStart;
+            GameManager.Instance.EventBus.Subscribe<GameStartEventArgs>(OnGameStart);
             _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera, _ballGridManager,
                 ProjectileSpeed);
         }
 
-        private void OnGameStart(object sender, EventArgs e)
+        private void OnGameStart(EventArgs e)
         {
             GenerateNextBall();
         }
@@ -83,7 +84,7 @@ namespace Assets.Scripts.Balls.Launcher
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.GameStart -= OnGameStart;
+            GameManager.Instance.EventBus.Unsubscribe<GameStartEventArgs>(OnGameStart);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Assets.Scripts.Balls.Launcher
                     ballController.Model.Hitpoints -= DamagePerSecond * Time.deltaTime;
                     if (ballController.Model.Hitpoints <= 0)
                     {
-                        GameManager.Instance.EventBus.Broadcast(this,
+                        GameManager.Instance.EventBus.Broadcast(
                             new BallDestroyEventArgs(ballController));
                     }
                 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
@@ -7,7 +8,7 @@ using Random = System.Random;
 
 namespace Assets.Scripts.Balls
 {
-    public class BallGridController
+    public class BallGridController : IDisposable
     {
         private static readonly Random _random = new Random(55);
 
@@ -19,11 +20,17 @@ namespace Assets.Scripts.Balls
         {
             _ballFactory = ballFactory;
             _ballGrid = ballGrid;
-            GameManager.Instance.EventBus.BallCollision += OnBallCollision;
-            GameManager.Instance.EventBus.BallMatchFound += OnBallMatch;
-            GameManager.Instance.EventBus.BallOrphansFound += OnBallOrphansFound;
+            GameManager.Instance.EventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
+            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnBallMatch);
+            GameManager.Instance.EventBus.Subscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
 
+        public void Dispose()
+        {
+            GameManager.Instance.EventBus.Unsubscribe<BallCollisionEventArgs>(OnBallCollision);
+            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch);
+            GameManager.Instance.EventBus.Unsubscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
+        }
 
         public void Clear()
         {
@@ -44,7 +51,7 @@ namespace Assets.Scripts.Balls
             _ballGrid.Initialize(newBalls);
         }
 
-        private void OnBallCollision(object sender, BallCollisionEventArgs e)
+        private void OnBallCollision(BallCollisionEventArgs e)
         {
             if (e.IncomingBall.IsProjectile)
             {
@@ -69,7 +76,7 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void OnBallMatch(object sender, BallGridMatchArgs e)
+        private void OnBallMatch(BallGridMatchArgs e)
         {
             foreach (var ballController in e.BallPath)
             {
@@ -77,7 +84,7 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void OnBallOrphansFound(object sender, OrphanedBallsEventArgs e)
+        private void OnBallOrphansFound(OrphanedBallsEventArgs e)
         {
             foreach (var ballController in e.OrphanedBalls)
             {

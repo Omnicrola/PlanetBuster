@@ -14,7 +14,7 @@ namespace Assets.Scripts
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            GameManager.Instance.EventBus.BroadcastBallOutOfBounds(this, new BallOutOfBoundsEventArgs(other.gameObject));
+            GameManager.Instance.EventBus.Broadcast(new BallOutOfBoundsEventArgs(other.gameObject));
         }
     }
 }

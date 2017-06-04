@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -19,10 +20,10 @@ namespace Assets.Scripts
             GameOverWindow.SetActive(false);
             BallGridManager.GetComponent<IBallGridManager>().StartNewLevel();
 
-            GameManager.Instance.EventBus.GameOver += OnGameOver;
+            GameManager.Instance.EventBus.Subscribe<GameOverEventArgs>(OnGameOver);
         }
 
-        private void OnGameOver(object sender, EventArgs e)
+        private void OnGameOver(EventArgs e)
         {
             GameOverWindow.SetActive(true);
             GameOverWindow.GetComponent<GameOverWindowController>().UpdateStats();
@@ -30,7 +31,7 @@ namespace Assets.Scripts
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.GameOver -= OnGameOver;
+            GameManager.Instance.EventBus.Unsubscribe<GameOverEventArgs>(OnGameOver);
         }
     }
 }

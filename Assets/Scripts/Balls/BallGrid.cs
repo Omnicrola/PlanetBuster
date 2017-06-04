@@ -68,7 +68,7 @@ namespace Assets.Scripts.Balls
         {
             if (_activeBalls.Count == 0)
             {
-                GameManager.Instance.EventBus.BroadcastGameOver(this, new GameOverEventArgs());
+                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs());
             }
         }
 
@@ -98,7 +98,7 @@ namespace Assets.Scripts.Balls
             var ballPath = _matchedBallSetFinder.FindPath(ballController);
             if (ballPath.Count >= GameConstants.MinimumMatchNumber)
             {
-                GameManager.Instance.EventBus.BroadcastBallMatch(this, new BallGridMatchArgs(ballPath));
+                GameManager.Instance.EventBus.Broadcast(new BallGridMatchArgs(ballPath));
             }
         }
 
@@ -111,7 +111,7 @@ namespace Assets.Scripts.Balls
 
                 if (orphanedBalls.Count > 0)
                 {
-                    GameManager.Instance.EventBus.BroadcastOrphanedBalls(this, new OrphanedBallsEventArgs(orphanedBalls));
+                    GameManager.Instance.EventBus.Broadcast(new OrphanedBallsEventArgs(orphanedBalls));
                 }
             }
         }

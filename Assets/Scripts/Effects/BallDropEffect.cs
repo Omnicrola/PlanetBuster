@@ -14,16 +14,16 @@ namespace Assets.Scripts.Effects
         protected override void Start()
         {
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
-            GameManager.Instance.EventBus.BallOrphansFound += OnOrphansFound;
-            GameManager.Instance.EventBus.BallOutOfBounds += OnBallOutOfBounds;
+            GameManager.Instance.EventBus.Subscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            GameManager.Instance.EventBus.Subscribe<BallOutOfBoundsEventArgs>(OnBallOutOfBounds);
         }
 
-        private void OnBallOutOfBounds(object sender, BallOutOfBoundsEventArgs e)
+        private void OnBallOutOfBounds(BallOutOfBoundsEventArgs e)
         {
             _simpleObjectPool.ReturnObjectToPool(e.Ball);
         }
 
-        private void OnOrphansFound(object sender, OrphanedBallsEventArgs e)
+        private void OnOrphansFound(OrphanedBallsEventArgs e)
         {
             foreach (var ballController in e.OrphanedBalls)
             {
@@ -36,8 +36,13 @@ namespace Assets.Scripts.Effects
 
                 var ballSprite = orphanedBall.GetComponent<SpriteRenderer>().sprite;
                 fallingBall.GetComponent<SpriteRenderer>().sprite = ballSprite;
-
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            GameManager.Instance.EventBus.Unsubscribe<BallOutOfBoundsEventArgs>(OnBallOutOfBounds);
         }
     }
 }

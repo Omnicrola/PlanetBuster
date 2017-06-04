@@ -19,11 +19,11 @@ namespace Assets.Scripts.Effects
         protected override void Start()
         {
             _launcherEffectAudioSource = gameObject.AddComponent<AudioSource>();
-            GameManager.Instance.EventBus.BallFired += OnBallFired;
+            GameManager.Instance.EventBus.Subscribe<BallFiredEventArgs>(OnBallFired);
         }
 
 
-        private void OnBallFired(object sender, EventArgs e)
+        private void OnBallFired(BallFiredEventArgs e)
         {
             _launcherEffectAudioSource.clip = LauncherEffect;
             _launcherEffectAudioSource.Play();
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Effects
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.BallFired -= OnBallFired;
+            GameManager.Instance.EventBus.Unsubscribe<BallFiredEventArgs>(OnBallFired);
         }
     }
 }

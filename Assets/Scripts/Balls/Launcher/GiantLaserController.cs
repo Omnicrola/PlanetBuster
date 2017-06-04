@@ -33,15 +33,15 @@ namespace Assets.Scripts.Balls.Launcher
             _audioSource.clip = BeamAudio;
             _particleChargeupEffect = BeamChargeupEffect.GetComponent<ParticleChargeupEffect>();
 
-            GameManager.Instance.EventBus.BallMatchFound += OnBallMatch_ChargeLaser;
+            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
         }
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.BallMatchFound -= OnBallMatch_ChargeLaser;
+            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
         }
 
-        private void OnBallMatch_ChargeLaser(object sender, BallGridMatchArgs e)
+        private void OnBallMatch_ChargeLaser(BallGridMatchArgs e)
         {
             bool changedPower = false;
             foreach (var ballController in e.BallPath)
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Balls.Launcher
             }
             if (changedPower)
             {
-                GameManager.Instance.EventBus.BroadcastPowerChanged(this, new PowerChangeEventArgs(ChargeLevel));
+                GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
             }
         }
 
@@ -95,7 +95,7 @@ namespace Assets.Scripts.Balls.Launcher
         void DecrementChargeLevel(float newValue)
         {
             ChargeLevel = newValue;
-            GameManager.Instance.EventBus.BroadcastPowerChanged(this, new PowerChangeEventArgs(ChargeLevel));
+            GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
         }
 
         private void StopFiring()

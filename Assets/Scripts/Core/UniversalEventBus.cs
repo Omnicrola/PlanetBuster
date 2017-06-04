@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace Assets.Scripts.Core
 {
-    public class UniversalEventBus
+    public class UniversalEventBus : IGameEventBus
     {
         private readonly Dictionary<Type, List<SubscriberInvoker>> _eventHandlers =
             new Dictionary<Type, List<SubscriberInvoker>>();
 
-        public void Broadcast(object source, EventArgs eventArgs)
+        public void Broadcast(EventArgs eventArgs)
         {
             var eventType = eventArgs.GetType();
             if (_eventHandlers.ContainsKey(eventType))

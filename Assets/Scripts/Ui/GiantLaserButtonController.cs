@@ -13,10 +13,10 @@ namespace Assets.Scripts.Ui
         {
             _button = GetComponent<Button>();
             _button.enabled = false;
-            GameManager.Instance.EventBus.PowerChanged += PowerChanged;
+            GameManager.Instance.EventBus.Subscribe<PowerChangeEventArgs>(PowerChanged);
         }
 
-        private void PowerChanged(object sender, PowerChangeEventArgs e)
+        private void PowerChanged(PowerChangeEventArgs e)
         {
             bool laserIsEnabled = e.NewPowerLevel >= GameConstants.LaserMinimumPercentCharge;
             _button.enabled = laserIsEnabled;
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Ui
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.PowerChanged -= PowerChanged;
+            GameManager.Instance.EventBus.Unsubscribe<PowerChangeEventArgs>(PowerChanged);
         }
     }
 }

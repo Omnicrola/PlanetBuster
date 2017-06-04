@@ -12,10 +12,10 @@ namespace Assets.Scripts.Ui
 
         protected override void Start()
         {
-            GameManager.Instance.EventBus.PowerChanged += OnPowerChanged;
+            GameManager.Instance.EventBus.Subscribe<PowerChangeEventArgs>(OnPowerChanged);
         }
 
-        private void OnPowerChanged(object sender, PowerChangeEventArgs e)
+        private void OnPowerChanged(PowerChangeEventArgs e)
         {
             PowerValue.GetComponent<Text>().text = string.Format("{0}%", e.NewPowerLevel.ToString("P"));
 
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Ui
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.PowerChanged -= OnPowerChanged;
+            GameManager.Instance.EventBus.Unsubscribe<PowerChangeEventArgs>(OnPowerChanged);
         }
     }
 }

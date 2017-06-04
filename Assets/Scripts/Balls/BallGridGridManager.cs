@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -23,13 +24,15 @@ namespace Assets.Scripts.Balls
             _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing, BallTypes);
             _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
         }
+
         public void StartNewLevel()
         {
-            GameManager.Instance.EventBus.BroadcastGamePrestart(this, EventArgs.Empty);
+            GameManager.Instance.EventBus.Broadcast(new GamePrestartEventArgs());
             _ballGridController.Clear();
             _ballGridController.Generate();
-            GameManager.Instance.EventBus.BroadcastGameStart(this, EventArgs.Empty);
+            GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
+
         public IBallController GenerateBall()
         {
             return _ballGridController.GenerateBall(0, 0);
@@ -48,6 +51,11 @@ namespace Assets.Scripts.Balls
         public Sprite GetBallSpriteOfType(int type)
         {
             return _ballFactory.GetBallSpriteOfType(type);
+        }
+
+        protected override void OnDestroy()
+        {
+            _ballGridController.Dispose();
         }
     }
 }

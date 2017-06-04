@@ -34,7 +34,7 @@ namespace Assets.Scripts.Core
 
         public GameManager()
         {
-            EventBus = new EventBus();
+            EventBus = new UniversalEventBus();
         }
         #endregion
 

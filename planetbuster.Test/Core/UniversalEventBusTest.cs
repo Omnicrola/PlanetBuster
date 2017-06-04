@@ -40,7 +40,7 @@ namespace planetbuster.Test.Core
             var universalEventBus = new UniversalEventBus();
             universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
 
-            universalEventBus.Broadcast(this, testEventArgsOne);
+            universalEventBus.Broadcast(testEventArgsOne);
 
             Assert.AreEqual(testEventArgsOne, _argsOneRecieved);
         }
@@ -55,7 +55,7 @@ namespace planetbuster.Test.Core
             universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
             universalEventBus.Unsubscribe<TestEventArgsOne>(EventHandlerOne);
 
-            universalEventBus.Broadcast(this, testEventArgsOne);
+            universalEventBus.Broadcast(testEventArgsOne);
 
             Assert.IsNull(_argsOneRecieved);
         }
@@ -70,12 +70,12 @@ namespace planetbuster.Test.Core
             universalEventBus.Subscribe<TestEventArgsOne>(EventHandlerOne);
             universalEventBus.Subscribe<TestEventArgsTwo>(EventHandlerTwo);
 
-            universalEventBus.Broadcast(this, testEventArgsOne);
+            universalEventBus.Broadcast(testEventArgsOne);
 
             Assert.AreSame(testEventArgsOne, _argsOneRecieved);
             Assert.IsNull(_argsTwoRecieved);
 
-            universalEventBus.Broadcast(this, testEventArgsTwo);
+            universalEventBus.Broadcast(testEventArgsTwo);
             Assert.AreSame(testEventArgsTwo, _argsTwoRecieved);
         }
 
@@ -102,7 +102,7 @@ namespace planetbuster.Test.Core
             stopwatch.Start();
             foreach (var testEventArgsOne in events)
             {
-                universalEventBus.Broadcast(this, testEventArgsOne);
+                universalEventBus.Broadcast(testEventArgsOne);
             }
 
             Console.WriteLine(stopwatch.ElapsedMilliseconds);

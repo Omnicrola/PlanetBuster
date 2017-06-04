@@ -12,11 +12,11 @@ namespace Assets.Scripts.Effects
 
         void Start()
         {
-            GameManager.Instance.EventBus.BallMatchFound += OnMatchFound;
+            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
         }
 
-        private void OnMatchFound(object sender, BallGridMatchArgs e)
+        private void OnMatchFound(BallGridMatchArgs e)
         {
             var balls = e.BallPath.OrderBy(b => b.gameObject.transform.position.y).ToList();
 
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Effects
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.BallMatchFound -= OnMatchFound;
+            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
         }
     }
 }

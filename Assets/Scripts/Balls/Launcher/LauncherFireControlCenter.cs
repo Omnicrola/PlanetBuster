@@ -1,5 +1,6 @@
 using System;
 using Assets.Scripts.Core;
+using Assets.Scripts.Core.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls.Launcher
@@ -47,7 +48,7 @@ namespace Assets.Scripts.Balls.Launcher
             ballController.IsProjectile = true;
             ballController.Launch(_localTransform.position, rotation, trajectory, _projectileSpeed);
 
-            GameManager.Instance.EventBus.BroadcastBallFired(this, EventArgs.Empty);
+            GameManager.Instance.EventBus.Broadcast(new BallFiredEventArgs());
         }
 
     }

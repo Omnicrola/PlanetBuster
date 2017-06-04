@@ -51,7 +51,7 @@ namespace Assets.Scripts.Scorekeeping
         private void ApplyBonus(int scoreBonus, int size)
         {
             CurrentScore += scoreBonus;
-            GameManager.Instance.EventBus.BroadcastScoreBonusEvent(this, new ScoreBonusEventArgs(size, scoreBonus));
+            GameManager.Instance.EventBus.Broadcast(new ScoreBonusEventArgs(size, scoreBonus));
         }
     }
 }
