@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Ui

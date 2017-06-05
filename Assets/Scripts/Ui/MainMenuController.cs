@@ -10,7 +10,7 @@ namespace Assets.Scripts
 
         public void OnClick_Start()
         {
-            SceneManager.LoadScene(GameConstants.SceneNames.MainPlay);
+            SceneManager.LoadScene(GameConstants.SceneNames.LevelBrowser);
         }
 
         public void OnClick_HighScores()

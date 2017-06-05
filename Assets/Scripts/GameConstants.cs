@@ -20,9 +20,10 @@ namespace Assets.Scripts
 
         public class SceneNames
         {
-            public static string MainPlay = "PlayScene";
-            public static string HighScores = "HighScores";
-            public static string MainMenu = "MainMenu";
+            public static readonly string MainPlay = "PlayScene";
+            public static readonly string HighScores = "HighScores";
+            public static readonly string MainMenu = "MainMenu";
+            public static readonly string LevelBrowser = "LevelBrowser";
         }
 
         public static int ChanceForPowerGems = 20;
