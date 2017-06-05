@@ -14,10 +14,14 @@ namespace Assets.Scripts.Scorekeeping
 
         protected override void Start()
         {
-            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
-            GameManager.Instance.EventBus.Subscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
+            gameEventBus.Subscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
             _scoreKeeper = new Scorekeeper();
         }
+
+
         private void UpdateScore()
         {
             ScoreText.GetComponent<Text>().text = _scoreKeeper.CurrentScore.ToString();
@@ -35,11 +39,18 @@ namespace Assets.Scripts.Scorekeeping
             _scoreKeeper.ScoreMatch(e.BallPath);
             UpdateScore();
         }
+        private void OnBallDestroyed(BallDestroyEventArgs obj)
+        {
+            _scoreKeeper.ScoreDestroyedBall();
+            UpdateScore();
+        }
 
         protected override void OnDestroy()
         {
-            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
-            GameManager.Instance.EventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
+            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
         }
     }
 }

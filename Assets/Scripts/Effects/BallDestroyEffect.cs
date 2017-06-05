@@ -8,8 +8,8 @@ namespace Assets.Scripts.Effects
     {
         private static readonly Random _random = new Random();
 
-        public float ShockwaveTime = 1f;
-        public float ShockwaveSize = 1f;
+        public float ShockwaveTime = 0.5f;
+        public float ShockwaveSize = 0.5f;
         public GameObject Shockwave;
         public GameObject Planet;
         public AudioClip[] BallMatchSound;

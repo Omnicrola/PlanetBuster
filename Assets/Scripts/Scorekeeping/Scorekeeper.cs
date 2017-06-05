@@ -53,5 +53,10 @@ namespace Assets.Scripts.Scorekeeping
             CurrentScore += scoreBonus;
             GameManager.Instance.EventBus.Broadcast(new ScoreBonusEventArgs(size, scoreBonus));
         }
+
+        public void ScoreDestroyedBall()
+        {
+            CurrentScore += GameConstants.ScorePerBall;
+        }
     }
 }

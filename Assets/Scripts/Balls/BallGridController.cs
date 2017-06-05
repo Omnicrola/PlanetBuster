@@ -20,17 +20,22 @@ namespace Assets.Scripts.Balls
         {
             _ballFactory = ballFactory;
             _ballGrid = ballGrid;
-            GameManager.Instance.EventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
-            GameManager.Instance.EventBus.Subscribe<BallGridMatchArgs>(OnBallMatch);
-            GameManager.Instance.EventBus.Subscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
+            gameEventBus.Subscribe<BallGridMatchArgs>(OnBallMatch);
+            gameEventBus.Subscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
 
         public void Dispose()
         {
-            GameManager.Instance.EventBus.Unsubscribe<BallCollisionEventArgs>(OnBallCollision);
-            GameManager.Instance.EventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch);
-            GameManager.Instance.EventBus.Unsubscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<BallCollisionEventArgs>(OnBallCollision);
+            gameEventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch);
+            gameEventBus.Unsubscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
+
 
         public void Clear()
         {
@@ -90,6 +95,10 @@ namespace Assets.Scripts.Balls
             {
                 _ballGrid.Remove(ballController.gameObject);
             }
+        }
+        private void OnBallDestroyed(BallDestroyEventArgs obj)
+        {
+            _ballGrid.Remove(obj.BallController.gameObject);
         }
 
         public IBallController GenerateBall(int gridX, int gridY)
