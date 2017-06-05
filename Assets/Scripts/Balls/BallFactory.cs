@@ -51,7 +51,8 @@ namespace Assets.Scripts.Balls
             var ballModel = new BallModel(gridX, gridY)
             {
                 Type = type,
-                IconName = icon
+                IconName = icon,
+                Hitpoints = 1
             };
             return ballModel;
         }
@@ -62,6 +63,7 @@ namespace Assets.Scripts.Balls
             var ballModel = new BallModel(0, 0)
             {
                 Type = type,
+                Hitpoints = 1,
                 IconName = _ballTypes[type]
             };
             var newBall = _simpleObjectPool.GetObjectFromPool();
