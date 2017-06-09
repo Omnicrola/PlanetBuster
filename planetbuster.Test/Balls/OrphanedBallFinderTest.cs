@@ -24,26 +24,26 @@ namespace planetbuster.Test.Balls
         {
             var ballControllers = new List<IBallController>
             {
-                MakeBall(-3, 10),
-                MakeBall(-2, 10),
-                MakeBall(-1, 10),
-                MakeBall(0, 10),
-                MakeBall(1, 10),
-                MakeBall(2, 10),
-                MakeBall(3, 10),
+                MakeBall(-3, 0),
+                MakeBall(-2, 0),
+                MakeBall(-1, 0),
+                MakeBall(0, 0),
+                MakeBall(1, 0),
+                MakeBall(2, 0),
+                MakeBall(3, 0),
             };
 
-            var orphanedBalls = _orphanedBallFinder.Find(10, ballControllers);
+            var orphanedBalls = _orphanedBallFinder.Find(ballControllers);
             Assert.AreEqual(0, orphanedBalls.Count);
         }
 
         [Test]
         public void TestBallsInAColumn_AreNotOrphaned()
         {
-            var topBall = MakeBall(2, 5);
-            var ball1 = MakeBall(2, 4);
-            var ball2 = MakeBall(2, 3);
-            var ball3 = MakeBall(2, 2);
+            var topBall = MakeBall(2, 0);
+            var ball1 = MakeBall(2, 1);
+            var ball2 = MakeBall(2, 2);
+            var ball3 = MakeBall(2, 3);
 
             topBall.Model.South = ball1;
             ball1.Model.South = ball2;
@@ -58,7 +58,7 @@ namespace planetbuster.Test.Balls
                 ball3,
             };
 
-            var orphanedBalls = _orphanedBallFinder.Find(5, ballControllers);
+            var orphanedBalls = _orphanedBallFinder.Find(ballControllers);
             orphanedBalls.ForEach(b => Console.WriteLine(b.Model.GridX + " " + b.Model.GridY));
             Assert.AreEqual(0, orphanedBalls.Count);
         }
@@ -66,10 +66,10 @@ namespace planetbuster.Test.Balls
         [Test]
         public void TestBallsInA_L_AreNotOrphaned()
         {
-            var topBall = MakeBall(2, 5);
-            var ball1 = MakeBall(2, 4);
-            var ball2 = MakeBall(1, 4);
-            var ball3 = MakeBall(1, 3);
+            var topBall = MakeBall(2, 0);
+            var ball1 = MakeBall(2, 1);
+            var ball2 = MakeBall(1, 1);
+            var ball3 = MakeBall(1, 2);
 
             topBall.Model.South = ball1;
             ball1.Model.North = topBall;
@@ -86,7 +86,7 @@ namespace planetbuster.Test.Balls
                 ball3,
             };
 
-            var orphanedBalls = _orphanedBallFinder.Find(5, ballControllers);
+            var orphanedBalls = _orphanedBallFinder.Find(ballControllers);
             orphanedBalls.ForEach(b => Console.WriteLine(b.Model.GridX + " " + b.Model.GridY));
             Assert.AreEqual(0, orphanedBalls.Count);
         }
@@ -94,10 +94,10 @@ namespace planetbuster.Test.Balls
         [Test]
         public void TestBallsDiagonal_AreOrphaned()
         {
-            var topBall = MakeBall(3, 5);
-            var ball1 = MakeBall(2, 4);
-            var ball2 = MakeBall(3, 3);
-            var ball3 = MakeBall(4, 4);
+            var topBall = MakeBall(3, 0);
+            var ball1 = MakeBall(2, 1);
+            var ball2 = MakeBall(3, 2);
+            var ball3 = MakeBall(4, 1);
 
             topBall.Model.South = null;
             ball1.Model.South = null;
@@ -112,7 +112,7 @@ namespace planetbuster.Test.Balls
                 ball3,
             };
 
-            var orphanedBalls = _orphanedBallFinder.Find(5, ballControllers);
+            var orphanedBalls = _orphanedBallFinder.Find(ballControllers);
 
             Assert.AreEqual(3, orphanedBalls.Count);
             Assert.Contains(ball1, orphanedBalls);

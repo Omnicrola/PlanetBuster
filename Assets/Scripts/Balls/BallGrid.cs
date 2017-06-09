@@ -126,7 +126,7 @@ namespace Assets.Scripts.Balls
             if (_activeBalls.Any())
             {
                 int ceiling = _activeBalls.Max(b => b.Model.GridY);
-                List<IBallController> orphanedBalls = _orphanedBallFinder.Find(ceiling, _activeBalls.ToList());
+                List<IBallController> orphanedBalls = _orphanedBallFinder.Find(_activeBalls.ToList());
 
                 if (orphanedBalls.Count > 0)
                 {

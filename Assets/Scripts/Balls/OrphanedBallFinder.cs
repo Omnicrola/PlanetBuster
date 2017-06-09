@@ -5,9 +5,10 @@ namespace Assets.Scripts.Balls
 {
     public class OrphanedBallFinder
     {
-        public List<IBallController> Find(int ceiling, List<IBallController> allActiveBalls)
+        private static readonly int CEILING = 0;
+        public List<IBallController> Find(List<IBallController> allActiveBalls)
         {
-            var ballsOnCeiling = allActiveBalls.Where(b => b.Model.GridY == ceiling).ToList();
+            var ballsOnCeiling = allActiveBalls.Where(b => b.Model.GridY == CEILING).ToList();
             foreach (var ballOnCeiling in ballsOnCeiling)
             {
                 MarkConnected(ballOnCeiling, allActiveBalls);
