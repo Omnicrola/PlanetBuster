@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Balls;
+﻿using System;
+using Assets.Scripts.Balls;
 using UnityEngine;
 
 namespace Assets.Scripts.Models
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Models
         public int Type { get; set; }
         public bool HasPowerGem { get; set; }
         public float Hitpoints { get; set; }
+
 
         public IBallController North { get; set; }
         public IBallController South { get; set; }

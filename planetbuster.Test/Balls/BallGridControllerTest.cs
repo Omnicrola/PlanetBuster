@@ -55,8 +55,8 @@ namespace planetbuster.Test.Balls
         [Test]
         [TestCase(45, 6, 5)]
         [TestCase(134.999f, 6, 5)]
-        [TestCase(135, 5, 4)]
-        [TestCase(224.999f, 5, 4)]
+        [TestCase(135, 5, 6)]
+        [TestCase(224.999f, 5, 6)]
         [TestCase(225, 4, 5)]
         [TestCase(314.999f, 4, 5)]
         public void TestBallCollision(float angleOfImpact, int expectedX, int expectedY)

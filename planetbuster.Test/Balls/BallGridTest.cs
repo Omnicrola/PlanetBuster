@@ -24,7 +24,7 @@ namespace planetbuster.Test.Balls
             UseSubstituteLogging();
             _useSubstitueGameManager = UseSubstitueGameManager();
             _ballFactory = Substitute.For<BallFactory>(null, null, 0, null);
-            _ballGrid = new BallGrid(3, _ballFactory);
+            _ballGrid = new BallGrid(3, _ballFactory, new OrphanedBallFinder(), null);
         }
 
         [Test]

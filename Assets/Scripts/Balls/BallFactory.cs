@@ -8,15 +8,18 @@ namespace Assets.Scripts.Balls
     public class BallFactory : IBallFactory
     {
         private readonly SimpleObjectPool _simpleObjectPool;
+        private readonly GameObject _ceiling;
         private readonly Vector2 _offset;
         private readonly float _spacing;
 
         private readonly Sprite[] _ballTypes;
         private readonly Random _random = new Random(11);
 
-        public BallFactory(SimpleObjectPool simpleObjectPool, Vector2 offset, float spacing, Sprite[] ballTypes)
+        public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset, float spacing,
+            Sprite[] ballTypes)
         {
             _simpleObjectPool = simpleObjectPool;
+            _ceiling = ceiling;
             _offset = offset;
             _spacing = spacing;
             _ballTypes = ballTypes;
@@ -39,8 +42,9 @@ namespace Assets.Scripts.Balls
 
         public virtual Vector3 GetGridPosition(int gridX, int gridY)
         {
-            var x = gridX * _spacing + _offset.x;
-            var y = gridY * _spacing + _offset.y;
+            var ceilingOffset = _ceiling.transform.position;
+            var x = gridX * _spacing + _offset.x + ceilingOffset.x;
+            var y = (gridY * _spacing * -1) + _offset.y + ceilingOffset.y;
             return new Vector3(x, y, 0);
         }
 

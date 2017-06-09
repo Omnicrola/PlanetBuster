@@ -16,6 +16,7 @@ namespace Assets.Scripts.Balls
         private readonly List<IBallController> _activeBalls;
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
         private readonly OrphanedBallFinder _orphanedBallFinder;
+        private readonly GameObject _ballContainer;
 
         public int Size { private set; get; }
 
@@ -26,18 +27,19 @@ namespace Assets.Scripts.Balls
 
         public int ActiveBalls { get { return _activeBalls.Count; } }
 
-        public BallGrid(int gridSize, BallFactory ballFactory)
+        public BallGrid(int gridSize, BallFactory ballFactory, OrphanedBallFinder orphanedBallFinder, GameObject ballContainer)
         {
             _ballFactory = ballFactory;
             Size = gridSize;
             _activeBalls = new List<IBallController>(gridSize * gridSize);
             _matchedBallSetFinder = new MatchedBallSetFinder();
-            _orphanedBallFinder = new OrphanedBallFinder();
+            _orphanedBallFinder = orphanedBallFinder;
+            _ballContainer = ballContainer;
         }
 
         public void Append(IBallController newBall, int gridX, int gridY)
         {
-            var ballModel = DetermineBallPosition(newBall, gridX, gridY);
+            var ballModel = SetBallPosition(newBall, gridX, gridY);
             LogAppend(ballModel);
 
             AddBallToGrid(newBall);
@@ -46,7 +48,7 @@ namespace Assets.Scripts.Balls
             CheckForWin();
         }
 
-        private BallModel DetermineBallPosition(IBallController newBall, int gridX, int gridY)
+        private BallModel SetBallPosition(IBallController newBall, int gridX, int gridY)
         {
             if (_activeBalls.Any(b => b.Model.GridX == gridX && b.Model.GridY == gridY))
             {
@@ -86,7 +88,7 @@ namespace Assets.Scripts.Balls
             var ballModel = newBall.Model;
             _activeBalls.Add(newBall);
 
-
+            newBall.gameObject.transform.SetParent(_ballContainer.transform);
             newBall.IsProjectile = false;
             newBall.Position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
 
@@ -159,7 +161,7 @@ namespace Assets.Scripts.Balls
         public void Remove(GameObject gameObject)
         {
             var ballController = gameObject.GetComponent<BallController>();
-
+            ballController.gameObject.transform.SetParent(null);
             var ballModel = ballController.Model;
             var logMessage = "Removing ball from grid: " + ballModel.GridX + ", " + ballModel.GridY + " type:" + ballModel.Type;
             Logging.Instance.Log(LogLevel.Debug, logMessage);

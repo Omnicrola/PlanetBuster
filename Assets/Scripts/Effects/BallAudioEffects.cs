@@ -19,6 +19,7 @@ namespace Assets.Scripts.Effects
         protected override void Start()
         {
             _launcherEffectAudioSource = gameObject.AddComponent<AudioSource>();
+            _launcherEffectAudioSource.playOnAwake = true;
             GameManager.Instance.EventBus.Subscribe<BallFiredEventArgs>(OnBallFired);
         }
 

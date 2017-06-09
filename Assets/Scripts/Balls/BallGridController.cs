@@ -10,6 +10,11 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridController : IDisposable
     {
+
+        const float NORTH_EAST = 45f;
+        const float SOUTH_EAST = 135f;
+        const float SOUTH_WEST = 225f;
+        const float NORTH_WEST = 315f;
         private static readonly Random _random = new Random(55);
 
         private readonly Random random = new Random();
@@ -65,15 +70,16 @@ namespace Assets.Scripts.Balls
                 int offsetX = 0;
                 int offsetY = 0;
 
-                if (e.AngleOfImpact >= 45 && e.AngleOfImpact < 135)
+
+                if (e.AngleOfImpact >= NORTH_EAST && e.AngleOfImpact < SOUTH_EAST)
                 {
                     offsetX = 1;
                 }
-                else if (e.AngleOfImpact >= 135 && e.AngleOfImpact < 225)
+                else if (e.AngleOfImpact >= SOUTH_EAST && e.AngleOfImpact < SOUTH_WEST)
                 {
-                    offsetY = -1;
+                    offsetY = 1;
                 }
-                else if (e.AngleOfImpact >= 225 && e.AngleOfImpact < 315)
+                else if (e.AngleOfImpact >= SOUTH_WEST && e.AngleOfImpact < NORTH_WEST)
                 {
                     offsetX = -1;
                 }

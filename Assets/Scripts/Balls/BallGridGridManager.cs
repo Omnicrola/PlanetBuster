@@ -8,12 +8,12 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridGridManager : UnityBehavior, IBallGridManager
     {
+        public GameObject Ceiling;
         public Sprite[] BallTypes;
 
         public int GridSize = 10;
         public Vector2 Offset = new Vector2(0, 0);
         public float Spacing = 1;
-
 
         private BallFactory _ballFactory;
         private BallGridController _ballGridController;
@@ -21,8 +21,10 @@ namespace Assets.Scripts.Balls
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
-            _ballFactory = new BallFactory(simpleObjectPool, Offset, Spacing, BallTypes);
-            _ballGridController = new BallGridController(_ballFactory, new BallGrid(GridSize, _ballFactory));
+            _ballFactory = new BallFactory(simpleObjectPool, Ceiling, Offset, Spacing, BallTypes);
+            var orphanedBallFinder = new OrphanedBallFinder();
+            _ballGridController = new BallGridController(_ballFactory,
+                new BallGrid(GridSize, _ballFactory, orphanedBallFinder, gameObject));
         }
 
         public void StartNewLevel()
