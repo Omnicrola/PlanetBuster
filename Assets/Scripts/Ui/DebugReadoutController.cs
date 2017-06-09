@@ -24,6 +24,11 @@ namespace Assets.Scripts.Ui
             GameManager.Instance.EventBus.Subscribe<DebugEventArgs>(OnDebugEvent);
         }
 
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.Unsubscribe<DebugEventArgs>(OnDebugEvent);
+        }
+
         private void OnDebugEvent(DebugEventArgs debugEventArgs)
         {
             _isDirty = true;

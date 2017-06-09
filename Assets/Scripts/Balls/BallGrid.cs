@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,7 @@ namespace Assets.Scripts.Balls
             _matchedBallSetFinder = new MatchedBallSetFinder();
             _orphanedBallFinder = orphanedBallFinder;
             _ballContainer = ballContainer;
+
         }
 
         public void Append(IBallController newBall, int gridX, int gridY)
@@ -87,7 +89,7 @@ namespace Assets.Scripts.Balls
         {
             if (_activeBalls.Count == 0)
             {
-                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs());
+                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.Win));
             }
         }
 
@@ -125,7 +127,6 @@ namespace Assets.Scripts.Balls
         {
             if (_activeBalls.Any())
             {
-                int ceiling = _activeBalls.Max(b => b.Model.GridY);
                 List<IBallController> orphanedBalls = _orphanedBallFinder.Find(_activeBalls.ToList());
 
                 if (orphanedBalls.Count > 0)
@@ -189,5 +190,6 @@ namespace Assets.Scripts.Balls
             _activeBalls.Remove(ballController);
             _ballFactory.Recycle(gameObject);
         }
+
     }
 }

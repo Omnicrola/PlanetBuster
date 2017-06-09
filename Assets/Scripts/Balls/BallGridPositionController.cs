@@ -33,10 +33,9 @@ namespace Assets.Scripts.Balls
             }
 
             float lowestBallPosition = _ballGridManager.LowestBallPosition;
-            GameManager.Instance.EventBus.Broadcast(new DebugEventArgs("Lowest Ball", lowestBallPosition.ToString()));
             if (lowestBallPosition <= GameOverHeight)
             {
-                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs());
+                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.LossByDropHeight));
             }
         }
     }

@@ -107,6 +107,10 @@ namespace Assets.Scripts.Balls
         private void OnBallDestroyed(BallDestroyEventArgs obj)
         {
             _ballGrid.Remove(obj.BallController.gameObject);
+            if (_ballGrid.ActiveBalls == 0)
+            {
+                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.Win));
+            }
         }
 
         public IBallController GenerateBall(int gridX, int gridY)
