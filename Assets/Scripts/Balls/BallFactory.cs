@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Assets.Scripts.Balls
     public class BallFactory : IBallFactory
     {
         private readonly SimpleObjectPool _simpleObjectPool;
+        private readonly HashSet<GameObject> _allBallsCreated = new HashSet<GameObject>();
         private readonly GameObject _ceiling;
         private readonly Vector2 _offset;
         private readonly float _spacing;
@@ -36,7 +38,10 @@ namespace Assets.Scripts.Balls
             ballController.Model = ballModel;
 
             Logging.Instance.Log(LogLevel.Debug, "Created ball at grid : " + gridX + ", " + gridY);
-
+            if (!_allBallsCreated.Contains(newBall.gameObject))
+            {
+                _allBallsCreated.Add(newBall.gameObject);
+            }
             return ballController;
         }
 

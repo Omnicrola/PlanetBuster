@@ -25,7 +25,8 @@ namespace Assets.Scripts.Ui
 
         public void OnClick_Restart()
         {
-            BallGridManager.GetComponent<IBallGridManager>().StartNewLevel();
+            GameManager.Instance.TransitionToScene = GameConstants.SceneNames.MainPlay;
+            SceneManager.LoadScene(GameConstants.SceneNames.LoadingScene);
         }
 
         public void OnClick_ExitToMainMenu()

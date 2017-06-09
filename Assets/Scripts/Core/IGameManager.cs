@@ -14,5 +14,6 @@ namespace Assets.Scripts.Core
         bool Pause { get; set; }
         ILevelManager LevelManager { get; }
         LevelSummary CurrentLevel { get; set; }
+        string TransitionToScene { get; set; }
     }
 }

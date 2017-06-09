@@ -47,6 +47,7 @@ namespace Assets.Scripts.Core
 
         public ILevelManager LevelManager { get; private set; }
         public LevelSummary CurrentLevel { get; set; }
+        public string TransitionToScene { get; set; }
         public IGameEventBus EventBus { get; private set; }
 
         public bool Pause { get; set; }

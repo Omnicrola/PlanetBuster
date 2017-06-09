@@ -24,6 +24,7 @@ namespace Assets.Scripts
             public static readonly string HighScores = "HighScores";
             public static readonly string MainMenu = "MainMenu";
             public static readonly string LevelBrowser = "LevelBrowser";
+            public static readonly string LoadingScene = "LoadingScene";
         }
 
         public static int ChanceForPowerGems = 20;
