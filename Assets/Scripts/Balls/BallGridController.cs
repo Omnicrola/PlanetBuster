@@ -32,6 +32,8 @@ namespace Assets.Scripts.Balls
             gameEventBus.Subscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
 
+        public float LowestBallPosition { get { return _ballGrid.LowestBallPosition; } }
+
         public void Dispose()
         {
             var gameEventBus = GameManager.Instance.EventBus;

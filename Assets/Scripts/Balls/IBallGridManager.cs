@@ -9,5 +9,6 @@ namespace Assets.Scripts.Balls
         int GetNextBallType();
         Sprite GetBallSpriteOfType(int type);
         void StartNewLevel();
+        float LowestBallPosition { get; }
     }
 }

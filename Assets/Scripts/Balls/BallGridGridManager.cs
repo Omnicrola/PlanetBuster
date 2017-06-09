@@ -18,6 +18,8 @@ namespace Assets.Scripts.Balls
         private BallFactory _ballFactory;
         private BallGridController _ballGridController;
 
+        public float LowestBallPosition { get { return _ballGridController.LowestBallPosition; } }
+
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
@@ -34,6 +36,7 @@ namespace Assets.Scripts.Balls
             _ballGridController.Generate();
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
+
 
         public IBallController GenerateBall()
         {

@@ -25,9 +25,25 @@ namespace Assets.Scripts.Balls
             get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
         }
 
-        public int ActiveBalls { get { return _activeBalls.Count; } }
+        public int ActiveBalls
+        {
+            get { return _activeBalls.Count; }
+        }
 
-        public BallGrid(int gridSize, BallFactory ballFactory, OrphanedBallFinder orphanedBallFinder, GameObject ballContainer)
+        public float LowestBallPosition
+        {
+            get
+            {
+                if (_activeBalls.Any())
+                {
+                    return _activeBalls.OrderBy(b => b.Position.y).First().Position.y;
+                }
+                return 0f;
+            }
+        }
+
+        public BallGrid(int gridSize, BallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
+            GameObject ballContainer)
         {
             _ballFactory = ballFactory;
             Size = gridSize;
@@ -63,7 +79,8 @@ namespace Assets.Scripts.Balls
 
         private void LogAppend(BallModel ballModel)
         {
-            Logging.Instance.Log(LogLevel.Debug, string.Format("Appending to grid : {0},{1} type: {2}", ballModel.GridX, ballModel.GridY, ballModel.Type));
+            Logging.Instance.Log(LogLevel.Debug,
+                string.Format("Appending to grid : {0},{1} type: {2}", ballModel.GridX, ballModel.GridY, ballModel.Type));
         }
 
         private void CheckForWin()
@@ -163,7 +180,8 @@ namespace Assets.Scripts.Balls
             var ballController = gameObject.GetComponent<BallController>();
             ballController.gameObject.transform.SetParent(null);
             var ballModel = ballController.Model;
-            var logMessage = "Removing ball from grid: " + ballModel.GridX + ", " + ballModel.GridY + " type:" + ballModel.Type;
+            var logMessage = "Removing ball from grid: " + ballModel.GridX + ", " + ballModel.GridY + " type:" +
+                             ballModel.Type;
             Logging.Instance.Log(LogLevel.Debug, logMessage);
 
             ClearNeighbors(ballController);
