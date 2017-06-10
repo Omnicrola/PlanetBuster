@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace Assets.Scripts.Balls.Launcher
                 var ballController = raycastHit2D.collider.gameObject.GetComponent<IBallController>();
                 if (ballController != null)
                 {
+                    GameManager.Instance.EventBus.Broadcast(new DebugEventArgs("Ball HP", ballController.Model.Hitpoints.ToString()));
                     ballController.Model.Hitpoints -= DamagePerSecond * Time.deltaTime;
                     Debug.Log(ballController.gameObject.name + " : " + ballController.Model.Hitpoints);
                     if (ballController.Model.Hitpoints <= 0)

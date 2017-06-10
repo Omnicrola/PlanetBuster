@@ -56,7 +56,7 @@ namespace Assets.Scripts.Effects
         protected override void OnDestroy()
         {
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
         }
     }

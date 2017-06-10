@@ -49,7 +49,7 @@ namespace Assets.Scripts.Scorekeeping
         {
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
-            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
         }
     }
