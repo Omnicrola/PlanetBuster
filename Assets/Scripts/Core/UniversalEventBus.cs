@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Util;
 
 namespace Assets.Scripts.Core
 {
@@ -19,7 +20,15 @@ namespace Assets.Scripts.Core
                 var subscribers = _eventHandlers[eventType];
                 foreach (var subscriber in subscribers)
                 {
-                    subscriber.Invoke(eventArgs);
+                    try
+                    {
+                        subscriber.Invoke(eventArgs);
+                    }
+                    catch (Exception e)
+                    {
+                        Logging.Instance.Log(LogLevel.Error,
+                            "An exception has been thrown by an EventBus handler.\n " + e.Message + "\n" + e.StackTrace);
+                    }
                 }
             }
             else
@@ -39,7 +48,6 @@ namespace Assets.Scripts.Core
 
         public void Unsubscribe<T>(Action<T> eventHandlerOne) where T : IGameEvent
         {
-
             _eventHandlers[typeof(T)].RemoveAll(si => si.Match(eventHandlerOne.Target, eventHandlerOne.Method));
         }
 
