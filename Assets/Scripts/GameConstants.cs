@@ -2,7 +2,7 @@ using Assets.Scripts.Util;
 
 namespace Assets.Scripts
 {
-    internal class GameConstants
+    public class GameConstants
     {
         public static readonly LogLevel LoggingLevel = LogLevel.Debug;
 
@@ -25,6 +25,7 @@ namespace Assets.Scripts
             public static readonly string MainMenu = "MainMenu";
             public static readonly string LevelBrowser = "LevelBrowser";
             public static readonly string LoadingScene = "LoadingScene";
+            public static readonly string LevelEditor = "LevelEditor";
         }
 
         public static int ChanceForPowerGems = 20;
