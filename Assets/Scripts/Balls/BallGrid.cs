@@ -123,7 +123,7 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void HandleOrphanedBalls()
+        public void HandleOrphanedBalls()
         {
             if (_activeBalls.Any())
             {

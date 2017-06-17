@@ -13,5 +13,6 @@ namespace Assets.Scripts.Balls
         void Initialize(List<IBallController> newBalls);
         void Clear();
         void Remove(GameObject gameObject);
+        void HandleOrphanedBalls();
     }
 }

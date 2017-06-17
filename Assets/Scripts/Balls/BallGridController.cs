@@ -111,6 +111,10 @@ namespace Assets.Scripts.Balls
             {
                 GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.Win));
             }
+            else
+            {
+                _ballGrid.HandleOrphanedBalls();
+            }
         }
 
         public IBallController GenerateBall(int gridX, int gridY)
