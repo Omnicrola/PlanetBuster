@@ -27,5 +27,10 @@ namespace Assets.Scripts.Ui
         {
             GameManager.Instance.EventBus.Unsubscribe<PowerChangeEventArgs>(PowerChanged);
         }
+
+        protected override void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("PARTICLE IMPACT");
+        }
     }
 }

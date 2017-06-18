@@ -13,21 +13,23 @@ namespace Assets.Scripts.Effects
 
         private SimpleObjectPool _simpleObjectPool;
         private Camera _camera;
+        private Vector3 _targetPosition;
 
         protected override void Start()
         {
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
             _camera = Camera.GetComponent<Camera>();
+            _targetPosition = _camera.ScreenToWorldPoint(ParticleTarget.transform.position);
+
         }
 
-        public void GenerateParticles(Vector2 position)
+        public void GenerateParticles(float delay, Vector2 position)
         {
             var newParticleEffect = _simpleObjectPool.GetObjectFromPool();
             newParticleEffect.transform.SetParent(ParticleContainer.transform);
             var particleEffect = newParticleEffect.GetComponent<PowerGemParticleEffect>();
 
-            var targetPosition = _camera.ScreenToWorldPoint(ParticleTarget.transform.position);
-            particleEffect.Reset(position, targetPosition);
+            particleEffect.Reset(delay, position, _targetPosition);
 
         }
     }

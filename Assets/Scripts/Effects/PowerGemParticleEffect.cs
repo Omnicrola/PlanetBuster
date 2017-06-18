@@ -9,10 +9,10 @@ namespace Assets.Scripts.Effects
         public Color particleColor = Color.cyan;
 
         private ParticleSystem _particleSystem;
-        private ParticleSystem.Particle[] _particles;
-        private int _particlesAlive;
-        private Vector3 _targetPosition;
         private bool _shouldReset;
+        private bool _hasStarted;
+        private Vector3 _targetPosition;
+        private float _startTime;
 
         protected override void Start()
         {
@@ -23,25 +23,45 @@ namespace Assets.Scripts.Effects
 
         protected override void Update()
         {
-            if (_shouldReset)
+            CheckForReset();
+            CheckForDone();
+        }
+
+        private void CheckForDone()
+        {
+            if (_hasStarted)
+            {
+                if (_particleSystem.particleCount == 0)
+                {
+                    var pooledObject = GetComponent<PooledObject>();
+                    pooledObject.ObjectPool.ReturnObjectToPool(gameObject);
+                }
+            }
+            else
+            {
+                if (_particleSystem.particleCount > 0)
+                {
+                    _hasStarted = true;
+                }
+            }
+        }
+
+        private void CheckForReset()
+        {
+            if (_shouldReset && Time.time >= _startTime)
             {
                 _shouldReset = false;
                 _particleSystem.Clear();
                 _particleSystem.Play();
+                _hasStarted = false;
+                GetComponent<ParticleAttractorSpherical>().target = _targetPosition;
             }
-            _particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
-            _particlesAlive = _particleSystem.GetParticles(_particles);
-            float step = speed * Time.deltaTime;
-            for (int i = 0; i < _particlesAlive; i++)
-            {
-                _particles[i].position = Vector3.SlerpUnclamped(_particles[i].position, _targetPosition, step);
-            }
-            _particleSystem.SetParticles(_particles, _particlesAlive);
         }
 
-        public void Reset(Vector3 emitterPosition, Vector3 targetPosition)
+        public void Reset(float startDelay, Vector3 emitterPosition, Vector3 targetPosition)
         {
             transform.position = emitterPosition;
+            _startTime = Time.time + startDelay;
             _targetPosition = targetPosition;
             _shouldReset = true;
         }

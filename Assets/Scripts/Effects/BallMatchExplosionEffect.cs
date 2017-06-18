@@ -11,6 +11,7 @@ namespace Assets.Scripts.Effects
     {
         public GameObject FloatingScoreGenerator;
         public GameObject PowerGemEffectGenerator;
+        public float SequentialDelay = 0.25f;
 
         private SimpleObjectPool _simpleObjectPool;
         private FloatingScoreEffectGenerator _floatingScoreEffectGenerator;
@@ -32,13 +33,12 @@ namespace Assets.Scripts.Effects
         {
             var balls = e.BallPath.OrderBy(b => b.gameObject.transform.position.y).ToList();
 
-            float delay = 0;
-            float baseOffset = balls.First().gameObject.transform.position.y;
+            float delay = 0.1f;
             foreach (var ball in balls)
             {
                 DestroyOneBall(ball, delay);
 
-                delay += (ball.gameObject.transform.position.y - baseOffset) * 0.05f;
+                delay += SequentialDelay;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Effects
 
             newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);
-            _powerGemParticleEffectGenerator.GenerateParticles(ballPosition);
+            _powerGemParticleEffectGenerator.GenerateParticles(delay, ballPosition);
         }
 
 
