@@ -10,9 +10,11 @@ namespace Assets.Scripts.Effects
     public class BallMatchExplosionEffect : UnityBehavior
     {
         public GameObject FloatingScoreGenerator;
+        public GameObject PowerGemEffectGenerator;
 
         private SimpleObjectPool _simpleObjectPool;
         private FloatingScoreEffectGenerator _floatingScoreEffectGenerator;
+        private PowerGemParticleEffectGenerator _powerGemParticleEffectGenerator;
 
         void Start()
         {
@@ -22,6 +24,7 @@ namespace Assets.Scripts.Effects
 
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
             _floatingScoreEffectGenerator = FloatingScoreGenerator.GetComponent<FloatingScoreEffectGenerator>();
+            _powerGemParticleEffectGenerator = PowerGemEffectGenerator.GetComponent<PowerGemParticleEffectGenerator>();
         }
 
 
@@ -56,6 +59,7 @@ namespace Assets.Scripts.Effects
 
             newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);
+            _powerGemParticleEffectGenerator.GenerateParticles(ballPosition);
         }
 
 
