@@ -8,7 +8,7 @@ namespace Assets.Scripts.Ui
 {
     public class PowerDisplayController : UnityBehavior
     {
-        public GameObject PowerValue;
+        public GameObject PowerMeter;
 
         protected override void Start()
         {
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Ui
 
         private void OnPowerChanged(PowerChangeEventArgs e)
         {
-            PowerValue.GetComponent<Text>().text = string.Format("{0}%", e.NewPowerLevel.ToString("P"));
+            PowerMeter.GetComponent<ProgressBarController>().Level = e.NewPowerLevel;
 
         }
 
