@@ -9,8 +9,14 @@ namespace Assets.Scripts.Scorekeeping
     public class ScoreDisplayController : UnityBehavior
     {
         public GameObject ScoreText;
+
+        public int CurrentScore
+        {
+            get { return _scoreKeeper.CurrentScore; }
+        }
+
         private Scorekeeper _scoreKeeper;
-        public int CurrentScore { get { return _scoreKeeper.CurrentScore; } }
+        private float _currentDisplayScore;
 
         protected override void Start()
         {
@@ -22,27 +28,31 @@ namespace Assets.Scripts.Scorekeeping
         }
 
 
-        private void UpdateScore()
+        protected override void Update()
         {
-            ScoreText.GetComponent<Text>().text = _scoreKeeper.CurrentScore.ToString();
+            var currentScore = _scoreKeeper.CurrentScore;
+            _currentDisplayScore = iTween.FloatUpdate(_currentDisplayScore, currentScore, 10f);
+            if (currentScore - _currentDisplayScore < 10)
+            {
+                _currentDisplayScore = currentScore;
+            }
+            ScoreText.GetComponent<Text>().text = ((int)_currentDisplayScore).ToString();
         }
 
         private void OnOrphansFound(OrphanedBallsEventArgs e)
         {
             _scoreKeeper.ScoreOrphans(e.OrphanedBalls);
-            UpdateScore();
         }
 
 
         private void OnMatchFound(BallGridMatchArgs e)
         {
             _scoreKeeper.ScoreMatch(e.BallPath);
-            UpdateScore();
         }
+
         private void OnBallDestroyed(BallDestroyEventArgs obj)
         {
             _scoreKeeper.ScoreDestroyedBall();
-            UpdateScore();
         }
 
         protected override void OnDestroy()
