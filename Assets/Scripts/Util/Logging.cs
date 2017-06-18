@@ -37,7 +37,18 @@ namespace Assets.Scripts.Util
                 var gameTime = Time.time;
                 var worldTime = DateTime.Now.ToString("s");
                 var formattedMessage = string.Format("{0}|{1}|{2}", worldTime, gameTime, message);
-                Debug.Log(formattedMessage);
+                if (level == LogLevel.Error)
+                {
+                    Debug.LogError(formattedMessage);
+                }
+                else if (level == LogLevel.Warning)
+                {
+                    Debug.LogWarning(formattedMessage);
+                }
+                else
+                {
+                    Debug.Log(formattedMessage);
+                }
             }
         }
     }

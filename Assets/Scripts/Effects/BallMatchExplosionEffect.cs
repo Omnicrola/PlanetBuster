@@ -9,14 +9,19 @@ namespace Assets.Scripts.Effects
 {
     public class BallMatchExplosionEffect : UnityBehavior
     {
+        public GameObject FloatingScoreGenerator;
+
         private SimpleObjectPool _simpleObjectPool;
+        private FloatingScoreEffectGenerator _floatingScoreEffectGenerator;
 
         void Start()
         {
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
             gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
+            _floatingScoreEffectGenerator = FloatingScoreGenerator.GetComponent<FloatingScoreEffectGenerator>();
         }
 
 
@@ -50,6 +55,7 @@ namespace Assets.Scripts.Effects
             var planetSprite = ball.gameObject.GetComponent<SpriteRenderer>().sprite;
 
             newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite);
+            _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);
         }
 
 
