@@ -59,7 +59,10 @@ namespace Assets.Scripts.Effects
 
             newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);
-            _powerGemParticleEffectGenerator.GenerateParticles(delay, ballPosition);
+            if (ball.Model.HasPowerGem)
+            {
+                _powerGemParticleEffectGenerator.GenerateParticles(delay, ballPosition);
+            }
         }
 
 

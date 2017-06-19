@@ -120,6 +120,10 @@ namespace Assets.Scripts.Balls
             if (ballPath.Count >= GameConstants.MinimumMatchNumber)
             {
                 GameManager.Instance.EventBus.Broadcast(new BallGridMatchArgs(ballPath));
+                foreach (var ball in ballPath)
+                {
+                    Remove(ball.gameObject);
+                }
             }
         }
 
@@ -132,6 +136,10 @@ namespace Assets.Scripts.Balls
                 if (orphanedBalls.Count > 0)
                 {
                     GameManager.Instance.EventBus.Broadcast(new OrphanedBallsEventArgs(orphanedBalls));
+                }
+                foreach (var orphanedBall in orphanedBalls)
+                {
+                    Remove(orphanedBall.gameObject);
                 }
             }
         }

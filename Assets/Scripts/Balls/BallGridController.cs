@@ -28,8 +28,6 @@ namespace Assets.Scripts.Balls
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
-            gameEventBus.Subscribe<BallGridMatchArgs>(OnBallMatch);
-            gameEventBus.Subscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
 
         public float LowestBallPosition { get { return _ballGrid.LowestBallPosition; } }
@@ -39,8 +37,6 @@ namespace Assets.Scripts.Balls
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<BallCollisionEventArgs>(OnBallCollision);
-            gameEventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch);
-            gameEventBus.Unsubscribe<OrphanedBallsEventArgs>(OnBallOrphansFound);
         }
 
 
@@ -89,21 +85,6 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void OnBallMatch(BallGridMatchArgs e)
-        {
-            foreach (var ballController in e.BallPath)
-            {
-                _ballGrid.Remove(ballController.gameObject);
-            }
-        }
-
-        private void OnBallOrphansFound(OrphanedBallsEventArgs e)
-        {
-            foreach (var ballController in e.OrphanedBalls)
-            {
-                _ballGrid.Remove(ballController.gameObject);
-            }
-        }
         private void OnBallDestroyed(BallDestroyEventArgs obj)
         {
             _ballGrid.Remove(obj.BallController.gameObject);

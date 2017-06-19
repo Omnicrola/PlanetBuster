@@ -26,8 +26,9 @@ namespace Assets.Scripts.Core
                     }
                     catch (Exception e)
                     {
+                        var actualException = e.InnerException;
                         Logging.Instance.Log(LogLevel.Error,
-                            "An exception has been thrown by an EventBus handler.\n " + e.Message + "\n" + e.StackTrace);
+                            "An exception has been thrown by an EventBus handler.\n " + actualException.Message + "\n" + actualException.StackTrace);
                     }
                 }
             }
