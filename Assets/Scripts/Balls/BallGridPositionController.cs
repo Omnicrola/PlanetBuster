@@ -11,6 +11,8 @@ namespace Assets.Scripts.Balls
         public float DelayBeforeFirstDrop = 30f;
         public float DecentInterval = 30;
         public float DecentDistance = 1f;
+        public float MinimumDistanceThreshold = 5f;
+        public float MinimumDistance = 1f;
 
         private float _nextDropTime;
         private IBallGridManager _ballGridManager;
@@ -36,6 +38,14 @@ namespace Assets.Scripts.Balls
             if (lowestBallPosition <= GameOverHeight)
             {
                 GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.LossByDropHeight));
+            }
+            else if (lowestBallPosition > MinimumDistanceThreshold)
+            {
+                _nextDropTime = Time.time + DecentInterval;
+                var currentPosition = transform.position;
+                var verticalDistanceToTravel = currentPosition.y - MinimumDistance;
+                var newPosition = new Vector2(currentPosition.x, verticalDistanceToTravel);
+                iTween.MoveTo(gameObject, newPosition, 1f);
             }
         }
     }

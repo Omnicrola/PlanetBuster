@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
@@ -8,6 +9,7 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridGridManager : UnityBehavior, IBallGridManager
     {
+        public float DefaultVerticalSpacing = 10f;
         public GameObject Ceiling;
         public Sprite[] BallTypes;
 
@@ -33,7 +35,12 @@ namespace Assets.Scripts.Balls
         {
             GameManager.Instance.EventBus.Broadcast(new GamePrestartEventArgs());
             _ballGridController.Clear();
-            _ballGridController.Generate();
+
+            var currentLevel = GameManager.Instance.CurrentLevel;
+            _ballGridController.Generate(currentLevel);
+            var gridSize = currentLevel.BallData.Max(b => b.YPos);
+            var offset = gridSize + DefaultVerticalSpacing;
+            transform.position = new Vector2(0, offset);
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
 

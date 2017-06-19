@@ -27,11 +27,30 @@ namespace Assets.Scripts.Balls
             _ballTypes = ballTypes;
         }
 
+        public IBallController GenerateBall(BallLevelData ballData)
+        {
+            var ballController = GenerateBall(ballData.XPos, ballData.YPos, ballData.BallType, ballData.HasPowerGem);
+            return ballController;
+        }
+
         public IBallController GenerateBall(int gridX, int gridY)
+        {
+            var type = _random.Next(_ballTypes.Length);
+            return GenerateBall(gridX, gridY, type, false);
+        }
+
+        private IBallController GenerateBall(int gridX, int gridY, int type, bool hasPowerGem)
         {
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetGridPosition(gridX, gridY);
-            var ballModel = CreateBallModel(gridX, gridY);
+            var icon = _ballTypes[type];
+            var ballModel = new BallModel(gridX, gridY)
+            {
+                Type = type,
+                IconName = icon,
+                Hitpoints = 1,
+                HasPowerGem = hasPowerGem
+            };
 
             var ballController = newBall.GetComponent<IBallController>();
             ballController.IsProjectile = false;
@@ -45,25 +64,13 @@ namespace Assets.Scripts.Balls
             return ballController;
         }
 
+
         public virtual Vector3 GetGridPosition(int gridX, int gridY)
         {
             var ceilingOffset = _ceiling.transform.position;
             var x = gridX * _spacing + _offset.x + ceilingOffset.x;
             var y = (gridY * _spacing * -1) + _offset.y + ceilingOffset.y;
             return new Vector3(x, y, 0);
-        }
-
-        private BallModel CreateBallModel(int gridX, int gridY)
-        {
-            var type = _random.Next(_ballTypes.Length);
-            var icon = _ballTypes[type];
-            var ballModel = new BallModel(gridX, gridY)
-            {
-                Type = type,
-                IconName = icon,
-                Hitpoints = 1
-            };
-            return ballModel;
         }
 
 

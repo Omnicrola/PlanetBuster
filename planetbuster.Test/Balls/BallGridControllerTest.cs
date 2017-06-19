@@ -47,7 +47,7 @@ namespace planetbuster.Test.Balls
             _mockBallFactory.GenerateBall(0, 1).Returns(ball3);
             _mockBallFactory.GenerateBall(1, 1).Returns(ball4);
 
-            _ballGridController.Generate();
+            _ballGridController.Generate(null);
 
             var expectedBalls = new List<IBallController> { ball1, ball3, ball2, ball4 };
             _mockBallGrid.Received().Initialize(Matchers.EqualCollections(expectedBalls));

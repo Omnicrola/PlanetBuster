@@ -38,6 +38,7 @@ namespace Assets.Scripts.Core
         {
             EventBus = new UniversalEventBus();
             LevelManager = new LevelManager();
+
         }
         #endregion
 
@@ -54,6 +55,10 @@ namespace Assets.Scripts.Core
 
         protected override void Start()
         {
+            if (Application.isEditor)
+            {
+                CurrentLevel = LevelManager.GetAll()[0];
+            }
         }
 
     }

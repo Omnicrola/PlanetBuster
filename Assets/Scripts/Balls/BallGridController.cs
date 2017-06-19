@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
 using UnityEngine;
 using Random = System.Random;
 
@@ -45,17 +46,15 @@ namespace Assets.Scripts.Balls
             _ballGrid.Clear();
         }
 
-        public void Generate()
+        public void Generate(LevelSummary currentLevel)
         {
             var newBalls = new List<IBallController>();
-            for (int gridX = 0; gridX < _ballGrid.Size; gridX++)
+            foreach (var ballData in currentLevel.BallData)
             {
-                for (int gridY = 0; gridY < _ballGrid.Size; gridY++)
-                {
-                    var newBall = GenerateBall(gridX, gridY);
-                    newBalls.Add(newBall);
-                }
+                var newBall = _ballFactory.GenerateBall(ballData);
+                newBalls.Add(newBall);
             }
+
             _ballGrid.Initialize(newBalls);
         }
 
