@@ -54,16 +54,17 @@ namespace Assets.Scripts.Effects
                 _particleSystem.Clear();
                 _particleSystem.Play();
                 _hasStarted = false;
-                GetComponent<ParticleAttractorSpherical>().target = _targetPosition;
+                GetComponent<ParticleAttractorLinear>().target = _targetPosition;
             }
         }
 
-        public void Reset(float startDelay, Vector3 emitterPosition, Vector3 targetPosition)
+        public void Reset(float startDelay, Vector2 emitterPosition, Vector2 targetPosition)
         {
             transform.position = emitterPosition;
             _startTime = Time.time + startDelay;
             _targetPosition = targetPosition;
             _shouldReset = true;
+            _hasStarted = false;
         }
     }
 }

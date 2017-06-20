@@ -32,5 +32,6 @@ namespace Assets.Scripts.Effects
             particleEffect.Reset(delay, position, _targetPosition);
 
         }
+
     }
 }
