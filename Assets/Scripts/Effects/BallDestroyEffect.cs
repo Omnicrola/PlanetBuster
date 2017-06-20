@@ -12,6 +12,7 @@ namespace Assets.Scripts.Effects
         public float ShockwaveSize = 0.5f;
         public GameObject Shockwave;
         public GameObject Planet;
+        public GameObject PowerGem;
         public AudioClip[] BallMatchSound;
 
 
@@ -22,10 +23,10 @@ namespace Assets.Scripts.Effects
         {
         }
 
-        public void RePlayEffect(float delay, Sprite planet)
+        public void RePlayEffect(float delay, Sprite planet, bool hasPowerGem)
         {
             _delay = delay;
-            ResetEffects(planet);
+            ResetEffects(planet, hasPowerGem);
 
             WaitForSeconds(delay, PlayEffects);
         }
@@ -35,12 +36,16 @@ namespace Assets.Scripts.Effects
             iTween.ScaleTo(Shockwave, new Vector3(ShockwaveSize, ShockwaveSize, ShockwaveSize), ShockwaveTime);
             iTween.FadeTo(Shockwave, 0f, ShockwaveTime * 0.9f);
 
-            WaitForSeconds(0.2f, () => { Planet.SetActive(false); });
+            WaitForSeconds(0.2f, () =>
+            {
+                Planet.SetActive(false);
+                PowerGem.SetActive(false);
+            });
             GetComponent<ParticleSystem>().Play();
             GetComponent<AudioSource>().Play();
         }
 
-        private void ResetEffects(Sprite planet)
+        private void ResetEffects(Sprite planet, bool hasPowerGem)
         {
             _hasStartedEmitting = false;
             var shockwaveMaterial = Shockwave.GetComponent<Renderer>().material;
@@ -56,6 +61,8 @@ namespace Assets.Scripts.Effects
 
             Planet.GetComponent<SpriteRenderer>().sprite = planet;
             Planet.SetActive(true);
+
+            PowerGem.SetActive(hasPowerGem);
         }
 
         protected override void Update()

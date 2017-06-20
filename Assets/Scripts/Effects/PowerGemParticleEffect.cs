@@ -61,7 +61,7 @@ namespace Assets.Scripts.Effects
         public void Reset(float startDelay, Vector2 emitterPosition, Vector2 targetPosition)
         {
             transform.position = emitterPosition;
-            _startTime = Time.time + startDelay;
+            _startTime = Time.time + startDelay + 0.2f;
             _targetPosition = targetPosition;
             _shouldReset = true;
             _hasStarted = false;
