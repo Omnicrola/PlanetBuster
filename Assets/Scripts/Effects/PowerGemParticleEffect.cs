@@ -5,7 +5,6 @@ namespace Assets.Scripts.Effects
 {
     public class PowerGemParticleEffect : UnityBehavior
     {
-        public float speed = 5f;
         public Color particleColor = Color.cyan;
 
         private ParticleSystem _particleSystem;
