@@ -25,10 +25,8 @@ namespace Assets.Scripts.Balls.Launcher
                 var ballController = raycastHit2D.collider.gameObject.GetComponent<IBallController>();
                 if (ballController != null)
                 {
-                    GameManager.Instance.EventBus.Broadcast(new DebugEventArgs("Ball HP", ballController.Model.Hitpoints.ToString()));
-                    ballController.Model.Hitpoints -= DamagePerSecond * Time.deltaTime;
-                    Debug.Log(ballController.gameObject.name + " : " + ballController.Model.Hitpoints);
-                    if (ballController.Model.Hitpoints <= 0)
+                    ballController.Hitpoints -= DamagePerSecond * Time.deltaTime;
+                    if (ballController.Hitpoints <= 0)
                     {
                         GameManager.Instance.EventBus.Broadcast(
                             new BallDestroyEventArgs(ballController));

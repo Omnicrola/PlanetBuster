@@ -11,6 +11,7 @@ namespace Assets.Scripts.Balls
     {
         public GameObject PowerGemSprite;
         public GameObject BallSprite;
+        public GameObject DamageSprite;
 
         private SpriteRenderer _ballSpriteRenderer;
         private bool _isProjectile;
@@ -66,6 +67,17 @@ namespace Assets.Scripts.Balls
         {
             get { return transform.rotation; }
             set { transform.rotation = value; }
+        }
+
+        public float Hitpoints
+        {
+            get { return Model.Hitpoints; }
+            set
+            {
+                Model.Hitpoints = value;
+                var percentAlive = 1 - (value / Model.MaxHitpoints);
+                DamageSprite.GetComponent<BallDamageController>().PercentDamaged = percentAlive;
+            }
         }
 
         public Sprite CurrentBallSprite

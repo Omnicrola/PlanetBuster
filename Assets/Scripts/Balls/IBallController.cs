@@ -19,5 +19,6 @@ namespace Assets.Scripts.Balls
         Vector3 Position { get; set; }
         Sprite CurrentBallSprite { get; }
         Quaternion Rotation { get; set; }
+        float Hitpoints { get; set; }
     }
 }

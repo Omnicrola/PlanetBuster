@@ -8,6 +8,7 @@ namespace Assets.Scripts.Models
     {
         public int GridX { get; set; }
         public int GridY { get; set; }
+        public float MaxHitpoints { get; set; }
 
         public BallModel(int gridX, int gridY)
         {

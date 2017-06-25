@@ -46,11 +46,13 @@ namespace Assets.Scripts.Balls
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetGridPosition(gridX, gridY);
             var icon = _ballTypes[type];
+            var hitpoints = magnitude.GetHitpoints();
             var ballModel = new BallModel(gridX, gridY)
             {
                 Type = type,
                 IconName = icon,
-                Hitpoints = magnitude.GetHitpoints(),
+                Hitpoints = hitpoints,
+                MaxHitpoints = hitpoints,
                 HasPowerGem = hasPowerGem,
                 Magnitude = magnitude
             };
