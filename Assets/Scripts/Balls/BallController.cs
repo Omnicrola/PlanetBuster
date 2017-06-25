@@ -9,9 +9,10 @@ namespace Assets.Scripts.Balls
 {
     public class BallController : DirtyBehavior<BallModel>, IBallController
     {
-        public GameObject PowerGem;
+        public GameObject PowerGemSprite;
+        public GameObject BallSprite;
 
-        private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer _ballSpriteRenderer;
         private bool _isProjectile;
         private bool _active;
         private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
@@ -61,24 +62,39 @@ namespace Assets.Scripts.Balls
             set { transform.position = value; }
         }
 
+        public Quaternion Rotation
+        {
+            get { return transform.rotation; }
+            set { transform.rotation = value; }
+        }
+
+        public Sprite CurrentBallSprite
+        {
+            get { return BallSprite.GetComponent<SpriteRenderer>().sprite; }
+        }
+
         protected override void Start()
         {
             base.Start();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _ballSpriteRenderer = BallSprite.GetComponent<SpriteRenderer>();
             _baseScale = gameObject.transform.localScale;
         }
 
         protected override void DirtyUpdate()
         {
-            if (_spriteRenderer != null && Model != null)
+            if (_ballSpriteRenderer != null && Model != null)
             {
-                _spriteRenderer.sprite = Model.IconName;
-                PowerGem.SetActive(Model.HasPowerGem);
+                _ballSpriteRenderer.sprite = Model.IconName;
+                PowerGemSprite.SetActive(Model.HasPowerGem);
+
                 var scale = GetScale(Model.Magnitude);
-                gameObject.transform.localScale = _baseScale * scale;
-                gameObject.transform.position -= new Vector3(scale * -0.5f, scale * 0.5f);
+                if (scale > 1)
+                {
+                    gameObject.transform.localScale = _baseScale * scale;
+                }
             }
         }
+
 
         private float GetScale(BallMagnitude magnitude)
         {
@@ -120,7 +136,6 @@ namespace Assets.Scripts.Balls
         public void Launch(Vector3 position, Quaternion orientation, Vector3 trajectory, float projectileSpeed)
         {
             transform.position = position;
-            transform.rotation = orientation;
             var rigidBody = GetComponent<Rigidbody2D>();
             rigidBody.bodyType = RigidbodyType2D.Dynamic;
             trajectory.Normalize();

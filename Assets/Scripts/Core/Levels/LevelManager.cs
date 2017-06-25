@@ -56,6 +56,8 @@ namespace Assets.Scripts.Core.Levels
         private List<BallLevelData> BuildLargeLevel()
         {
             var ballData = new List<BallLevelData>();
+            var random = new Random(234);
+
             for (int x = 0; x < 11; x++)
             {
                 for (int y = 0; y < 5; y++)
@@ -67,7 +69,7 @@ namespace Assets.Scripts.Core.Levels
                             XPos = x,
                             YPos = y,
                             HasPowerGem = true,
-                            BallType = 1,
+                            BallType = random.Next(4),
                             Magnitude = BallMagnitude.Standard
                         });
                     }

@@ -55,7 +55,7 @@ namespace Assets.Scripts.Effects
             newExplosion.transform.SetParent(transform);
             newExplosion.transform.position = ballPosition;
 
-            var planetSprite = ball.gameObject.GetComponent<SpriteRenderer>().sprite;
+            var planetSprite = ball.CurrentBallSprite;
 
             newExplosion.GetComponent<BallDestroyEffect>().RePlayEffect(delay, planetSprite, ball.Model.HasPowerGem);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);

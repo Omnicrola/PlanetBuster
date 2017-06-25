@@ -110,6 +110,7 @@ namespace Assets.Scripts.Balls
             newBall.gameObject.transform.SetParent(_ballContainer.transform);
             newBall.IsProjectile = false;
             newBall.Position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
+            newBall.Rotation = Quaternion.identity;
 
             UpdateGrid(newBall, ballModel.GridX, ballModel.GridY);
         }

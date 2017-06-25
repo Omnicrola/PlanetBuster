@@ -29,7 +29,8 @@ namespace Assets.Scripts.Balls
 
         public IBallController GenerateBall(BallLevelData ballData)
         {
-            var ballController = GenerateBall(ballData.XPos, ballData.YPos, ballData.BallType, ballData.HasPowerGem, ballData.Magnitude);
+            var ballController = GenerateBall(ballData.XPos, ballData.YPos, ballData.BallType, ballData.HasPowerGem,
+                ballData.Magnitude);
             return ballController;
         }
 
@@ -71,6 +72,7 @@ namespace Assets.Scripts.Balls
             var ceilingOffset = _ceiling.transform.position;
             var x = gridX * _spacing + _offset.x + ceilingOffset.x;
             var y = (gridY * _spacing * -1) + _offset.y + ceilingOffset.y;
+            Debug.Log(string.Format("Position for ({0}, {1}) is ({2}, {3}", gridX, gridY, x, y));
             return new Vector3(x, y, 0);
         }
 

@@ -39,7 +39,7 @@ namespace Assets.Scripts.Effects
                 fallingBall.GetComponent<Rigidbody2D>().position = ballPosition;
                 fallingBall.GetComponent<Rigidbody2D>().AddForce(random.RandomVector(RandomForceMagnitude));
 
-                var ballSprite = orphanedBall.GetComponent<SpriteRenderer>().sprite;
+                var ballSprite = ballController.CurrentBallSprite;
                 fallingBall.GetComponent<SpriteRenderer>().sprite = ballSprite;
             }
         }

@@ -13,6 +13,7 @@ namespace Assets.Scripts.Balls.Launcher
         public float ProjectileSpeed = 1;
         public float RotationSpeed = 4;
         public float ShotDelay = .5f;
+        public Vector3 BallPositionOffset;
 
         public GameObject Camera;
         public GameObject BallGridManager;
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Balls.Launcher
             gameEventBus.Subscribe<GameInputEventArgs>(OnInputEvent);
 
             _launcherFireControlCenter = new LauncherFireControlCenter(transform, _mainCamera, _ballGridManager,
-                ProjectileSpeed);
+                ProjectileSpeed, BallPositionOffset);
         }
 
         private void OnGameStart(IGameEvent e)

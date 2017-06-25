@@ -13,6 +13,7 @@ namespace Assets.Scripts.Effects
         public GameObject Shockwave;
         public GameObject Planet;
         public GameObject PowerGem;
+        public GameObject ParticleExplosion;
         public AudioClip[] BallMatchSound;
 
 
@@ -41,7 +42,7 @@ namespace Assets.Scripts.Effects
                 Planet.SetActive(false);
                 PowerGem.SetActive(false);
             });
-            GetComponent<ParticleSystem>().Play();
+            ParticleExplosion.GetComponent<ParticleSystem>().Play();
             GetComponent<AudioSource>().Play();
         }
 
@@ -53,7 +54,7 @@ namespace Assets.Scripts.Effects
             shockwaveMaterial.color = new Color(existingColor.r, existingColor.g, existingColor.b, 1f);
 
             Shockwave.transform.localScale = Vector3.zero;
-            GetComponent<ParticleSystem>().time = 0;
+            ParticleExplosion.GetComponent<ParticleSystem>().time = 0;
 
             var audioSource = GetComponent<AudioSource>();
             audioSource.clip = BallMatchSound[_random.Next(BallMatchSound.Length)];
@@ -67,7 +68,7 @@ namespace Assets.Scripts.Effects
 
         protected override void Update()
         {
-            var particleCount = GetComponent<ParticleSystem>().particleCount;
+            var particleCount = ParticleExplosion.GetComponent<ParticleSystem>().particleCount;
             if (!_hasStartedEmitting && particleCount > 0)
             {
                 _hasStartedEmitting = true;

@@ -10,14 +10,16 @@ namespace Assets.Scripts.Balls.Launcher
         private readonly Camera _mainCamera;
         private readonly Transform _localTransform;
         private readonly float _projectileSpeed;
+        private readonly Vector3 _firePositionOffset;
         private readonly IBallGridManager _ballGridManager;
 
 
-        public LauncherFireControlCenter(Transform localTransform, Camera mainCamera, IBallGridManager ballGridManager, float projectileSpeed)
+        public LauncherFireControlCenter(Transform localTransform, Camera mainCamera, IBallGridManager ballGridManager, float projectileSpeed, Vector2 firePositionOffset)
         {
             _localTransform = localTransform;
             _mainCamera = mainCamera;
             _projectileSpeed = projectileSpeed;
+            _firePositionOffset = firePositionOffset;
             _ballGridManager = ballGridManager;
         }
 
@@ -46,7 +48,7 @@ namespace Assets.Scripts.Balls.Launcher
             var ballController = nextProjectile.GetComponent<IBallController>();
             ballController.Active = true;
             ballController.IsProjectile = true;
-            ballController.Launch(_localTransform.position, rotation, trajectory, _projectileSpeed);
+            ballController.Launch(_localTransform.position + _firePositionOffset, rotation, trajectory, _projectileSpeed);
 
             GameManager.Instance.EventBus.Broadcast(new BallFiredEventArgs());
         }
