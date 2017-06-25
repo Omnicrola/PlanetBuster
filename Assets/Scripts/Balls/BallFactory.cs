@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace Assets.Scripts.Balls
             {
                 Type = type,
                 IconName = icon,
-                Hitpoints = 1,
+                Hitpoints = magnitude.GetHitpoints(),
                 HasPowerGem = hasPowerGem,
                 Magnitude = magnitude
             };
@@ -72,7 +73,6 @@ namespace Assets.Scripts.Balls
             var ceilingOffset = _ceiling.transform.position;
             var x = gridX * _spacing + _offset.x + ceilingOffset.x;
             var y = (gridY * _spacing * -1) + _offset.y + ceilingOffset.y;
-            Debug.Log(string.Format("Position for ({0}, {1}) is ({2}, {3}", gridX, gridY, x, y));
             return new Vector3(x, y, 0);
         }
 

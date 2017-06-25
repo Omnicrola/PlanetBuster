@@ -32,5 +32,13 @@ namespace Assets.Scripts
         public static float LaserChargePercentPerGem = 0.1f;
         public static float LaserMinimumPercentCharge = 0.3f;
         public static float LaserDrainPercentPerSecond = 0.5f;
+
+        public class BallHitpoints
+        {
+            public static float Standard = 1f;
+            public static float Medium = 10f;
+            public static float Large = 50f;
+            public static float Huge = 100f;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.Scripts.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls
@@ -44,7 +45,9 @@ namespace Assets.Scripts.Balls
 
             ballsAlreadyChecked[row].Add(potentialStep);
 
-            if (potentialStep.Model.Type == targetType)
+            var ballTypesMatch = potentialStep.Model.Type == targetType;
+            var isNotOversized = potentialStep.Model.Magnitude == BallMagnitude.Standard;
+            if (ballTypesMatch && isNotOversized)
             {
                 ballPath.Append(potentialStep);
                 WalkPath(ballPath, potentialStep);
