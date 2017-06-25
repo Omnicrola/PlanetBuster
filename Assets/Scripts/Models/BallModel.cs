@@ -19,6 +19,7 @@ namespace Assets.Scripts.Models
         public int Type { get; set; }
         public bool HasPowerGem { get; set; }
         public float Hitpoints { get; set; }
+        public BallMagnitude Magnitude { get; set; }
 
 
         public IBallController North { get; set; }

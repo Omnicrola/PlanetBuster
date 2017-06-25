@@ -15,6 +15,7 @@ namespace Assets.Scripts.Balls
         private bool _isProjectile;
         private bool _active;
         private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
+        private Vector3 _baseScale;
 
         public bool IsProjectile
         {
@@ -64,6 +65,7 @@ namespace Assets.Scripts.Balls
         {
             base.Start();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _baseScale = gameObject.transform.localScale;
         }
 
         protected override void DirtyUpdate()
@@ -72,6 +74,30 @@ namespace Assets.Scripts.Balls
             {
                 _spriteRenderer.sprite = Model.IconName;
                 PowerGem.SetActive(Model.HasPowerGem);
+                var scale = GetScale(Model.Magnitude);
+                gameObject.transform.localScale = _baseScale * scale;
+                gameObject.transform.position -= new Vector3(scale * -0.5f, scale * 0.5f);
+            }
+        }
+
+        private float GetScale(BallMagnitude magnitude)
+        {
+            switch (magnitude)
+            {
+                case BallMagnitude.Standard:
+                    return 1f;
+                    break;
+                case BallMagnitude.Medium:
+                    return 2f;
+                    break;
+                case BallMagnitude.Large:
+                    return 3f;
+                    break;
+                case BallMagnitude.Huge:
+                    return 4f;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("magnitude", magnitude, null);
             }
         }
 

@@ -17,17 +17,16 @@ namespace Assets.Scripts.Models
 
     public class BallLevelData
     {
-        public int XPos { get; private set; }
-        public int YPos { get; private set; }
-        public int BallType { get; private set; }
-        public bool HasPowerGem { get; private set; }
+        public int XPos { get; set; }
+        public int YPos { get; set; }
+        public int BallType { get; set; }
+        public bool HasPowerGem { get; set; }
+        public BallMagnitude Magnitude { get; set; }
 
-        public BallLevelData(int xPos, int yPos, int ballType, bool hasPowerGem)
-        {
-            XPos = xPos;
-            YPos = yPos;
-            BallType = ballType;
-            HasPowerGem = hasPowerGem;
-        }
+    }
+
+    public enum BallMagnitude
+    {
+        Standard, Medium, Large, Huge
     }
 }

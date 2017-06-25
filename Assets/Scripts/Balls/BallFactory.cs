@@ -29,17 +29,17 @@ namespace Assets.Scripts.Balls
 
         public IBallController GenerateBall(BallLevelData ballData)
         {
-            var ballController = GenerateBall(ballData.XPos, ballData.YPos, ballData.BallType, ballData.HasPowerGem);
+            var ballController = GenerateBall(ballData.XPos, ballData.YPos, ballData.BallType, ballData.HasPowerGem, ballData.Magnitude);
             return ballController;
         }
 
         public IBallController GenerateBall(int gridX, int gridY)
         {
             var type = _random.Next(_ballTypes.Length);
-            return GenerateBall(gridX, gridY, type, false);
+            return GenerateBall(gridX, gridY, type, false, BallMagnitude.Standard);
         }
 
-        private IBallController GenerateBall(int gridX, int gridY, int type, bool hasPowerGem)
+        private IBallController GenerateBall(int gridX, int gridY, int type, bool hasPowerGem, BallMagnitude magnitude)
         {
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetGridPosition(gridX, gridY);
@@ -49,7 +49,8 @@ namespace Assets.Scripts.Balls
                 Type = type,
                 IconName = icon,
                 Hitpoints = 1,
-                HasPowerGem = hasPowerGem
+                HasPowerGem = hasPowerGem,
+                Magnitude = magnitude
             };
 
             var ballController = newBall.GetComponent<IBallController>();
