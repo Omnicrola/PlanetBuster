@@ -1,11 +1,12 @@
 ﻿using Assets.Scripts.Balls;
 using Assets.Scripts.Core;
+using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Ui
 {
-    public class InGameMenuController : MonoBehaviour
+    public class InGameMenuController : UnityBehavior
     {
         public GameObject BallGridManager;
         public GameObject PopupMenu;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Ui
         public void OnClick_Resume()
         {
             PopupMenu.SetActive(false);
-            GameManager.Instance.Pause = false;
+            WaitForSeconds(0.5f, () => { GameManager.Instance.Pause = false; });
         }
 
         public void OnClick_Restart()

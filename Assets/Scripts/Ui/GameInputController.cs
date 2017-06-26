@@ -9,6 +9,8 @@ namespace Assets.Scripts.Ui
 {
     public class GameInputController : UnityBehavior
     {
+        public GameObject ValidInputArea;
+
         private Camera _camera;
         private bool _isPressed;
 
@@ -19,40 +21,68 @@ namespace Assets.Scripts.Ui
 
         protected override void Update()
         {
-            var gameEventBus = GameManager.Instance.EventBus;
-            if (IsPressed())
+            if (!GameManager.Instance.Pause)
             {
-                gameEventBus.Broadcast(new GameInputEventArgs(InputEventType.Press, Input.mousePosition));
-            }
-            if (IsReleased())
-            {
-                gameEventBus.Broadcast(new GameInputEventArgs(InputEventType.Release, Input.mousePosition));
+                var gameEventBus = GameManager.Instance.EventBus;
+                if (IsPressed())
+                {
+                    gameEventBus.Broadcast(new GameInputEventArgs(InputEventType.Press, Input.mousePosition));
+                }
+                if (IsReleased())
+                {
+                    gameEventBus.Broadcast(new GameInputEventArgs(InputEventType.Release, Input.mousePosition));
+                }
             }
         }
 
         private bool IsReleased()
         {
-            var wasReleased = TouchWasReleased() || Input.GetMouseButtonUp(0);
-            bool isNotOverUiObject = !EventSystem.current.IsPointerOverGameObject();
-            return wasReleased && isNotOverUiObject;
+            var isMouseValid = IsMousePositionValid() && Input.GetMouseButtonUp(0);
+            var wasReleased = WasAnyValidTouchReleased() || isMouseValid;
+            return wasReleased;
         }
 
         private bool IsPressed()
         {
-            var isPressed = AreAnyTouches() || Input.GetMouseButtonDown(0);
-            bool isNotOverUiObject = !EventSystem.current.IsPointerOverGameObject();
-            return isPressed && isNotOverUiObject;
+            var isMouseValid = IsMousePositionValid() && Input.GetMouseButtonDown(0);
+            var isPressed = AreAnyTouchesValid() || isMouseValid;
+
+            return isPressed;
         }
 
-        private bool AreAnyTouches()
+        private bool IsMousePositionValid()
         {
-            return Input.touches.Any(t => t.phase != TouchPhase.Canceled && t.phase != TouchPhase.Ended);
+            var inputRectangle = GetInputRectangle();
+            return inputRectangle.Contains(Input.mousePosition);
         }
 
 
-        private bool TouchWasReleased()
+        private bool AreAnyTouchesValid()
         {
-            return Input.touches.Any(t => t.phase == TouchPhase.Ended);
+            var validInputRectangle = GetInputRectangle();
+            var validTouches = Input.touches
+                .Where(t => t.phase != TouchPhase.Canceled)
+                .Where(t => t.phase != TouchPhase.Ended)
+                .Any(t => validInputRectangle.Contains(t.position));
+            return validTouches;
+        }
+
+        private Rect GetInputRectangle()
+        {
+            var inputRectangle = ValidInputArea.GetComponent<RectTransform>().rect;
+
+            Vector2 position = ValidInputArea.transform.position;
+            var offsetPosition = inputRectangle.position + position;
+            return new Rect(offsetPosition, new Vector2(inputRectangle.width, inputRectangle.height));
+        }
+
+
+        private bool WasAnyValidTouchReleased()
+        {
+            var inputRectangle = GetInputRectangle();
+            return Input.touches
+                .Where(t => t.phase == TouchPhase.Ended)
+                .Any(t => inputRectangle.Contains(t.position));
         }
     }
 }

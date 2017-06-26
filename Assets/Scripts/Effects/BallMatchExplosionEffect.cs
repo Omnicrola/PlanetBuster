@@ -57,7 +57,6 @@ namespace Assets.Scripts.Effects
 
             var planetSprite = ball.CurrentBallSprite;
 
-            Debug.Log("GETTING DESTROY EFFECT FROM : " + newExplosion.name);
             var ballDestroyEffect = newExplosion.GetComponent<BallDestroyEffect>();
             ballDestroyEffect.RePlayEffect(delay, planetSprite, ball.Model.HasPowerGem);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, delay);

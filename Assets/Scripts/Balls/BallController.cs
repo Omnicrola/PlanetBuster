@@ -98,6 +98,7 @@ namespace Assets.Scripts.Balls
             {
                 _ballSpriteRenderer.sprite = Model.IconName;
                 PowerGemSprite.SetActive(Model.HasPowerGem);
+                DamageSprite.SetActive(Model.Magnitude != BallMagnitude.Standard);
 
                 var scale = GetScale(Model.Magnitude);
                 if (scale > 1)
