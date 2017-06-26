@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
 using NSubstitute;
@@ -45,10 +46,10 @@ namespace planetbuster.Test.Balls
             var ball2 = MakeBall(2, 2);
             var ball3 = MakeBall(2, 3);
 
-            topBall.Model.South = ball1;
-            ball1.Model.South = ball2;
-            ball2.Model.South = ball3;
-            ball3.Model.South = null;
+            topBall.South.Add(ball1);
+            ball1.South.Add(ball2);
+            ball2.South.Add(ball3);
+            ball3.South.Add(null);
 
             var ballControllers = new List<IBallController>
             {
@@ -71,12 +72,12 @@ namespace planetbuster.Test.Balls
             var ball2 = MakeBall(1, 1);
             var ball3 = MakeBall(1, 2);
 
-            topBall.Model.South = ball1;
-            ball1.Model.North = topBall;
-            ball1.Model.West = ball2;
-            ball2.Model.East = ball1;
-            ball3.Model.North = ball2;
-            ball2.Model.South = ball3;
+            topBall.South.Add(ball1);
+            ball1.North.Add(topBall);
+            ball1.West.Add(ball2);
+            ball2.East.Add(ball1);
+            ball3.North.Add(ball2);
+            ball2.South.Add(ball3);
 
             var ballControllers = new List<IBallController>
             {
@@ -99,10 +100,10 @@ namespace planetbuster.Test.Balls
             var ball2 = MakeBall(3, 2);
             var ball3 = MakeBall(4, 1);
 
-            topBall.Model.South = null;
-            ball1.Model.South = null;
-            ball2.Model.South = null;
-            ball3.Model.South = null;
+            topBall.South.Clear();
+            ball1.South.Clear();
+            ball2.South.Clear();
+            ball3.South.Clear();
 
             var ballControllers = new List<IBallController>
             {
@@ -124,6 +125,23 @@ namespace planetbuster.Test.Balls
         {
             var ballController = Substitute.For<IBallController>();
             ballController.Model.Returns(new BallModel(gridX, gridY));
+            var north = new List<IBallController>();
+            var south = new List<IBallController>();
+            var east = new List<IBallController>();
+            var west = new List<IBallController>();
+
+            ballController.North.Returns(north);
+            ballController.South.Returns(south);
+            ballController.East.Returns(east);
+            ballController.West.Returns(west);
+            ballController.AllNeighbors.Returns((info) =>
+            {
+                return new List<IBallController>()
+                    .Concat(north)
+                    .Concat(south)
+                    .Concat(east)
+                    .Concat(west).ToList();
+            });
             return ballController;
         }
     }

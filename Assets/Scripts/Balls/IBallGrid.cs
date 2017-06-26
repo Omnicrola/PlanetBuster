@@ -9,7 +9,7 @@ namespace Assets.Scripts.Balls
         int[] TypesLeftActive { get; }
         int ActiveBalls { get; }
         float LowestBallPosition { get; }
-        void Append(IBallController newBall, int gridX, int gridY);
+        void Append(IBallController newBall, GridPosition gridPosition);
         void Initialize(List<IBallController> newBalls);
         void Clear();
         void Remove(GameObject gameObject);

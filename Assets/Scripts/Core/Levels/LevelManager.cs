@@ -62,7 +62,7 @@ namespace Assets.Scripts.Core.Levels
             {
                 for (int y = 0; y < 5; y++)
                 {
-                    if ((x < 5 || x > 6) || (y < 2 || y > 3))
+                    if ((x < 5 || x > 6) || (y < 3 || y > 4))
                     {
                         ballData.Add(new BallLevelData
                         {
@@ -78,7 +78,7 @@ namespace Assets.Scripts.Core.Levels
             ballData.Add(new BallLevelData
             {
                 XPos = 5,
-                YPos = 2,
+                YPos = 3,
                 BallType = 3,
                 Magnitude = BallMagnitude.Medium
             });

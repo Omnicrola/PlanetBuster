@@ -12,20 +12,19 @@ namespace Assets.Scripts.Balls
     public class BallGridController : IDisposable
     {
 
-        const float NORTH_EAST = 45f;
-        const float SOUTH_EAST = 135f;
-        const float SOUTH_WEST = 225f;
-        const float NORTH_WEST = 315f;
+
         private static readonly Random _random = new Random(55);
 
         private readonly Random random = new Random();
         private readonly IBallGrid _ballGrid;
         private readonly IBallFactory _ballFactory;
+        private readonly IBallGridPositionCalculator _gridPositionCalculator;
 
-        public BallGridController(IBallFactory ballFactory, IBallGrid ballGrid)
+        public BallGridController(IBallFactory ballFactory, IBallGrid ballGrid, IBallGridPositionCalculator gridPositionCalculator)
         {
             _ballFactory = ballFactory;
             _ballGrid = ballGrid;
+            _gridPositionCalculator = gridPositionCalculator;
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
@@ -62,25 +61,8 @@ namespace Assets.Scripts.Balls
         {
             if (e.IncomingBall.IsProjectile)
             {
-                var ballToAddToGrid = e.IncomingBall;
-                var existingBall = e.BallInGrid.Model;
-                int offsetX = 0;
-                int offsetY = 0;
-
-
-                if (e.AngleOfImpact >= NORTH_EAST && e.AngleOfImpact < SOUTH_EAST)
-                {
-                    offsetX = 1;
-                }
-                else if (e.AngleOfImpact >= SOUTH_EAST && e.AngleOfImpact < SOUTH_WEST)
-                {
-                    offsetY = 1;
-                }
-                else if (e.AngleOfImpact >= SOUTH_WEST && e.AngleOfImpact < NORTH_WEST)
-                {
-                    offsetX = -1;
-                }
-                _ballGrid.Append(ballToAddToGrid, existingBall.GridX + offsetX, existingBall.GridY + offsetY);
+                var gridPosition = _gridPositionCalculator.FindGridPosition(e.BallInGrid.Model, e.AngleOfImpact);
+                _ballGrid.Append(e.IncomingBall, gridPosition);
             }
         }
 

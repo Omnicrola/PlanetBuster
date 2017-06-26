@@ -12,12 +12,13 @@ namespace Assets.Scripts.Balls
 {
     public class BallGrid : IBallGrid
     {
-        private readonly BallFactory _ballFactory;
+        private readonly IBallFactory _ballFactory;
 
         private readonly List<IBallController> _activeBalls;
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
         private readonly OrphanedBallFinder _orphanedBallFinder;
         private readonly GameObject _ballContainer;
+        private readonly BallNeighborLocator _ballNeighborLocator;
 
         public int Size { private set; get; }
 
@@ -43,8 +44,8 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public BallGrid(int gridSize, BallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
-            GameObject ballContainer)
+        public BallGrid(int gridSize, IBallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
+            GameObject ballContainer, BallNeighborLocator ballNeighborLocator)
         {
             _ballFactory = ballFactory;
             Size = gridSize;
@@ -52,12 +53,12 @@ namespace Assets.Scripts.Balls
             _matchedBallSetFinder = new MatchedBallSetFinder();
             _orphanedBallFinder = orphanedBallFinder;
             _ballContainer = ballContainer;
-
+            _ballNeighborLocator = ballNeighborLocator;
         }
 
-        public void Append(IBallController newBall, int gridX, int gridY)
+        public void Append(IBallController newBall, GridPosition gridPosition)
         {
-            var ballModel = SetBallPosition(newBall, gridX, gridY);
+            var ballModel = SetBallPosition(newBall, gridPosition);
             LogAppend(ballModel);
 
             AddBallToGrid(newBall);
@@ -66,16 +67,16 @@ namespace Assets.Scripts.Balls
             CheckForWin();
         }
 
-        private BallModel SetBallPosition(IBallController newBall, int gridX, int gridY)
+        private BallModel SetBallPosition(IBallController newBall, GridPosition gridPosition)
         {
-            if (_activeBalls.Any(b => b.Model.GridX == gridX && b.Model.GridY == gridY))
+            if (_activeBalls.Any(b => b.Model.GridX == gridPosition.X && b.Model.GridY == gridPosition.Y))
             {
-                Debug.Log("**** Overlapping at position : " + gridX + ", " + gridY);
+                Debug.Log("**** Overlapping at position : " + gridPosition.X + ", " + gridPosition.Y);
             }
 
             var ballModel = newBall.Model;
-            ballModel.GridX = gridX;
-            ballModel.GridY = gridY;
+            ballModel.GridX = gridPosition.X;
+            ballModel.GridY = gridPosition.Y;
             return ballModel;
         }
 
@@ -147,22 +148,7 @@ namespace Assets.Scripts.Balls
 
         private void UpdateGrid(IBallController ballController, int gridX, int gridY)
         {
-            var center = ballController;
-
-            var north = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY + 1));
-            var south = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX, gridY - 1));
-            var east = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX + 1, gridY));
-            var west = _activeBalls.FirstOrDefault(b => b.IsAtGrid(gridX - 1, gridY));
-
-            center.Model.East = east;
-            center.Model.West = west;
-            center.Model.North = north;
-            center.Model.South = south;
-
-            if (east != null) east.Model.West = center;
-            if (west != null) west.Model.East = center;
-            if (north != null) north.Model.South = center;
-            if (south != null) south.Model.North = center;
+            _ballNeighborLocator.SetNeighbors(gridX, gridY, ballController, _activeBalls);
         }
 
 
@@ -175,16 +161,6 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private static void ClearNeighbors(IBallController ballController)
-        {
-            var ballModel = ballController.Model;
-            if (ballModel != null)
-            {
-                ballModel.ClearNeighbors();
-                ballController.Model = null;
-            }
-        }
-
         public void Remove(GameObject gameObject)
         {
             var ballController = gameObject.GetComponent<BallController>();
@@ -194,11 +170,8 @@ namespace Assets.Scripts.Balls
                              ballModel.Type;
             Logging.Instance.Log(LogLevel.Debug, logMessage);
 
-            ClearNeighbors(ballController);
-
             _activeBalls.Remove(ballController);
             _ballFactory.Recycle(gameObject);
         }
-
     }
 }

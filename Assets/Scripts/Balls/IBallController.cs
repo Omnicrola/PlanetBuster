@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Models;
 using UnityEngine;
@@ -20,5 +21,11 @@ namespace Assets.Scripts.Balls
         Sprite CurrentBallSprite { get; }
         Quaternion Rotation { get; set; }
         float Hitpoints { get; set; }
+
+        List<IBallController> North { get; }
+        List<IBallController> South { get; }
+        List<IBallController> East { get; }
+        List<IBallController> West { get; }
+        List<IBallController> AllNeighbors { get; }
     }
 }

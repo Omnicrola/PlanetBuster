@@ -1,4 +1,7 @@
-﻿namespace Assets.Scripts.Util
+﻿using System.Collections.Generic;
+using Assets.Scripts.Balls;
+
+namespace Assets.Scripts.Util
 {
     public abstract class DirtyBehavior<T> : UnityBehavior
     {

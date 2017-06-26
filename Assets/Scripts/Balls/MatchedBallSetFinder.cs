@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Models;
 using UnityEngine;
 
@@ -20,10 +21,11 @@ namespace Assets.Scripts.Balls
         private void WalkPath(BallPath ballPath, IBallController ballController)
         {
             var targetType = ballController.Model.Type;
-            CheckForType(ballPath, targetType, ballController.Model.North);
-            CheckForType(ballPath, targetType, ballController.Model.South);
-            CheckForType(ballPath, targetType, ballController.Model.East);
-            CheckForType(ballPath, targetType, ballController.Model.West);
+            var nextSteps = ballController.AllNeighbors;
+            foreach (var singleStep in nextSteps)
+            {
+                CheckForType(ballPath, targetType, singleStep);
+            }
         }
 
         private void CheckForType(BallPath ballPath, int targetType, IBallController potentialStep)
@@ -32,13 +34,14 @@ namespace Assets.Scripts.Balls
             {
                 return;
             }
+
             var row = potentialStep.Model.GridY;
 
             if (!ballsAlreadyChecked.ContainsKey(row))
             {
                 ballsAlreadyChecked[row] = new List<IBallController>();
             }
-            if (ballsAlreadyChecked[row].Contains(potentialStep))
+            if (ballsAlreadyChecked[row].Contains((IBallController)potentialStep))
             {
                 return;
             }

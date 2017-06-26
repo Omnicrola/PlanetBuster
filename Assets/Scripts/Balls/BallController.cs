@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -85,6 +87,14 @@ namespace Assets.Scripts.Balls
             get { return BallSprite.GetComponent<SpriteRenderer>().sprite; }
         }
 
+        public BallController() : base()
+        {
+            North = new List<IBallController>();
+            South = new List<IBallController>();
+            East = new List<IBallController>();
+            West = new List<IBallController>();
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -100,33 +110,8 @@ namespace Assets.Scripts.Balls
                 PowerGemSprite.SetActive(Model.HasPowerGem);
                 DamageSprite.SetActive(Model.Magnitude != BallMagnitude.Standard);
 
-                var scale = GetScale(Model.Magnitude);
-                if (scale > 1)
-                {
-                    gameObject.transform.localScale = _baseScale * scale;
-                }
-            }
-        }
-
-
-        private float GetScale(BallMagnitude magnitude)
-        {
-            switch (magnitude)
-            {
-                case BallMagnitude.Standard:
-                    return 1f;
-                    break;
-                case BallMagnitude.Medium:
-                    return 2f;
-                    break;
-                case BallMagnitude.Large:
-                    return 3f;
-                    break;
-                case BallMagnitude.Huge:
-                    return 4f;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("magnitude", magnitude, null);
+                var scale = Model.Magnitude.GetScale();
+                gameObject.transform.localScale = _baseScale * scale;
             }
         }
 
@@ -160,8 +145,41 @@ namespace Assets.Scripts.Balls
             return Model.GridX == gridX && Model.GridY == gridY;
         }
 
+
+        public List<IBallController> North { get; private set; }
+        public List<IBallController> South { get; private set; }
+        public List<IBallController> East { get; private set; }
+        public List<IBallController> West { get; private set; }
+
+        public List<IBallController> AllNeighbors
+        {
+            get
+            {
+                var ballControllers = new List<IBallController>();
+                ballControllers.AddRange(North);
+                ballControllers.AddRange(South);
+                ballControllers.AddRange(East);
+                ballControllers.AddRange(West);
+                return ballControllers;
+            }
+        }
+
+        private void ClearNeighbors()
+        {
+            North.ForEach(n => n.South.Remove(this));
+            South.ForEach(n => n.North.Remove(this));
+            East.ForEach(n => n.West.Remove(this));
+            West.ForEach(n => n.East.Remove(this));
+
+            North.Clear();
+            South.Clear();
+            East.Clear();
+            West.Clear();
+        }
+
         public void ResetBall()
         {
+            ClearNeighbors();
             IsProjectile = false;
             Active = false;
             Model = null;

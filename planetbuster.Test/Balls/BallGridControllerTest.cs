@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
 using NSubstitute;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -16,6 +17,7 @@ namespace planetbuster.Test.Balls
         private BallGridController _ballGridController;
         private IBallFactory _mockBallFactory;
         private IBallGrid _mockBallGrid;
+        private IBallGridPositionCalculator _gridPositionCalculator;
 
         [SetUp]
         public void Setup()
@@ -23,7 +25,8 @@ namespace planetbuster.Test.Balls
             UseSubstitueGameManager();
             _mockBallFactory = Substitute.For<IBallFactory>();
             _mockBallGrid = Substitute.For<IBallGrid>();
-            _ballGridController = new BallGridController(_mockBallFactory, _mockBallGrid);
+            _gridPositionCalculator = Substitute.For<IBallGridPositionCalculator>();
+            _ballGridController = new BallGridController(_mockBallFactory, _mockBallGrid, _gridPositionCalculator);
         }
 
         [Test]
@@ -33,25 +36,6 @@ namespace planetbuster.Test.Balls
             _mockBallGrid.Received().Clear();
         }
 
-        [Test]
-        public void TestGenerate()
-        {
-            var ball1 = CreateSubstitueBall(0, 0, 0);
-            var ball2 = CreateSubstitueBall(0, 1, 0);
-            var ball3 = CreateSubstitueBall(0, 0, 1);
-            var ball4 = CreateSubstitueBall(0, 1, 1);
-
-            _mockBallGrid.Size.Returns(2);
-            _mockBallFactory.GenerateBall(0, 0).Returns(ball1);
-            _mockBallFactory.GenerateBall(1, 0).Returns(ball2);
-            _mockBallFactory.GenerateBall(0, 1).Returns(ball3);
-            _mockBallFactory.GenerateBall(1, 1).Returns(ball4);
-
-            _ballGridController.Generate(null);
-
-            var expectedBalls = new List<IBallController> { ball1, ball3, ball2, ball4 };
-            _mockBallGrid.Received().Initialize(Matchers.EqualCollections(expectedBalls));
-        }
         [Test]
         [TestCase(45, 6, 5)]
         [TestCase(134.999f, 6, 5)]
@@ -68,7 +52,7 @@ namespace planetbuster.Test.Balls
             var ballCollisionEventArgs = new BallCollisionEventArgs(incomingBall, ballInGrid, angleOfImpact);
             _ballGridController.CallPrivateMethod("OnBallCollision", ballCollisionEventArgs);
 
-            _mockBallGrid.Received().Append(incomingBall, expectedX, expectedY);
+            _mockBallGrid.Received().Append(incomingBall, new GridPosition(expectedX, expectedY));
         }
     }
 }

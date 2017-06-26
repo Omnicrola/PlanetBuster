@@ -14,7 +14,7 @@ namespace planetbuster.Test.Balls
     [TestFixture]
     public class BallGridTest : TestBase
     {
-        private BallFactory _ballFactory;
+        private IBallFactory _ballFactory;
         private BallGrid _ballGrid;
         private IGameManager _useSubstitueGameManager;
 
@@ -23,8 +23,8 @@ namespace planetbuster.Test.Balls
         {
             UseSubstituteLogging();
             _useSubstitueGameManager = UseSubstitueGameManager();
-            _ballFactory = Substitute.For<BallFactory>(null, null, 0, null);
-            _ballGrid = new BallGrid(3, _ballFactory, new OrphanedBallFinder(), null);
+            _ballFactory = Substitute.For<IBallFactory>();
+            _ballGrid = new BallGrid(3, _ballFactory, new OrphanedBallFinder(), null, new BallNeighborLocator());
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace planetbuster.Test.Balls
             var newBall = CreateSubstitueBall(5, int.MaxValue, int.MaxValue);
 
             _ballGrid.Initialize(new List<IBallController> { ball1, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9 });
-            _ballGrid.Append(newBall, 1, -1);
+            _ballGrid.Append(newBall, new GridPosition(1, -1));
 
             Assert.AreEqual(10, _ballGrid.ActiveBalls);
 
@@ -109,10 +109,11 @@ namespace planetbuster.Test.Balls
 
         private void AssertNeighbors(IBallController centerBall, IBallController north, IBallController south, IBallController east, IBallController west)
         {
-            Assert.AreEqual(north, centerBall.Model.North);
-            Assert.AreEqual(south, centerBall.Model.South);
-            Assert.AreEqual(east, centerBall.Model.East);
-            Assert.AreEqual(west, centerBall.Model.West);
+
+            Assert.Contains(north, centerBall.North);
+            Assert.Contains(south, centerBall.South);
+            Assert.Contains(east, centerBall.East);
+            Assert.Contains(west, centerBall.West);
         }
     }
 }
