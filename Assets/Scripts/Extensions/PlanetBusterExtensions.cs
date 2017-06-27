@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Extensions
@@ -52,6 +53,17 @@ namespace Assets.Scripts.Extensions
                 default:
                     throw new ArgumentOutOfRangeException("magnitude", magnitude, null);
             }
+        }
+
+        public static IBallController GetFromPosition(this IBallController[,] ballArray, GridPosition gridPosition)
+        {
+            var isInWidthBounds = gridPosition.X >= 0 && gridPosition.X < ballArray.GetLength(0);
+            var isInHeightBounds = gridPosition.Y >= 0 && gridPosition.Y < ballArray.GetLength(1);
+            if (isInWidthBounds && isInHeightBounds)
+            {
+                return ballArray[gridPosition.X, gridPosition.Y];
+            }
+            return null;
         }
     }
 }

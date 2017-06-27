@@ -14,7 +14,7 @@ namespace Assets.Scripts.Scorekeeping
             CurrentScore += orphanedBalls.Count * GameConstants.ScorePerBall * 2;
         }
 
-        public void ScoreMatch(IBallPath ballPath)
+        public void ScoreMatch(List<IBallController> ballPath)
         {
             var ballCount = ballPath.Count;
             CurrentScore += ballCount * GameConstants.ScorePerBall;

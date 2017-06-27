@@ -49,17 +49,13 @@ namespace Assets.Scripts.Util
 
         private void SendDebugText(IBallController newController)
         {
-            var north = newController.North.Any() ? newController.North.Count.ToString() : "None";
-            var south = newController.South.Any() ? newController.South.Count.ToString() : "None";
-            var east = newController.East.Any() ? newController.East.Count.ToString() : "None";
-            var west = newController.West.Any() ? newController.West.Count.ToString() : "None";
-            //var north = newController.North.Any() ? newController.North.Select(c => "(" + c.Model.GridX + "," + c.Model.GridY + ")").Aggregate((s, e) => " ") : "None";
-            //            var south = newController.South.Any() ? newController.South.Select(c => "(" + c.Model.GridX + "," + c.Model.GridY + ")").Aggregate((s, e) => " ") : "None";
-            //            var east = newController.East.Any() ? newController.East.Select(c => "(" + c.Model.GridX + "," + c.Model.GridY + ")").Aggregate((s, e) => " ") : "None";
-            //            var west = newController.West.Any() ? newController.West.Select(c => "(" + c.Model.GridX + "," + c.Model.GridY + ")").Aggregate((s, e) => " ") : "None";
+            //            var north = newController.North.Any() ? newController.North.Count.ToString() : "None";
+            //            var south = newController.South.Any() ? newController.South.Count.ToString() : "None";
+            //            var east = newController.East.Any() ? newController.East.Count.ToString() : "None";
+            //            var west = newController.West.Any() ? newController.West.Count.ToString() : "None";
 
-            var text = " N:" + north + "\nS:" + south + "\nE:" + east + "\nW:" + west;
-            GameManager.Instance.EventBus.Broadcast(new DebugEventArgs("Neighbors", text));
+            //            var text = " N:" + north + "\nS:" + south + "\nE:" + east + "\nW:" + west;
+            //            GameManager.Instance.EventBus.Broadcast(new DebugEventArgs("Neighbors", text));
         }
 
         private void SetHighlights(IBallController controller)
@@ -70,23 +66,23 @@ namespace Assets.Scripts.Util
             }
             else
             {
-                if (controller.AllNeighbors.None())
-                {
-                    SetObjectColor(controller.gameObject, Color.yellow);
-                }
-                SetHighlight(controller.North);
-                SetHighlight(controller.South);
-                SetHighlight(controller.East);
-                SetHighlight(controller.West);
+                //                if (controller.AllNeighbors.None())
+                //                {
+                //                    SetObjectColor(controller.gameObject, Color.yellow);
+                //                }
+                //                SetHighlight(controller.North);
+                //                SetHighlight(controller.South);
+                //                SetHighlight(controller.East);
+                //                SetHighlight(controller.West);
             }
         }
 
         private void RemoveHighlights(IBallController ballController)
         {
-            RemoveHightlight(ballController.North);
-            RemoveHightlight(ballController.South);
-            RemoveHightlight(ballController.East);
-            RemoveHightlight(ballController.West);
+            //            RemoveHightlight(ballController.North);
+            //            RemoveHightlight(ballController.South);
+            //            RemoveHightlight(ballController.East);
+            //            RemoveHightlight(ballController.West);
         }
 
         private void SetHighlight(List<IBallController> ballsToHightlight)

@@ -27,7 +27,7 @@ namespace Assets.Scripts.Balls
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             _ballFactory = new BallFactory(simpleObjectPool, Ceiling, Offset, Spacing, BallTypes);
             var orphanedBallFinder = new OrphanedBallFinder();
-            var ballGrid = new BallGrid(GridSize, _ballFactory, orphanedBallFinder, gameObject, new BallNeighborLocator());
+            var ballGrid = new BallGrid(_ballFactory, orphanedBallFinder, gameObject);
             _ballGridController = new BallGridController(_ballFactory, ballGrid, new BallGridPositionCalculator());
         }
 

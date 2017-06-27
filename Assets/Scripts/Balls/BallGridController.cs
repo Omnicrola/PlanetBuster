@@ -47,14 +47,7 @@ namespace Assets.Scripts.Balls
 
         public void Generate(LevelSummary currentLevel)
         {
-            var newBalls = new List<IBallController>();
-            foreach (var ballData in currentLevel.BallData)
-            {
-                var newBall = _ballFactory.GenerateBall(ballData);
-                newBalls.Add(newBall);
-            }
-
-            _ballGrid.Initialize(newBalls);
+            _ballGrid.Initialize(currentLevel.BallData);
         }
 
         private void OnBallCollision(BallCollisionEventArgs e)
@@ -68,7 +61,7 @@ namespace Assets.Scripts.Balls
 
         private void OnBallDestroyed(BallDestroyEventArgs obj)
         {
-            _ballGrid.Remove(obj.BallController.gameObject);
+            _ballGrid.Remove(obj.BallController.GridPosition);
             if (_ballGrid.ActiveBalls == 0)
             {
                 GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.Win));

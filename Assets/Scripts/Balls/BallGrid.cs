@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -12,13 +13,14 @@ namespace Assets.Scripts.Balls
 {
     public class BallGrid : IBallGrid
     {
+        private const int GRID_WIDTH = 11;
+        private const int GRID_HEIGHT = 100;
+
         private readonly IBallFactory _ballFactory;
 
-        private readonly List<IBallController> _activeBalls;
         private readonly MatchedBallSetFinder _matchedBallSetFinder;
         private readonly OrphanedBallFinder _orphanedBallFinder;
         private readonly GameObject _ballContainer;
-        private readonly BallNeighborLocator _ballNeighborLocator;
 
         public int Size { private set; get; }
 
@@ -36,54 +38,68 @@ namespace Assets.Scripts.Balls
         {
             get
             {
-                if (_activeBalls.Any())
+                for (int x = 0; x < GRID_WIDTH; x++)
                 {
-                    return _activeBalls.OrderBy(b => b.Position.y).First().Position.y;
+                    for (int y = GRID_HEIGHT - 1; y <= 0; y--)
+                    {
+                        if (_ballArray[x, y] != null)
+                        {
+                            return _ballArray[x, y].Position.y;
+                        }
+                    }
                 }
                 return 0f;
             }
         }
 
-        public BallGrid(int gridSize, IBallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
-            GameObject ballContainer, BallNeighborLocator ballNeighborLocator)
+        private readonly IBallController[,] _ballArray = new IBallController[GRID_WIDTH, GRID_HEIGHT];
+        private List<IBallController> _activeBalls;
+
+        public BallGrid(IBallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
+            GameObject ballContainer)
         {
             _ballFactory = ballFactory;
-            Size = gridSize;
-            _activeBalls = new List<IBallController>(gridSize * gridSize);
+            _activeBalls = new List<IBallController>(GRID_WIDTH * GRID_HEIGHT);
             _matchedBallSetFinder = new MatchedBallSetFinder();
             _orphanedBallFinder = orphanedBallFinder;
             _ballContainer = ballContainer;
-            _ballNeighborLocator = ballNeighborLocator;
+        }
+
+
+        public void Initialize(List<BallLevelData> ballsToCreate)
+        {
+            foreach (var ballData in ballsToCreate)
+            {
+                var newBall = _ballFactory.GenerateBall(ballData);
+
+                AddBallToGrid(newBall, new GridPosition(ballData.XPos, ballData.YPos));
+            }
         }
 
         public void Append(IBallController newBall, GridPosition gridPosition)
         {
-            var ballModel = SetBallPosition(newBall, gridPosition);
-            LogAppend(ballModel);
-
-            AddBallToGrid(newBall);
-            HandleMatches(newBall);
+            AddBallToGrid(newBall, gridPosition);
+            HandleMatches(gridPosition);
             HandleOrphanedBalls();
             CheckForWin();
         }
 
-        private BallModel SetBallPosition(IBallController newBall, GridPosition gridPosition)
+        private void AddBallToGrid(IBallController newBall, GridPosition gridPosition)
         {
-            if (_activeBalls.Any(b => b.Model.GridX == gridPosition.X && b.Model.GridY == gridPosition.Y))
+            if (_ballArray[gridPosition.X, gridPosition.Y] != null)
             {
                 Debug.Log("**** Overlapping at position : " + gridPosition.X + ", " + gridPosition.Y);
             }
 
-            var ballModel = newBall.Model;
-            ballModel.GridX = gridPosition.X;
-            ballModel.GridY = gridPosition.Y;
-            return ballModel;
-        }
+            _ballArray[gridPosition.X, gridPosition.Y] = newBall;
+            _activeBalls.Add(newBall);
 
-        private void LogAppend(BallModel ballModel)
-        {
             Logging.Instance.Log(LogLevel.Debug,
-                string.Format("Appending to grid : {0},{1} type: {2}", ballModel.GridX, ballModel.GridY, ballModel.Type));
+                string.Format("Appending to grid : {0},{1} type: {2}", gridPosition.X, gridPosition.Y,
+                    newBall.Model.Type));
+
+            var worldPosition = _ballFactory.GetGridPosition(gridPosition.X, gridPosition.Y);
+            newBall.SetActiveInGrid(gridPosition, worldPosition, _ballContainer.transform);
         }
 
         private void CheckForWin()
@@ -94,84 +110,62 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public void Initialize(List<IBallController> newBalls)
+
+        private void HandleMatches(GridPosition gridPosition)
         {
-            foreach (var newBall in newBalls)
-            {
-                AddBallToGrid(newBall);
-            }
-        }
-
-
-        private void AddBallToGrid(IBallController newBall)
-        {
-            var ballModel = newBall.Model;
-            _activeBalls.Add(newBall);
-
-            newBall.gameObject.transform.SetParent(_ballContainer.transform);
-            newBall.IsProjectile = false;
-            newBall.Position = _ballFactory.GetGridPosition(ballModel.GridX, ballModel.GridY);
-            newBall.Rotation = Quaternion.identity;
-
-            UpdateGrid(newBall, ballModel.GridX, ballModel.GridY);
-        }
-
-        private void HandleMatches(IBallController ballController)
-        {
-            var ballPath = _matchedBallSetFinder.FindPath(ballController);
+            var ballPath = _matchedBallSetFinder.FindPath(gridPosition, _ballArray);
             if (ballPath.Count >= GameConstants.MinimumMatchNumber)
             {
                 GameManager.Instance.EventBus.Broadcast(new BallGridMatchArgs(ballPath));
                 foreach (var ball in ballPath)
                 {
-                    Remove(ball.gameObject);
+                    Remove(ball.GridPosition);
                 }
             }
         }
 
         public void HandleOrphanedBalls()
         {
-            if (_activeBalls.Any())
+            var orphanedBallsPositions = _orphanedBallFinder.Find(_ballArray);
+
+            if (orphanedBallsPositions.Count > 0)
             {
-                List<IBallController> orphanedBalls = _orphanedBallFinder.Find(_activeBalls.ToList());
-
-                if (orphanedBalls.Count > 0)
-                {
-                    GameManager.Instance.EventBus.Broadcast(new OrphanedBallsEventArgs(orphanedBalls));
-                }
-                foreach (var orphanedBall in orphanedBalls)
-                {
-                    Remove(orphanedBall.gameObject);
-                }
+                var orphanedBalls = orphanedBallsPositions.Select(p => _ballArray.GetFromPosition(p)).ToList();
+                GameManager.Instance.EventBus.Broadcast(new OrphanedBallsEventArgs(orphanedBalls));
             }
-        }
-
-        private void UpdateGrid(IBallController ballController, int gridX, int gridY)
-        {
-            _ballNeighborLocator.SetNeighbors(gridX, gridY, ballController, _activeBalls);
+            foreach (var orphanedBall in orphanedBallsPositions)
+            {
+                Remove(orphanedBall);
+            }
         }
 
 
         public void Clear()
         {
-            var activeCopy = _activeBalls.ToList();
-            foreach (var ballController in activeCopy)
+            for (int x = 0; x < GRID_WIDTH; x++)
             {
-                Remove(ballController.gameObject);
+                for (int y = 0; y < GRID_HEIGHT; y++)
+                {
+                    Remove(new GridPosition(x, y));
+                }
             }
+            _activeBalls.Clear();
         }
 
-        public void Remove(GameObject gameObject)
+        public void Remove(GridPosition gridPosition)
         {
-            var ballController = gameObject.GetComponent<BallController>();
-            ballController.gameObject.transform.SetParent(null);
-            var ballModel = ballController.Model;
-            var logMessage = "Removing ball from grid: " + ballModel.GridX + ", " + ballModel.GridY + " type:" +
-                             ballModel.Type;
-            Logging.Instance.Log(LogLevel.Debug, logMessage);
+            var controller = _ballArray[gridPosition.X, gridPosition.Y];
+            if (controller != null)
+            {
+                var logMessage = "Removing ball from grid: " + gridPosition.X + ", " + gridPosition.Y + " type:" +
+                                 controller.Model.Type;
+                Logging.Instance.Log(LogLevel.Debug, logMessage);
 
-            _activeBalls.Remove(ballController);
-            _ballFactory.Recycle(gameObject);
+                _activeBalls.Remove(controller);
+                controller.SetInactiveInGrid();
+                _ballFactory.Recycle(controller.gameObject);
+                _ballArray[gridPosition.X, gridPosition.Y] = null;
+            }
         }
     }
 }

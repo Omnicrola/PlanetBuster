@@ -19,13 +19,10 @@ namespace Assets.Scripts.Balls
 
         Vector3 Position { get; set; }
         Sprite CurrentBallSprite { get; }
-        Quaternion Rotation { get; set; }
         float Hitpoints { get; set; }
 
-        List<IBallController> North { get; }
-        List<IBallController> South { get; }
-        List<IBallController> East { get; }
-        List<IBallController> West { get; }
-        List<IBallController> AllNeighbors { get; }
+        GridPosition GridPosition { get; }
+        void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform);
+        void SetInactiveInGrid();
     }
 }

@@ -59,16 +59,12 @@ namespace Assets.Scripts.Balls
             }
         }
 
+        public GridPosition GridPosition { get; private set; }
+
         public Vector3 Position
         {
             get { return transform.position; }
             set { transform.position = value; }
-        }
-
-        public Quaternion Rotation
-        {
-            get { return transform.rotation; }
-            set { transform.rotation = value; }
         }
 
         public float Hitpoints
@@ -85,14 +81,6 @@ namespace Assets.Scripts.Balls
         public Sprite CurrentBallSprite
         {
             get { return BallSprite.GetComponent<SpriteRenderer>().sprite; }
-        }
-
-        public BallController() : base()
-        {
-            North = new List<IBallController>();
-            South = new List<IBallController>();
-            East = new List<IBallController>();
-            West = new List<IBallController>();
         }
 
         protected override void Start()
@@ -146,40 +134,25 @@ namespace Assets.Scripts.Balls
         }
 
 
-        public List<IBallController> North { get; private set; }
-        public List<IBallController> South { get; private set; }
-        public List<IBallController> East { get; private set; }
-        public List<IBallController> West { get; private set; }
-
-        public List<IBallController> AllNeighbors
+        public void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform)
         {
-            get
-            {
-                var ballControllers = new List<IBallController>();
-                ballControllers.AddRange(North);
-                ballControllers.AddRange(South);
-                ballControllers.AddRange(East);
-                ballControllers.AddRange(West);
-                return ballControllers;
-            }
+            GridPosition = gridPosition;
+            gameObject.transform.SetParent(parentTransform);
+            IsProjectile = false;
+            gameObject.transform.position = worldPosition;
+            gameObject.transform.rotation = Quaternion.identity;
         }
 
-        private void ClearNeighbors()
-        {
-            North.ForEach(n => n.South.Remove(this));
-            South.ForEach(n => n.North.Remove(this));
-            East.ForEach(n => n.West.Remove(this));
-            West.ForEach(n => n.East.Remove(this));
 
-            North.Clear();
-            South.Clear();
-            East.Clear();
-            West.Clear();
+        public void SetInactiveInGrid()
+        {
+            gameObject.transform.SetParent(null);
         }
+
 
         public void ResetBall()
         {
-            ClearNeighbors();
+            GridPosition = GridPosition.Invalid;
             IsProjectile = false;
             Active = false;
             Model = null;
