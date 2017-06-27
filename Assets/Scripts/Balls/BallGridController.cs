@@ -54,7 +54,8 @@ namespace Assets.Scripts.Balls
         {
             if (e.IncomingBall.IsProjectile)
             {
-                var gridPosition = _gridPositionCalculator.FindGridPosition(e.BallInGrid.Model, e.AngleOfImpact);
+                var magnitude = e.BallInGrid.Model.Magnitude;
+                var gridPosition = _gridPositionCalculator.FindGridPosition(e.BallInGrid, magnitude, e.AngleOfImpact);
                 _ballGrid.Append(e.IncomingBall, gridPosition);
             }
         }

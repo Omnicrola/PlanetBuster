@@ -10,12 +10,12 @@ namespace Assets.Scripts.Balls
         const float SOUTH_WEST = 225f;
         const float NORTH_WEST = 315f;
 
-        public GridPosition FindGridPosition(BallModel ballInGrid, float angleOfImpact)
+        public GridPosition FindGridPosition(IBallController ballInGrid, BallMagnitude magnitude, float angleOfImpact)
         {
             int offsetX = 0;
             int offsetY = 0;
 
-            var magnitudeScale = ballInGrid.Magnitude.GetScale();
+            var magnitudeScale = magnitude.GetScale();
 
             if (angleOfImpact >= NORTH_EAST && angleOfImpact < SOUTH_EAST)
             {
@@ -32,7 +32,9 @@ namespace Assets.Scripts.Balls
                 // Left side
                 offsetX = -1;
             }
-            return new GridPosition(ballInGrid.GridX + offsetX, ballInGrid.GridY + offsetY);
+            var gridPosition = ballInGrid.GridPosition;
+
+            return new GridPosition(gridPosition.X + offsetX, gridPosition.Y + offsetY);
         }
     }
 }

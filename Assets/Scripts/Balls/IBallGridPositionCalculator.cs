@@ -4,6 +4,6 @@ namespace Assets.Scripts.Balls
 {
     public interface IBallGridPositionCalculator
     {
-        GridPosition FindGridPosition(BallModel ballInGrid, float angleOfImpact);
+        GridPosition FindGridPosition(IBallController ballInGrid, BallMagnitude magnitude, float angleOfImpact);
     }
 }
