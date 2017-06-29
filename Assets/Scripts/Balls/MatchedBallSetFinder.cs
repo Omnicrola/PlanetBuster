@@ -8,60 +8,63 @@ namespace Assets.Scripts.Balls
 {
     public class MatchedBallSetFinder
     {
-        private Dictionary<int, List<IBallController>> ballsAlreadyChecked;
+        private List<GridPosition> _positionsAlreadyChecked;
 
-        public List<IBallController> FindPath(GridPosition gridPosition, IBallController[,] ballArray)
+        public List<IBallController> FindPath(GridPosition initialPositionToCheckFrom, IBallController[,] ballArray)
         {
-            ballsAlreadyChecked = new Dictionary<int, List<IBallController>>();
-            var ballpath = new List<IBallController>();
+            _positionsAlreadyChecked = new List<GridPosition>();
+            _positionsAlreadyChecked.Add(initialPositionToCheckFrom);
+            var matchedBalls = new List<IBallController>();
 
-            WalkPath(ballpath, gridPosition, ballArray);
-            return ballpath;
+            int targetType = ballArray.GetFromPosition(initialPositionToCheckFrom).Model.Type;
+            AddBallAtPosition(matchedBalls, targetType, initialPositionToCheckFrom, ballArray);
+            return matchedBalls;
         }
 
-        private void WalkPath(List<IBallController> ballPath, GridPosition currentPosition, IBallController[,] ballArray)
+        private void AddBallAtPosition(List<IBallController> matchedBalls, int targetType, GridPosition currentPosition,
+            IBallController[,] ballGrid)
         {
-            var currentBall = ballArray[currentPosition.X, currentPosition.Y];
-            ballPath.Add(currentBall);
-            var targetType = currentBall.Model.Type;
-            var north = ballArray.GetFromPosition(new GridPosition(currentPosition.X, currentPosition.Y + 1));
-            var south = ballArray.GetFromPosition(new GridPosition(currentPosition.X, currentPosition.Y - 1));
-            var east = ballArray.GetFromPosition(new GridPosition(currentPosition.X + 1, currentPosition.Y));
-            var west = ballArray.GetFromPosition(new GridPosition(currentPosition.X - 1, currentPosition.Y));
+            var currentBall = ballGrid[currentPosition.X, currentPosition.Y];
+            matchedBalls.Add(currentBall);
+            var northPosition = new GridPosition(currentPosition.X, currentPosition.Y + 1);
+            var southPosition = new GridPosition(currentPosition.X, currentPosition.Y - 1);
+            var eastPosition = new GridPosition(currentPosition.X + 1, currentPosition.Y);
+            var westPosition = new GridPosition(currentPosition.X - 1, currentPosition.Y);
 
-            CheckForType(ballPath, targetType, currentPosition, north, ballArray);
-            CheckForType(ballPath, targetType, currentPosition, south, ballArray);
-            CheckForType(ballPath, targetType, currentPosition, east, ballArray);
-            CheckForType(ballPath, targetType, currentPosition, west, ballArray);
-
+            CheckPositionForTypeRecursive(matchedBalls, ballGrid, targetType, northPosition);
+            CheckPositionForTypeRecursive(matchedBalls, ballGrid, targetType, southPosition);
+            CheckPositionForTypeRecursive(matchedBalls, ballGrid, targetType, eastPosition);
+            CheckPositionForTypeRecursive(matchedBalls, ballGrid, targetType, westPosition);
         }
 
-        private void CheckForType(List<IBallController> ballPath, int targetType, GridPosition currentPosition, IBallController potentialStep, IBallController[,] ballArray)
+        private void CheckPositionForTypeRecursive(List<IBallController> matchedBalls, IBallController[,] ballGrid,
+            int targetType, GridPosition potentialNextPosition)
         {
-            if (potentialStep == null)
+            if (_positionsAlreadyChecked.Contains(potentialNextPosition))
             {
                 return;
             }
-
-            var row = currentPosition.Y;
-
-            if (!ballsAlreadyChecked.ContainsKey(row))
+            else
             {
-                ballsAlreadyChecked[row] = new List<IBallController>();
+                _positionsAlreadyChecked.Add(potentialNextPosition);
             }
-            if (ballsAlreadyChecked[row].Contains(potentialStep))
+
+            var potentialNextBall = ballGrid.GetFromPosition(potentialNextPosition);
+            if (potentialNextBall == null)
             {
                 return;
             }
-
-            ballsAlreadyChecked[row].Add(potentialStep);
-
-            var ballTypesMatch = potentialStep.Model.Type == targetType;
-            var isNotOversized = potentialStep.Model.Magnitude == BallMagnitude.Standard;
-            if (ballTypesMatch && isNotOversized)
+            else
             {
-                WalkPath(ballPath, currentPosition, ballArray);
+                var typesAreAMatch = targetType == potentialNextBall.Model.Type;
+                var isNotOversized = potentialNextBall.Model.Magnitude == BallMagnitude.Standard;
+                if (typesAreAMatch && isNotOversized)
+                {
+                    AddBallAtPosition(matchedBalls, targetType, potentialNextPosition, ballGrid);
+                }
             }
+
         }
+
     }
 }

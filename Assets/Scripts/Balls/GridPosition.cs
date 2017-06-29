@@ -30,5 +30,10 @@ namespace Assets.Scripts.Balls
                 return (X * 397) ^ Y;
             }
         }
+
+        public override string ToString()
+        {
+            return "GridPosition[" + X + ", " + Y + "]";
+        }
     }
 }
