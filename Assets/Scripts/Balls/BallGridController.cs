@@ -26,7 +26,7 @@ namespace Assets.Scripts.Balls
             _ballGrid = ballGrid;
             _gridPositionCalculator = gridPositionCalculator;
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Subscribe<BallDestroyByGiantLaserEventArgs>(OnBallDestroyed);
             gameEventBus.Subscribe<BallCollisionEventArgs>(OnBallCollision);
         }
 
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Balls
         public void Dispose()
         {
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<BallDestroyByGiantLaserEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<BallCollisionEventArgs>(OnBallCollision);
         }
 
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        private void OnBallDestroyed(BallDestroyEventArgs obj)
+        private void OnBallDestroyed(BallDestroyByGiantLaserEventArgs obj)
         {
             _ballGrid.Remove(obj.BallController.GridPosition);
             if (_ballGrid.ActiveBalls == 0)

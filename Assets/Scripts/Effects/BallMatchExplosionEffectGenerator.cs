@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Effects
 {
-    public class BallMatchExplosionEffect : UnityBehavior
+    public class BallMatchExplosionEffectGenerator : UnityBehavior
     {
         public GameObject FloatingScoreGenerator;
         public GameObject PowerGemEffectGenerator;
@@ -22,7 +22,6 @@ namespace Assets.Scripts.Effects
         {
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
-            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
 
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
             _floatingScoreEffectGenerator = FloatingScoreGenerator.GetComponent<FloatingScoreEffectGenerator>();
@@ -41,12 +40,6 @@ namespace Assets.Scripts.Effects
 
                 delay += SequentialDelay;
             }
-        }
-
-        private void OnBallDestroyed(BallDestroyEventArgs obj)
-
-        {
-            DestroyOneBall(obj.BallController, 0);
         }
 
         private void DestroyOneBall(IBallController ball, float delay)
@@ -72,7 +65,6 @@ namespace Assets.Scripts.Effects
         protected override void OnDestroy()
         {
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
         }
     }

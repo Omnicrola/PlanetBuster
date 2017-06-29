@@ -23,7 +23,7 @@ namespace Assets.Scripts.Scorekeeping
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Subscribe<BallGridMatchArgs>(OnMatchFound);
             gameEventBus.Subscribe<OrphanedBallsEventArgs>(OnOrphansFound);
-            gameEventBus.Subscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Subscribe<BallDestroyByGiantLaserEventArgs>(OnBallDestroyed);
             _scoreKeeper = new Scorekeeper();
         }
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Scorekeeping
             _scoreKeeper.ScoreMatch(e.BallPath);
         }
 
-        private void OnBallDestroyed(BallDestroyEventArgs obj)
+        private void OnBallDestroyed(BallDestroyByGiantLaserEventArgs obj)
         {
             _scoreKeeper.ScoreDestroyedBall();
         }
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Scorekeeping
         {
             var gameEventBus = GameManager.Instance.EventBus;
             gameEventBus.Unsubscribe<BallGridMatchArgs>(OnMatchFound);
-            gameEventBus.Unsubscribe<BallDestroyEventArgs>(OnBallDestroyed);
+            gameEventBus.Unsubscribe<BallDestroyByGiantLaserEventArgs>(OnBallDestroyed);
             gameEventBus.Unsubscribe<OrphanedBallsEventArgs>(OnOrphansFound);
         }
     }

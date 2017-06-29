@@ -29,7 +29,7 @@ namespace Assets.Scripts.Balls.Launcher
                     if (ballController.Hitpoints <= 0)
                     {
                         GameManager.Instance.EventBus.Broadcast(
-                            new BallDestroyEventArgs(ballController));
+                            new BallDestroyByGiantLaserEventArgs(ballController));
                     }
                 }
             }
