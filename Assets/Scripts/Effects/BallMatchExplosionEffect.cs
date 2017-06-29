@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
@@ -43,6 +44,7 @@ namespace Assets.Scripts.Effects
         }
 
         private void OnBallDestroyed(BallDestroyEventArgs obj)
+
         {
             DestroyOneBall(obj.BallController, 0);
         }

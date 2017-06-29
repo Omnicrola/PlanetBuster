@@ -155,7 +155,6 @@ namespace Assets.Scripts.Balls
             GridPosition = GridPosition.Invalid;
             IsProjectile = false;
             Active = false;
-            Model = null;
         }
     }
 }
