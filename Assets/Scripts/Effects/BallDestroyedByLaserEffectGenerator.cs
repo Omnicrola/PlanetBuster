@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -31,9 +32,10 @@ namespace Assets.Scripts.Effects
             newExplosion.transform.position = ballPosition;
 
             var planetSprite = ball.CurrentBallSprite;
+            var magnitudeScale = ball.Model.Magnitude.GetScale();
 
             var ballDestroyEffect = newExplosion.GetComponent<BallDestroyedByLaserEffect>();
-            ballDestroyEffect.RePlayEffect(planetSprite);
+            ballDestroyEffect.RePlayEffect(planetSprite, magnitudeScale);
             _floatingScoreEffectGenerator.ShowScore(GameConstants.ScorePerBall, ballPosition, 0);
         }
 

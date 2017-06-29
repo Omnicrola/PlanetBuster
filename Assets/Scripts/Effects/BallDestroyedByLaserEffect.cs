@@ -33,8 +33,9 @@ namespace Assets.Scripts.Effects
             }
         }
 
-        public void RePlayEffect(Sprite planetSprite)
+        public void RePlayEffect(Sprite planetSprite, float magnitudeScale)
         {
+            gameObject.transform.localScale = new Vector3(magnitudeScale, magnitudeScale, magnitudeScale);
             ResetEffects(planetSprite);
             PlayEffects();
         }
@@ -73,7 +74,7 @@ namespace Assets.Scripts.Effects
 
         public void ResetTest()
         {
-            RePlayEffect(Planet.GetComponent<SpriteRenderer>().sprite);
+            RePlayEffect(Planet.GetComponent<SpriteRenderer>().sprite, 1);
         }
     }
 }

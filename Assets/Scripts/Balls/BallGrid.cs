@@ -54,6 +54,7 @@ namespace Assets.Scripts.Balls
 
         private readonly IBallController[,] _ballArray = new IBallController[GRID_WIDTH, GRID_HEIGHT];
         private List<IBallController> _activeBalls;
+        private readonly BallGridPositionHandler _ballPositionHandler;
 
         public BallGrid(IBallFactory ballFactory, OrphanedBallFinder orphanedBallFinder,
             GameObject ballContainer)
@@ -61,6 +62,7 @@ namespace Assets.Scripts.Balls
             _ballFactory = ballFactory;
             _activeBalls = new List<IBallController>(GRID_WIDTH * GRID_HEIGHT);
             _matchedBallSetFinder = new MatchedBallSetFinder();
+            _ballPositionHandler = new BallGridPositionHandler();
             _orphanedBallFinder = orphanedBallFinder;
             _ballContainer = ballContainer;
         }
@@ -91,7 +93,8 @@ namespace Assets.Scripts.Balls
                 Debug.Log("**** Overlapping at position : " + gridPosition.X + ", " + gridPosition.Y);
             }
 
-            _ballArray[gridPosition.X, gridPosition.Y] = newBall;
+            _ballPositionHandler.AppendAt(_ballArray, newBall, gridPosition);
+
             _activeBalls.Add(newBall);
 
             Logging.Instance.Log(LogLevel.Debug,
@@ -101,6 +104,8 @@ namespace Assets.Scripts.Balls
             var worldPosition = _ballFactory.GetGridPosition(gridPosition.X, gridPosition.Y);
             newBall.SetActiveInGrid(gridPosition, worldPosition, _ballContainer.transform);
         }
+
+
 
         private void CheckForWin()
         {
