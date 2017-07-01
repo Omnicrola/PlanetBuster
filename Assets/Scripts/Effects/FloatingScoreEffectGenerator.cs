@@ -11,6 +11,7 @@ namespace Assets.Scripts.Effects
         public GameObject Container;
         public GameObject Camera;
         public float PositionJitter;
+        public Vector3 PositionOffset;
 
         private SimpleObjectPool _scoreTextPool;
         private Camera _camera;
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Effects
             var newScoreText = _scoreTextPool.GetObjectFromPool();
             var floatingScoreEffect = newScoreText.GetComponent<FloatingScoreEffect>();
 
-            var textPosition = _camera.WorldToScreenPoint(ballPosition);
+            var textPosition = _camera.WorldToScreenPoint(ballPosition + PositionOffset);
             textPosition = textPosition.RandomOffset(PositionJitter);
             floatingScoreEffect.Reset(delay, score, textPosition);
             newScoreText.transform.SetParent(Container.transform);
