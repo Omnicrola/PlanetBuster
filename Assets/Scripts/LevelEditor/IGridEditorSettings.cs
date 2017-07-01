@@ -1,7 +1,10 @@
-﻿namespace Assets.Scripts.LevelEditor
+﻿using Assets.Scripts.Models;
+
+namespace Assets.Scripts.LevelEditor
 {
     public interface IGridEditorSettings
     {
-        LevelData GetExportData();
+        LevelSummary GetExportData();
+        void SetLevelData(LevelSummary levelSummary);
     }
 }

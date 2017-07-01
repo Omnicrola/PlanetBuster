@@ -15,37 +15,37 @@ namespace Assets.Scripts.Core.Levels
         {
             return new List<LevelSummary>
             {
-                new LevelSummary("1")
+                new LevelSummary(1,"1")
                 {
                     IsLocked = false,
                     BallData = BuildLargeLevel()
                 },
-                new LevelSummary("2")
+                new LevelSummary(2,"2")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(2, 0.9f, 0.25f)
                 },
-                new LevelSummary("3")
+                new LevelSummary(3,"3")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(3, 0.9f, 0.25f)
                 },
-                new LevelSummary("4")
+                new LevelSummary(4,"4")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(4, 0.9f, 0.25f)
                 },
-                new LevelSummary("5")
+                new LevelSummary(5,"5")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(5, 0.9f, 0.25f)
                 },
-                new LevelSummary("6")
+                new LevelSummary(6,"6")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(6, 0.9f, 0.25f)
                 },
-                new LevelSummary("7")
+                new LevelSummary(7,"7")
                 {
                     IsLocked = false,
                     BallData = BuildLevel(7, 0.9f, 0.25f)

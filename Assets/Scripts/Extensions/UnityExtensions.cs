@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Random = System.Random;
 
 namespace Assets.Scripts.Extensions
@@ -34,6 +35,17 @@ namespace Assets.Scripts.Extensions
             float y = (float)(random.NextDouble() * maximum * 2) - maximum;
             float z = (float)(random.NextDouble() * maximum * 2) - maximum;
             return new Vector3(x, y, z);
+        }
+
+        public static List<GameObject> GetChildren(this GameObject gameObject)
+        {
+            var gameObjects = new List<GameObject>();
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                var childTransform = gameObject.transform.GetChild(i);
+                gameObjects.Add(childTransform.gameObject);
+            }
+            return gameObjects;
         }
     }
 }

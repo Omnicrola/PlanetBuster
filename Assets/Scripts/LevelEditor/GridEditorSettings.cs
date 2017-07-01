@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Util;
+﻿using System.Linq;
+using Assets.Scripts.Extensions;
+using Assets.Scripts.Models;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.LevelEditor
@@ -9,20 +12,54 @@ namespace Assets.Scripts.LevelEditor
         public string LevelName;
         public int LevelNumber;
 
-        public GridLocation CalculateGridLocation(Transform ballTransform)
+        public LevelSummary GetExportData()
         {
-            int x = (int)ballTransform.position.x;
-            int y = (int)ballTransform.position.y;
-            return new GridLocation(x, y);
+            var ballData = gameObject.GetChildren()
+                .Where(c => c.GetComponent<EditableBall>() != null)
+                .Select(c => c.GetComponent<EditableBall>().Export())
+                .ToList();
+
+            var levelSummary = new LevelSummary(LevelNumber, LevelName)
+            {
+                BallData = ballData
+            };
+            return levelSummary;
         }
 
-        public LevelData GetExportData()
+        public void SetLevelData(LevelSummary levelSummary)
         {
-            return new LevelData()
+            ClearAllChildren();
+
+            var simpleObjectPool = GetComponent<SimpleObjectPool>();
+            LevelNumber = levelSummary.OrdinalNumber;
+            LevelName = levelSummary.LevelNumber;
+            foreach (var ballLevelData in levelSummary.BallData)
             {
-                LevelName = LevelName,
-                Order = LevelNumber
-            };
+                var newBall = simpleObjectPool.GetObjectFromPool();
+                var editableBall = newBall.GetComponent<EditableBall>();
+                editableBall.SetData(ballLevelData);
+                newBall.transform.SetParent(transform);
+            }
         }
+
+        private void ClearAllChildren()
+        {
+            var simpleObjectPool = GetComponent<SimpleObjectPool>();
+            var children = gameObject.GetChildren();
+            foreach (var child in children)
+            {
+                var pooledObject = child.GetComponent<PooledObject>();
+                if (pooledObject != null)
+                {
+                    simpleObjectPool.ReturnObjectToPool(child);
+                }
+                else
+                {
+                    GameObject.Destroy(child);
+                }
+            }
+        }
+
+
     }
 }

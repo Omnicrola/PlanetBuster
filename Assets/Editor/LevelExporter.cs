@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Assets.Scripts;
 using Assets.Scripts.LevelEditor;
 
 namespace Assets.Editor
 {
-    internal class LevelExporter
+    public class LevelExporter
     {
-        private static readonly string ExportPath = "Assets/Resources/Levels/";
 
         private readonly IGridEditorSettings _gridEditorSettings;
 
@@ -19,7 +19,7 @@ namespace Assets.Editor
         public bool Export()
         {
             var levelData = _gridEditorSettings.GetExportData();
-            string filename = ExportPath + levelData.LevelName + ".bin";
+            string filename = GameConstants.Levels.ResourcePath + "level-" + levelData.OrdinalNumber + ".bin";
 
 
             using (var fileStream = File.Open(filename, FileMode.Create))

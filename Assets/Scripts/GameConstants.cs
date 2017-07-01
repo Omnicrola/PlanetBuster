@@ -25,7 +25,7 @@ namespace Assets.Scripts
             public static readonly string MainMenu = "MainMenu";
             public static readonly string LevelBrowser = "LevelBrowser";
             public static readonly string LoadingScene = "LoadingScene";
-            public static readonly string LevelEditor = "LevelEditor";
+            public static readonly string LevelEditor = "_LevelEditor";
         }
 
         public static int ChanceForPowerGems = 20;
@@ -39,6 +39,11 @@ namespace Assets.Scripts
             public static float Medium = 10f;
             public static float Large = 50f;
             public static float Huge = 100f;
+        }
+
+        public class Levels
+        {
+            public static readonly string ResourcePath = "Assets/Resources/Levels/";
         }
     }
 }

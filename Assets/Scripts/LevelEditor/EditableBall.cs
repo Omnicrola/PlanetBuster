@@ -6,17 +6,26 @@ namespace Assets.Scripts.LevelEditor
 {
     public class EditableBall : UnityBehavior
     {
-        public BallExportModel Export()
-        {
-            var gridSettings = GameObject.Find("GridEditorSettings");
-            var gridEditorSettings = gridSettings.GetComponent<GridEditorSettings>();
-            var gridLocation = gridEditorSettings.CalculateGridLocation(transform);
+        public BallType BallType;
+        public BallMagnitude Magnitude;
 
-            var spriteName = GetComponent<SpriteRenderer>().sprite.name;
-            return new BallExportModel(gridLocation)
+        public BallLevelData Export()
+        {
+            int x = (int)transform.position.x;
+            int y = (int)transform.position.y;
+            return new BallLevelData()
             {
-                SpriteName = spriteName
+                BallType = 1,
+                HasPowerGem = false,
+                Magnitude = BallMagnitude.Standard,
+                XPos = x,
+                YPos = y
             };
+        }
+
+        public void SetData(BallLevelData ballLevelData)
+        {
+            transform.position = new Vector3(ballLevelData.XPos, ballLevelData.YPos);
         }
     }
 }

@@ -26,32 +26,16 @@ namespace Assets.Editor
 
         private void RunExport()
         {
-            var levelEditorIsNotTheCurrentScene = SceneManager.GetActiveScene().name !=
-                                                  GameConstants.SceneNames.LevelEditor;
-
-            if (levelEditorIsNotTheCurrentScene)
-            {
-                Debug.LogError("Error : Cannot export from any scene except " + GameConstants.SceneNames.LevelEditor);
-                return;
-            }
-            var gridEditorObject = GameObject.Find("GridEditorSettings");
-            if (gridEditorObject == null)
-            {
-                Debug.LogError("Cannot export, there is no object in scene named : 'GridEditorSettings'");
-                return;
-            }
-            var gridEditorSettings = gridEditorObject.GetComponent<IGridEditorSettings>();
-            if (gridEditorSettings == null)
-            {
-                Debug.LogError("Cannot export, the GridEditorSettings component is not loaded");
-            }
-
-            var levelExporter = new LevelExporter(gridEditorSettings);
-
-            var exportResult = levelExporter.Export();
+            var levelImportExportFactory = new LevelImportExportFactory();
+            var exporter = levelImportExportFactory.CreateExporter();
+            var exportResult = exporter.Export();
             if (exportResult)
             {
                 Debug.Log("Successfully exported level.");
+            }
+            else
+            {
+                Debug.LogWarning("Export failed!");
             }
         }
     }
