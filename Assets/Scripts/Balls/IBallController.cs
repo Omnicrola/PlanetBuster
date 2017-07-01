@@ -14,7 +14,6 @@ namespace Assets.Scripts.Balls
 
         GameObject gameObject { get; }
         void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
-        bool IsAtGrid(int gridX, int gridY);
         void ResetBall();
 
         Vector3 Position { get; set; }

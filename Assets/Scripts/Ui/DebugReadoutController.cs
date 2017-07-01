@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Balls.Launcher;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
 using Assets.Scripts.Util;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Ui
     public class DebugReadoutController : UnityBehavior
     {
         public GameObject TextReadout;
+        public GameObject GiantLaser;
 
         private readonly Dictionary<string, string> debugValues = new Dictionary<String, String>();
         private Text _debugText;
@@ -52,6 +54,11 @@ namespace Assets.Scripts.Ui
         {
             return debugValues.Select((k, v) => k + ": " + v)
                 .Aggregate((aggregate, element) => aggregate + "\n" + element);
+        }
+
+        public void OnClick_FullyChargeLaser()
+        {
+            GiantLaser.GetComponent<GiantLaserController>().ChargeLevel = 1f;
         }
     }
 

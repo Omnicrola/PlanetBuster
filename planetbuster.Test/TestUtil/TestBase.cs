@@ -69,9 +69,8 @@ namespace planetbuster.Test.TestUtil
         protected static IBallController CreateSubstitueBall(int type, int x, int y)
         {
             var ball1 = Substitute.For<IBallController>();
-            ball1.IsAtGrid(x, y).Returns(true);
             ball1.GridPosition.Returns(new GridPosition(x, y));
-            var ballModel = new BallModel(x, y)
+            var ballModel = new BallModel()
             {
                 Type = type
             };

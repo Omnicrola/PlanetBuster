@@ -128,11 +128,6 @@ namespace Assets.Scripts.Balls
             rigidBody.velocity = trajectory * projectileSpeed;
         }
 
-        public bool IsAtGrid(int gridX, int gridY)
-        {
-            return Model.GridX == gridX && Model.GridY == gridY;
-        }
-
 
         public void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform)
         {

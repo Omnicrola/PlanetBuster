@@ -3,6 +3,7 @@ namespace Assets.Scripts.Balls
     public struct GridPosition
     {
         public static readonly GridPosition Invalid = new GridPosition(-1, -1);
+        public static readonly GridPosition Zero = new GridPosition(0, 0);
         public int X;
         public int Y;
 

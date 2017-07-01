@@ -73,9 +73,9 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public IBallController GenerateBall(int gridX, int gridY)
+        public IBallController GenerateBall(GridPosition gridPosition)
         {
-            var ballController = _ballFactory.GenerateBall(gridX, gridY);
+            var ballController = _ballFactory.GenerateBall(gridPosition);
             bool chanceForPower = _random.Next(100) < GameConstants.ChanceForPowerGems;
             if (chanceForPower)
             {
@@ -94,6 +94,13 @@ namespace Assets.Scripts.Balls
         {
             var typesActive = _ballGrid.TypesLeftActive;
             return typesActive[random.Next(typesActive.Length - 1)];
+        }
+
+        public void StickBallToCeiling(IBallController incomingBall)
+        {
+            var gridPosition = _ballFactory.GetGridPositionFromWorldPosition(incomingBall.Position);
+            Debug.Log("Sticking ball to ceiling at : " + incomingBall.Position + " -> " + gridPosition);
+            _ballGrid.Append(incomingBall, gridPosition);
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Assets.Scripts.Balls
                 string.Format("Appending to grid : {0},{1} type: {2}", gridPosition.X, gridPosition.Y,
                     newBall.Model.Type));
 
-            var worldPosition = _ballFactory.GetGridPosition(gridPosition.X, gridPosition.Y);
+            var worldPosition = _ballFactory.GetWorldPositionFromGrid(gridPosition);
             newBall.SetActiveInGrid(gridPosition, worldPosition, _ballContainer.transform);
         }
 

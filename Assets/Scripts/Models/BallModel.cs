@@ -7,14 +7,10 @@ namespace Assets.Scripts.Models
 {
     public class BallModel
     {
-        public int GridX { get; set; }
-        public int GridY { get; set; }
         public float MaxHitpoints { get; set; }
 
-        public BallModel(int gridX, int gridY)
+        public BallModel()
         {
-            GridX = gridX;
-            GridY = gridY;
         }
 
         public Sprite IconName { get; set; }

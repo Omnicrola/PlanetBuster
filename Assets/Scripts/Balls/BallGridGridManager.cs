@@ -44,10 +44,14 @@ namespace Assets.Scripts.Balls
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
 
+        public void StickBallToCeiling(IBallController incomingBall)
+        {
+            _ballGridController.StickBallToCeiling(incomingBall);
+        }
 
         public IBallController GenerateBall()
         {
-            return _ballGridController.GenerateBall(0, 0);
+            return _ballGridController.GenerateBall(new GridPosition());
         }
 
         public GameObject GenerateBall(int type)

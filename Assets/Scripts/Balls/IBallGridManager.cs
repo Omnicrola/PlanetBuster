@@ -10,5 +10,6 @@ namespace Assets.Scripts.Balls
         Sprite GetBallSpriteOfType(int type);
         void StartNewLevel();
         float LowestBallPosition { get; }
+        void StickBallToCeiling(IBallController gameObject);
     }
 }

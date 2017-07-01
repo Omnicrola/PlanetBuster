@@ -41,7 +41,7 @@ namespace Assets.Scripts.Util
             {
                 var hasModel = _currentController.Model != null;
                 var gridLocation = hasModel
-                    ? _currentController.Model.GridX + ", " + _currentController.Model.GridY
+                    ? _currentController.GridPosition.X + ", " + _currentController.GridPosition.Y
                     : "(n/a)";
                 Debug.Log("ball at : " + gridLocation + " has model : " + hasModel);
             }

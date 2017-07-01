@@ -19,7 +19,7 @@ namespace Assets.Scripts.Balls.Launcher
         private bool _isPrimedToFire;
 
         public bool IsCurrentlyActive { get; set; }
-        public float ChargeLevel { get; private set; }
+        public float ChargeLevel { get; set; }
 
         public bool IsAbleToFire
         {
@@ -62,6 +62,7 @@ namespace Assets.Scripts.Balls.Launcher
                 GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
             }
         }
+
 
         private void OnInputEvent(GameInputEventArgs obj)
         {
