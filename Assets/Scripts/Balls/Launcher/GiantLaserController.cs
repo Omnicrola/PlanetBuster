@@ -110,15 +110,24 @@ namespace Assets.Scripts.Balls.Launcher
         {
             float totalDuration = ChargeLevel / GameConstants.LaserDrainPercentPerSecond;
             GiantLaserBeam.SetActive(true);
+            GiantLaserBeam.GetComponent<GiantLaserBeamController>().PowerUp();
             _audioSource.Play();
-            WaitForSeconds(totalDuration, StopFiring);
 
             Hashtable ht = iTween.Hash(
                 "from", ChargeLevel,
                 "to", 0,
                 "time", totalDuration,
+                "oncomplete", "PowerDownBeam",
                 "onupdate", "DecrementChargeLevel");
             iTween.ValueTo(gameObject, ht);
+        }
+
+        void PowerDownBeam()
+        {
+            GiantLaserBeam.GetComponent<GiantLaserBeamController>().PowerDown();
+            IsCurrentlyActive = false;
+            _audioSource.Stop();
+            ChargeLevel = 0;
         }
 
         void DecrementChargeLevel(float newValue)
@@ -127,12 +136,5 @@ namespace Assets.Scripts.Balls.Launcher
             GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
         }
 
-        private void StopFiring()
-        {
-            GiantLaserBeam.SetActive(false);
-            IsCurrentlyActive = false;
-            _audioSource.Stop();
-            ChargeLevel = 0;
-        }
     }
 }
