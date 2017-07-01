@@ -6,6 +6,7 @@ using Assets.Scripts.Core.Events;
 using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Assets.Scripts.Balls.Launcher
 {
@@ -13,9 +14,15 @@ namespace Assets.Scripts.Balls.Launcher
     {
         public GameObject BeamAnchor;
         public GameObject BeamSprite;
+        public float ScaleAdjustment = 1f;
+
+        public GameObject LaserImpactFx;
+        public GameObject LaserImpactSphere;
         public float Radius = 1.0f;
         public float DamagePerSecond = 1.0f;
-        private bool _isPoweredUp;
+        private bool _isPoweredUp = true;
+
+        private Random _random = new Random();
 
         protected override void Start()
         {
@@ -76,23 +83,41 @@ namespace Assets.Scripts.Balls.Launcher
             var raycastHit2D = Physics2D.CircleCast(gameObject.transform.position, Radius, gameObject.transform.up);
             if (raycastHit2D.collider != null)
             {
-                var ballController = raycastHit2D.collider.gameObject.GetComponent<IBallController>();
-                if (ballController != null)
-                {
-                    ballController.Hitpoints -= DamagePerSecond * Time.deltaTime;
-                    if (ballController.Hitpoints <= 0)
-                    {
-                        GameManager.Instance.EventBus.Broadcast(
-                            new BallDestroyByGiantLaserEventArgs(ballController));
-                    }
-                }
-
-                var distance = raycastHit2D.distance;
-                BeamAnchor.transform.localScale = new Vector3(1, distance, 1);
+                DealDamageToTargetBall(raycastHit2D);
+                AdjustImpactFx(raycastHit2D);
             }
             else
             {
                 BeamAnchor.transform.localScale = new Vector3(1, 20, 1);
+                LaserImpactFx.transform.position = new Vector3(0, 20, 0);
+            }
+        }
+
+        private void AdjustImpactFx(RaycastHit2D raycastHit2D)
+        {
+            var verticalScale = raycastHit2D.distance + 1;
+
+            BeamAnchor.transform.localScale = new Vector3(1, verticalScale * ScaleAdjustment, 1);
+            var impactPosition = new Vector3(raycastHit2D.centroid.x, raycastHit2D.point.y);
+            LaserImpactFx.transform.localPosition = new Vector3(0, verticalScale * .25f + .25f);
+            var angleBetween = Vector3.Angle(impactPosition, raycastHit2D.transform.position);
+            LaserImpactFx.transform.rotation = Quaternion.AngleAxis(angleBetween, Vector3.forward);
+
+            float scale = (float)(_random.NextDouble() * 0.1 + .21);
+            LaserImpactSphere.transform.localScale = new Vector3(scale, scale, scale);
+        }
+
+        private void DealDamageToTargetBall(RaycastHit2D raycastHit2D)
+        {
+            var ballController = raycastHit2D.collider.gameObject.GetComponent<IBallController>();
+            if (ballController != null)
+            {
+                ballController.Hitpoints -= DamagePerSecond * Time.deltaTime;
+                if (ballController.Hitpoints <= 0)
+                {
+                    GameManager.Instance.EventBus.Broadcast(
+                        new BallDestroyByGiantLaserEventArgs(ballController));
+                }
             }
         }
     }
