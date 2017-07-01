@@ -10,6 +10,8 @@ namespace Assets.Scripts.Balls.Launcher
 {
     public class GiantLaserController : UnityBehavior
     {
+        public GameObject Camera;
+        public float ShakeAmount = 1f;
         public GameObject GiantLaserBeam;
         public GameObject BeamChargeupEffect;
         public AudioClip BeamAudio;
@@ -88,6 +90,23 @@ namespace Assets.Scripts.Balls.Launcher
 
 
         private void ActuallyFireLaser()
+        {
+            ShakeCamera();
+            AnimateRecoil();
+            ActivateBeamForDuration();
+        }
+
+        private void ShakeCamera()
+        {
+            iTween.ShakePosition(Camera, new Vector3(ShakeAmount, ShakeAmount, 0), .5f);
+        }
+
+        private void AnimateRecoil()
+        {
+            iTween.PunchPosition(gameObject, new Vector3(0, -1, 0), .5f);
+        }
+
+        private void ActivateBeamForDuration()
         {
             float totalDuration = ChargeLevel / GameConstants.LaserDrainPercentPerSecond;
             GiantLaserBeam.SetActive(true);

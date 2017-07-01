@@ -53,7 +53,7 @@ namespace Assets.Scripts.Effects
                 _particleSystem.Clear();
                 _particleSystem.Play();
                 _hasStarted = false;
-                GetComponent<ParticleAttractorLinear>().target = _targetPosition;
+                GetComponent<ParticleAttractorLinear>().TargetPosition = _targetPosition;
             }
         }
 

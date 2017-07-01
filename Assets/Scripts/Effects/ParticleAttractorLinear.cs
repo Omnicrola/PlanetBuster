@@ -6,9 +6,11 @@ namespace Assets.Scripts.Effects
     [RequireComponent(typeof(ParticleSystem))]
     public class ParticleAttractorLinear : MonoBehaviour
     {
-        public Vector3 target;
+        public Transform Target;
         public float speed = 5f;
         public float attractionDelay = 1f;
+
+        public Vector3 TargetPosition { get; set; }
 
         private ParticleSystem _particleSystem;
         private ParticleSystem.Particle[] _particles;
@@ -25,13 +27,14 @@ namespace Assets.Scripts.Effects
         {
             var totalParticles = _particleSystem.GetParticles(_particles);
             float step = speed * Time.deltaTime;
+            var currentTargetPosition = Target == null ? TargetPosition : Target.position;
             for (int i = 0; i < totalParticles; i++)
             {
                 if (_particles[i].remainingLifetime < _lifetimeThreshold)
                 {
                     var currentPosition = _particles[i].position;
 
-                    var directionToTarget = target - currentPosition;
+                    var directionToTarget = currentTargetPosition - currentPosition;
                     directionToTarget.Normalize();
                     directionToTarget.Scale(new Vector3(step, step, 0));
                     _particles[i].position += directionToTarget;
