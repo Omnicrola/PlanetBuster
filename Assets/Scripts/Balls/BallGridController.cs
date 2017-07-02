@@ -84,13 +84,13 @@ namespace Assets.Scripts.Balls
             return ballController;
         }
 
-        public GameObject GenerateBall(int type)
+        public GameObject GenerateBall(BallType type)
         {
             var newBall = _ballFactory.GenerateBall(type);
             return newBall;
         }
 
-        public int GetNextBallType()
+        public BallType GetNextBallType()
         {
             var typesActive = _ballGrid.TypesLeftActive;
             return typesActive[random.Next(typesActive.Length - 1)];

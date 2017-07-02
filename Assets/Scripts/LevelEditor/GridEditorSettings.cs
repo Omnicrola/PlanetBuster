@@ -57,7 +57,7 @@ namespace Assets.Scripts.LevelEditor
                 }
                 else
                 {
-                    GameObject.Destroy(child);
+                    GameObject.DestroyImmediate(child);
                 }
             }
         }

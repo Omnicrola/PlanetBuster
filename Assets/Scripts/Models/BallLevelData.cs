@@ -7,7 +7,7 @@ namespace Assets.Scripts.Models
     {
         public int XPos { get; set; }
         public int YPos { get; set; }
-        public int BallType { get; set; }
+        public BallType BallType { get; set; }
         public bool HasPowerGem { get; set; }
         public BallMagnitude Magnitude { get; set; }
 
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Models
             {
                 var hashCode = XPos;
                 hashCode = (hashCode * 397) ^ YPos;
-                hashCode = (hashCode * 397) ^ BallType;
+                hashCode = (hashCode * 397) ^ (int)BallType;
                 hashCode = (hashCode * 397) ^ HasPowerGem.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)Magnitude;
                 return hashCode;

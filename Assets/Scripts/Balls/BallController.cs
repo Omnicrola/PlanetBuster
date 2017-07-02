@@ -94,7 +94,7 @@ namespace Assets.Scripts.Balls
         {
             if (_ballSpriteRenderer != null && Model != null)
             {
-                _ballSpriteRenderer.sprite = Model.IconName;
+                _ballSpriteRenderer.sprite = Model.Type.GetSprite();
                 PowerGemSprite.SetActive(Model.HasPowerGem);
                 DamageSprite.SetActive(Model.Magnitude != BallMagnitude.Standard);
 

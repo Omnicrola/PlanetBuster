@@ -16,12 +16,12 @@ namespace Assets.Scripts.Balls
             _positionsAlreadyChecked.Add(initialPositionToCheckFrom);
             var matchedBalls = new List<IBallController>();
 
-            int targetType = ballArray.GetFromPosition(initialPositionToCheckFrom).Model.Type;
+            BallType targetType = ballArray.GetFromPosition(initialPositionToCheckFrom).Model.Type;
             AddBallAtPosition(matchedBalls, targetType, initialPositionToCheckFrom, ballArray);
             return matchedBalls;
         }
 
-        private void AddBallAtPosition(List<IBallController> matchedBalls, int targetType, GridPosition currentPosition,
+        private void AddBallAtPosition(List<IBallController> matchedBalls, BallType targetType, GridPosition currentPosition,
             IBallController[,] ballGrid)
         {
             var currentBall = ballGrid[currentPosition.X, currentPosition.Y];
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Balls
         }
 
         private void CheckPositionForTypeRecursive(List<IBallController> matchedBalls, IBallController[,] ballGrid,
-            int targetType, GridPosition potentialNextPosition)
+            BallType targetType, GridPosition potentialNextPosition)
         {
             if (_positionsAlreadyChecked.Contains(potentialNextPosition))
             {

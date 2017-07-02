@@ -8,9 +8,8 @@ namespace Assets.Scripts.Balls
         IBallController GenerateBall(GridPosition gridPosition);
         IBallController GenerateBall(BallLevelData ballData);
         Vector3 GetWorldPositionFromGrid(GridPosition gridPosition);
-        GameObject GenerateBall(int type);
+        GameObject GenerateBall(BallType type);
         void Recycle(GameObject gameObject);
-        Sprite GetBallSpriteOfType(int type);
         GridPosition GetGridPositionFromWorldPosition(Vector2 worldPosition);
     }
 }

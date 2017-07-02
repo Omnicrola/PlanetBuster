@@ -45,8 +45,8 @@ namespace planetbuster.Test.Balls
         [TestCase(314.999f, 4, 5)]
         public void TestBallCollision(float angleOfImpact, int expectedX, int expectedY)
         {
-            var incomingBall = CreateSubstitueBall(1, int.MaxValue, int.MaxValue);
-            var ballInGrid = CreateSubstitueBall(1, 5, 5);
+            var incomingBall = CreateSubstitueBall(BallType.Blue, int.MaxValue, int.MaxValue);
+            var ballInGrid = CreateSubstitueBall(BallType.Blue, 5, 5);
             incomingBall.IsProjectile.Returns(true);
 
             var ballCollisionEventArgs = new BallCollisionEventArgs(incomingBall, ballInGrid, angleOfImpact);

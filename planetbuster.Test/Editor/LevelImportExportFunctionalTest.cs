@@ -68,7 +68,7 @@ namespace planetbuster.Test.Editor
         {
             return new BallLevelData
             {
-                BallType = _random.Next(0, 100),
+                BallType = (BallType)_random.Next(0, 4),
                 HasPowerGem = _random.Next(0, 100) < 50,
                 Magnitude = BallMagnitude.Large,
                 XPos = _random.Next(0, 1000),

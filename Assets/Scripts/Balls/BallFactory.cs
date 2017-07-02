@@ -15,7 +15,6 @@ namespace Assets.Scripts.Balls
         private readonly Vector2 _offset;
         private readonly float _spacing;
 
-        private readonly Sprite[] _ballTypes;
         private readonly Random _random = new Random(11);
 
         public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset, float spacing,
@@ -25,7 +24,6 @@ namespace Assets.Scripts.Balls
             _ceiling = ceiling;
             _offset = offset;
             _spacing = spacing;
-            _ballTypes = ballTypes;
         }
 
         public IBallController GenerateBall(BallLevelData ballData)
@@ -38,21 +36,18 @@ namespace Assets.Scripts.Balls
 
         public IBallController GenerateBall(GridPosition gridPosition)
         {
-            var type = _random.Next(_ballTypes.Length);
-            return GenerateBall(gridPosition, type, false, BallMagnitude.Standard);
+            return GenerateBall(gridPosition, BallType.Blue, false, BallMagnitude.Standard);
         }
 
-        private IBallController GenerateBall(GridPosition gridPosition, int type, bool hasPowerGem,
+        private IBallController GenerateBall(GridPosition gridPosition, BallType type, bool hasPowerGem,
             BallMagnitude magnitude)
         {
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetWorldPositionFromGrid(gridPosition);
-            var icon = _ballTypes[type];
             var hitpoints = magnitude.GetHitpoints();
             var ballModel = new BallModel()
             {
                 Type = type,
-                IconName = icon,
                 Hitpoints = hitpoints,
                 MaxHitpoints = hitpoints,
                 HasPowerGem = hasPowerGem,
@@ -89,13 +84,12 @@ namespace Assets.Scripts.Balls
         }
 
 
-        public GameObject GenerateBall(int type)
+        public GameObject GenerateBall(BallType type)
         {
             var ballModel = new BallModel()
             {
                 Type = type,
                 Hitpoints = 1,
-                IconName = _ballTypes[type]
             };
             var newBall = _simpleObjectPool.GetObjectFromPool();
             var ballController = newBall.GetComponent<IBallController>();
@@ -111,9 +105,5 @@ namespace Assets.Scripts.Balls
             _simpleObjectPool.ReturnObjectToPool(gameObject);
         }
 
-        public Sprite GetBallSpriteOfType(int type)
-        {
-            return _ballTypes[type];
-        }
     }
 }

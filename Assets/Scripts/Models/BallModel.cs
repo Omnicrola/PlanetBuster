@@ -13,8 +13,7 @@ namespace Assets.Scripts.Models
         {
         }
 
-        public Sprite IconName { get; set; }
-        public int Type { get; set; }
+        public BallType Type { get; set; }
         public bool HasPowerGem { get; set; }
         public float Hitpoints { get; set; }
         public BallMagnitude Magnitude { get; set; }

@@ -16,7 +16,7 @@ namespace Assets.Scripts.LevelEditor
             int y = (int)transform.position.y;
             return new BallLevelData()
             {
-                BallType = 1,
+                BallType = BallType,
                 HasPowerGem = false,
                 Magnitude = BallMagnitude.Standard,
                 XPos = x,
@@ -27,6 +27,8 @@ namespace Assets.Scripts.LevelEditor
         public void SetData(BallLevelData ballLevelData)
         {
             transform.position = new Vector3(ballLevelData.XPos, ballLevelData.YPos);
+            BallType = ballLevelData.BallType;
+            Magnitude = ballLevelData.Magnitude;
         }
 
         protected override void Update()

@@ -1,6 +1,7 @@
 using System;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls.Launcher
@@ -23,7 +24,7 @@ namespace Assets.Scripts.Balls.Launcher
             _ballGridManager = ballGridManager;
         }
 
-        public void Fire(int nextProjectileType, Vector2 inputPosition)
+        public void Fire(BallType nextProjectileType, Vector2 inputPosition)
         {
             var trajectory = CalculateTrajectory(inputPosition);
             var rotation = Quaternion.Euler(0, 0, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg);
@@ -40,7 +41,7 @@ namespace Assets.Scripts.Balls.Launcher
             return trajectory;
         }
 
-        private void FireNextBall(Quaternion rotation, Vector3 trajectory, int nextProjectileType)
+        private void FireNextBall(Quaternion rotation, Vector3 trajectory, BallType nextProjectileType)
         {
 
             var nextProjectile = _ballGridManager.GenerateBall(nextProjectileType);

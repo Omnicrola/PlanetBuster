@@ -69,7 +69,7 @@ namespace Assets.Scripts.Core.Levels
                             XPos = x,
                             YPos = y,
                             HasPowerGem = true,
-                            BallType = random.Next(4),
+                            BallType = (BallType)random.Next(4),
                             Magnitude = BallMagnitude.Standard
                         });
                     }
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Core.Levels
             {
                 XPos = 5,
                 YPos = 3,
-                BallType = 3,
+                BallType = BallType.Blue,
                 Magnitude = BallMagnitude.Medium
             });
             return ballData;
@@ -98,7 +98,7 @@ namespace Assets.Scripts.Core.Levels
                     var occupySlot = random.NextDouble() < densityPercentage;
                     if (occupySlot)
                     {
-                        var ballType = random.Next(4);
+                        BallType ballType = (BallType)random.Next(4);
                         var hasPowerGem = random.NextDouble() < powerGemDensity;
                         ballLevelData.Add(new BallLevelData
                         {

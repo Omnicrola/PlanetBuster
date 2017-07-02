@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,7 +23,7 @@ namespace Assets.Scripts.Balls.Launcher
         public GameObject ParticleEmitter;
 
 
-        private int _nextProjectileType;
+        private BallType _nextProjectileType;
         private ParticleSystem _particleSystem;
         private LauncherFireControlCenter _launcherFireControlCenter;
         private Camera _mainCamera;
@@ -77,7 +78,7 @@ namespace Assets.Scripts.Balls.Launcher
         private void GenerateNextBall()
         {
             _nextProjectileType = _ballGridManager.GetNextBallType();
-            var ballSprite = _ballGridManager.GetBallSpriteOfType(_nextProjectileType);
+            var ballSprite = _nextProjectileType.GetSprite();
 
             NextProjectile.GetComponent<NextBallController>().SetNextBall(ballSprite);
         }

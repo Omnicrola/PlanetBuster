@@ -6,7 +6,7 @@ namespace Assets.Scripts.Balls
 {
     public interface IBallGrid
     {
-        int[] TypesLeftActive { get; }
+        BallType[] TypesLeftActive { get; }
         int ActiveBalls { get; }
         float LowestBallPosition { get; }
         void Append(IBallController newBall, GridPosition gridPosition);

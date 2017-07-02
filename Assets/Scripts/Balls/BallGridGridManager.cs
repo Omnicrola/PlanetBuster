@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -54,20 +55,16 @@ namespace Assets.Scripts.Balls
             return _ballGridController.GenerateBall(new GridPosition());
         }
 
-        public GameObject GenerateBall(int type)
+        public GameObject GenerateBall(BallType type)
         {
             return _ballGridController.GenerateBall(type);
         }
 
-        public int GetNextBallType()
+        public BallType GetNextBallType()
         {
             return _ballGridController.GetNextBallType();
         }
 
-        public Sprite GetBallSpriteOfType(int type)
-        {
-            return _ballFactory.GetBallSpriteOfType(type);
-        }
 
         protected override void OnDestroy()
         {

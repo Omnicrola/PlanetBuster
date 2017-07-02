@@ -66,7 +66,7 @@ namespace planetbuster.Test.TestUtil
             fieldInfo.SetValue(null, valueToSet);
         }
 
-        protected static IBallController CreateSubstitueBall(int type, int x, int y)
+        protected static IBallController CreateSubstitueBall(BallType type, int x, int y)
         {
             var ball1 = Substitute.For<IBallController>();
             ball1.GridPosition.Returns(new GridPosition(x, y));

@@ -24,7 +24,7 @@ namespace Assets.Scripts.Balls
 
         public int Size { private set; get; }
 
-        public int[] TypesLeftActive
+        public BallType[] TypesLeftActive
         {
             get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
         }
