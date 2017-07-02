@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Assets.Scripts.Models;
+﻿using Assets.Scripts.LevelEditor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.LevelEditor
+namespace Assets.Editor
 {
     [CustomEditor(typeof(EditableBall))]
     [CanEditMultipleObjects()]
-    public class EditableBallEditor : Editor
+    public class EditableBallEditor : UnityEditor.Editor
     {
 
 
