@@ -18,32 +18,4 @@ namespace Assets.Scripts.Models
         public string LevelNumber { get; private set; }
         public List<BallLevelData> BallData { get; set; }
     }
-
-    [Serializable]
-    public class BallLevelData
-    {
-        public int XPos { get; set; }
-        public int YPos { get; set; }
-        public int BallType { get; set; }
-        public bool HasPowerGem { get; set; }
-        public BallMagnitude Magnitude { get; set; }
-    }
-
-    [Serializable]
-    public enum BallType
-    {
-        Purple,
-        Red,
-        Green,
-        Blue
-    }
-
-    [Serializable]
-    public enum BallMagnitude
-    {
-        Standard,
-        Medium,
-        Large,
-        Huge
-    }
 }

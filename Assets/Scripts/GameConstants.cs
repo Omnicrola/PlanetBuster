@@ -33,6 +33,15 @@ namespace Assets.Scripts
         public static float LaserMinimumPercentCharge = 0.3f;
         public static float LaserDrainPercentPerSecond = 0.5f;
 
+        public static class Balls
+        {
+            public static readonly string PurpleBallSprite = "balls/planet-01";
+            public static readonly string RedBallSprite = "balls/planet-04";
+            public static readonly string GreenBallSprite = "balls/planet-02";
+            public static readonly string BlueBallSprite = "balls/planet-03";
+
+        };
+
         public class BallHitpoints
         {
             public static float Standard = 1f;

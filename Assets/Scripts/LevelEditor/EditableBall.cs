@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.LevelEditor
 {
+    [ExecuteInEditMode]
     public class EditableBall : UnityBehavior
     {
         public BallType BallType;
@@ -26,6 +27,12 @@ namespace Assets.Scripts.LevelEditor
         public void SetData(BallLevelData ballLevelData)
         {
             transform.position = new Vector3(ballLevelData.XPos, ballLevelData.YPos);
+        }
+
+        protected override void Update()
+        {
+            var sprite = BallType.GetSprite();
+            GetComponent<SpriteRenderer>().sprite = sprite;
         }
     }
 }

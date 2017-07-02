@@ -1,48 +1,35 @@
-﻿using Assets.Scripts.LevelEditor;
+﻿using System;
+using Assets.Scripts.LevelEditor;
+using Assets.Scripts.Models;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Editor
 {
     [CustomEditor(typeof(EditableBall))]
-    [CanEditMultipleObjects()]
+    [CanEditMultipleObjects]
     public class EditableBallEditor : UnityEditor.Editor
     {
-
-
-        private SerializedObject obj;
         private SerializedProperty _typeProperty;
         private SerializedProperty _magnitudeProperty;
 
         public void OnEnable()
         {
-            obj = new SerializedObject(target);
-            _typeProperty = obj.FindProperty("BallType");
-            _magnitudeProperty = obj.FindProperty("Magnitude");
+            _typeProperty = serializedObject.FindProperty("BallType");
+            _magnitudeProperty = serializedObject.FindProperty("Magnitude");
         }
 
         public override void OnInspectorGUI()
         {
-            obj.Update();
+            serializedObject.Update();
             GUIStyle style = new GUIStyle();
             style.font = EditorStyles.boldFont;
-            EditorGUILayout.LabelField("Editable Ball", style, null);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type");
-            var typeIndex = EditorGUILayout.Popup(_typeProperty.enumValueIndex, _typeProperty.enumDisplayNames);
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.PropertyField(_typeProperty);
+            EditorGUILayout.PropertyField(_magnitudeProperty);
 
-            _magnitudeProperty.intValue = typeIndex;
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Magnitude");
-            var magnitudeIndex = EditorGUILayout.Popup(_magnitudeProperty.enumValueIndex, _magnitudeProperty.enumDisplayNames);
-            EditorGUILayout.EndHorizontal();
-
-            _magnitudeProperty.intValue = magnitudeIndex;
-
-            obj.ApplyModifiedProperties();
+            serializedObject.ApplyModifiedProperties();
         }
 
         public void OnSceneGUI()
