@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.LevelEditor
 {
+    [ExecuteInEditMode]
     public class GridEditorSettings : UnityBehavior, IGridEditorSettings
     {
         public string LevelName;
@@ -27,11 +28,13 @@ namespace Assets.Scripts.LevelEditor
 
         public void SetLevelData(LevelSummary levelSummary)
         {
+            Debug.Log("Clearing children...");
             ClearAllChildren();
 
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             LevelNumber = levelSummary.OrdinalNumber;
             LevelName = levelSummary.LevelNumber;
+            Debug.Log("Loading level : " + LevelName + " (" + levelSummary.BallData.Count + " balls)");
             foreach (var ballLevelData in levelSummary.BallData)
             {
                 var newBall = simpleObjectPool.GetObjectFromPool();

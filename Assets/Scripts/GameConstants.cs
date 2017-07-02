@@ -52,7 +52,7 @@ namespace Assets.Scripts
 
         public class Levels
         {
-            public static readonly string ResourcePath = "Assets/Resources/Levels/";
+            public static readonly string RelativeResourcePath = "Assets/Resources/Levels/";
         }
     }
 }
