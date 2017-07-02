@@ -8,7 +8,6 @@ namespace Assets.Scripts.LevelEditor
 {
     public class GridEditorSettings : UnityBehavior, IGridEditorSettings
     {
-        public GameObject Ceiling;
         public string LevelName;
         public int LevelNumber;
 
@@ -61,5 +60,15 @@ namespace Assets.Scripts.LevelEditor
         }
 
 
+        public void AlignAllChildrenToGrid()
+        {
+            var children = gameObject.GetChildren();
+            foreach (var child in children)
+            {
+                var position = child.transform.position;
+                var newPosition = new Vector3(Mathf.Round(position.x), Mathf.Round(position.y));
+                child.transform.position = newPosition;
+            }
+        }
     }
 }

@@ -22,8 +22,6 @@ namespace Assets.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            GUIStyle style = new GUIStyle();
-            style.font = EditorStyles.boldFont;
 
             EditorGUILayout.PropertyField(_typeProperty);
             EditorGUILayout.PropertyField(_magnitudeProperty);
