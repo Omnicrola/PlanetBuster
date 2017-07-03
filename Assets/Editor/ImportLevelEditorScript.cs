@@ -52,7 +52,7 @@ namespace Assets.Editor
 
         private void OpenFileBrowser()
         {
-            _currentFile = EditorUtility.OpenFilePanel("Load Level", GameConstants.Levels.RelativeResourcePath, "bin");
+            _currentFile = EditorUtility.OpenFilePanel("Load Level", GameConstants.Levels.ResourcePath, "bin");
         }
     }
 }

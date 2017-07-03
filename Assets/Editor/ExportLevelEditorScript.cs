@@ -37,6 +37,8 @@ namespace Assets.Editor
             {
                 Debug.LogWarning("Export failed!");
             }
+            var levelMetaDataGenerator = new LevelMetaDataGenerator(GameConstants.Levels.ImportExportPath);
+            levelMetaDataGenerator.Regenerate();
         }
     }
 }
