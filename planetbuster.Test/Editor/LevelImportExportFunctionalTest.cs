@@ -59,7 +59,7 @@ namespace planetbuster.Test.Editor
             Assert.True(successfullyImported);
 
             Assert.NotNull(actualLevelSummary);
-            Assert.AreEqual(expectedLevelSummary.LevelNumber, actualLevelSummary.LevelNumber);
+            Assert.AreEqual(expectedLevelSummary.LevelName, actualLevelSummary.LevelName);
             Assert.AreEqual(expectedLevelSummary.OrdinalNumber, actualLevelSummary.OrdinalNumber);
             CollectionAssert.AreEquivalent(expectedLevelSummary.BallData, actualLevelSummary.BallData);
         }
