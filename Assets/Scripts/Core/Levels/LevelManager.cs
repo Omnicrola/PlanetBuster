@@ -8,15 +8,17 @@ namespace Assets.Scripts.Core.Levels
     public class LevelManager : ILevelManager
     {
         private LevelDataReader _levelDataReader;
+        private LevelMetadataReader _levelMetadataReader;
 
         public LevelManager()
         {
             _levelDataReader = new LevelDataReader();
+            _levelMetadataReader = new LevelMetadataReader(Application.persistentDataPath);
         }
 
-        public List<LevelSummary> GetAll()
+        public LevelMetadata GetAll()
         {
-            return _levelDataReader.ReadAllLevels();
+            return _levelMetadataReader.Read();
         }
 
 
