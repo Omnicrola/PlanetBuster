@@ -36,7 +36,7 @@ namespace Assets.Scripts.Ui.LevelBrowser
             {
                 LockIcon.SetActive(false);
                 LevelNumber.SetActive(true);
-                LevelNumber.GetComponent<Text>().text = Model.LevelName;
+                LevelNumber.GetComponent<Text>().text = Model.LevelNumber;
             }
         }
 

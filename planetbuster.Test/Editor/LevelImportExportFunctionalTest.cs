@@ -20,13 +20,13 @@ namespace planetbuster.Test.Editor
         public void Setup()
         {
             _random = new Random();
-            Directory.CreateDirectory(GameConstants.Levels.ResourcePath);
+            Directory.CreateDirectory(GameConstants.Levels.RelativeResourcePath);
         }
 
         [TearDown]
         public void Teardown()
         {
-            Directory.Delete(GameConstants.Levels.ResourcePath, true);
+            Directory.Delete(GameConstants.Levels.RelativeResourcePath, true);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace planetbuster.Test.Editor
             var levelImporter = new LevelImporter(gridEditorSettingsForImport);
 
             levelExporter.Export();
-            var expectedFile = GameConstants.Levels.ResourcePath + "level-" + expectedLevelSummary.OrdinalNumber +
+            var expectedFile = GameConstants.Levels.RelativeResourcePath + "level-" + expectedLevelSummary.OrdinalNumber +
                                ".bin";
             FileAssert.Exists(expectedFile);
 
@@ -59,7 +59,7 @@ namespace planetbuster.Test.Editor
             Assert.True(successfullyImported);
 
             Assert.NotNull(actualLevelSummary);
-            Assert.AreEqual(expectedLevelSummary.LevelName, actualLevelSummary.LevelName);
+            Assert.AreEqual(expectedLevelSummary.LevelNumber, actualLevelSummary.LevelNumber);
             Assert.AreEqual(expectedLevelSummary.OrdinalNumber, actualLevelSummary.OrdinalNumber);
             CollectionAssert.AreEquivalent(expectedLevelSummary.BallData, actualLevelSummary.BallData);
         }

@@ -15,7 +15,7 @@ namespace Assets.Scripts.Ui.LevelBrowser
 
         protected override void DirtyUpdate()
         {
-            Description.GetComponent<Text>().text = "Level " + Model.LevelName;
+            Description.GetComponent<Text>().text = "Level " + Model.LevelNumber;
         }
 
         public void OnClick_Cancel()

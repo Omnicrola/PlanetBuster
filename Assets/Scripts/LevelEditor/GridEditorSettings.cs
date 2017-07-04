@@ -33,7 +33,7 @@ namespace Assets.Scripts.LevelEditor
 
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
             LevelNumber = levelSummary.OrdinalNumber;
-            LevelName = levelSummary.LevelName;
+            LevelName = levelSummary.LevelNumber;
             Debug.Log("Loading level : " + LevelName + " (" + levelSummary.BallData.Count + " balls)");
             foreach (var ballLevelData in levelSummary.BallData)
             {

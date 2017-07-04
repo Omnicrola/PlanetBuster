@@ -52,9 +52,7 @@ namespace Assets.Scripts
 
         public class Levels
         {
-            public static readonly string MetadataFile = "meta.bin";
-            public static readonly string ImportExportPath = "Assets/Resources/Levels/";
-            public static readonly string ResourcePath = "Levels/";
+            public static readonly string RelativeResourcePath = "Assets/Resources/Levels/";
         }
     }
 }

@@ -28,7 +28,6 @@ namespace Assets.Editor
                 var gridEditorSettings = target as GridEditorSettings;
                 gridEditorSettings.AlignAllChildrenToGrid();
             }
-            serializedObject.ApplyModifiedProperties();
         }
 
         public void OnSceneGUI()

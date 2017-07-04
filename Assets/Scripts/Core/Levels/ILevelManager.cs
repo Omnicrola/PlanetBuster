@@ -5,6 +5,6 @@ namespace Assets.Scripts.Core.Levels
 {
     public interface ILevelManager
     {
-        LevelMetadata GetAll();
+        List<LevelSummary> GetAll();
     }
 }

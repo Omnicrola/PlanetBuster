@@ -19,7 +19,7 @@ namespace Assets.Editor
         public bool Export()
         {
             var levelData = _gridEditorSettings.GetExportData();
-            string filename = GameConstants.Levels.ResourcePath + ExportUtil.ConstructFilename(levelData.OrdinalNumber);
+            string filename = GameConstants.Levels.RelativeResourcePath + "level-" + levelData.OrdinalNumber + ".bin";
 
 
             using (var fileStream = File.Open(filename, FileMode.Create))
