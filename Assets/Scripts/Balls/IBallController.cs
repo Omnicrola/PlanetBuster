@@ -17,7 +17,7 @@ namespace Assets.Scripts.Balls
         void ResetBall();
 
         Vector3 Position { get; set; }
-        Sprite CurrentBallSprite { get; }
+        Sprite CurrentBallSprite { get; set; }
         float Hitpoints { get; set; }
 
         GridPosition GridPosition { get; }

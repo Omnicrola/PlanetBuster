@@ -9,11 +9,17 @@ using UnityEngine;
 
 namespace Assets.Scripts.Balls
 {
+    [ExecuteInEditMode]
     public class BallController : DirtyBehavior<BallModel>, IBallController
     {
         public GameObject PowerGemSprite;
         public GameObject BallSprite;
         public GameObject DamageSprite;
+
+        public BallType BallType;
+        public BallMagnitude Magnitude;
+        public bool HasPowerGem;
+
 
         private SpriteRenderer _ballSpriteRenderer;
         private bool _isProjectile;
@@ -61,6 +67,18 @@ namespace Assets.Scripts.Balls
 
         public GridPosition GridPosition { get; private set; }
 
+
+        public BallMagnitude BallMagnitude
+        {
+            get { return Model.Magnitude; }
+            set
+            {
+                Model.Magnitude = value;
+                gameObject.transform.localScale = _baseScale * value.GetScale();
+                Hitpoints = value.GetHitpoints();
+            }
+        }
+
         public Vector3 Position
         {
             get { return transform.position; }
@@ -81,6 +99,12 @@ namespace Assets.Scripts.Balls
         public Sprite CurrentBallSprite
         {
             get { return BallSprite.GetComponent<SpriteRenderer>().sprite; }
+            set { BallSprite.GetComponent<SpriteRenderer>().sprite = value; }
+        }
+
+        public BallController()
+        {
+            Model = new BallModel();
         }
 
         protected override void Start()
@@ -88,6 +112,15 @@ namespace Assets.Scripts.Balls
             base.Start();
             _ballSpriteRenderer = BallSprite.GetComponent<SpriteRenderer>();
             _baseScale = gameObject.transform.localScale;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            _ballSpriteRenderer.sprite = BallType.GetSprite();
+            PowerGemSprite.SetActive(HasPowerGem);
+            DamageSprite.SetActive(Magnitude != BallMagnitude.Standard);
+            gameObject.transform.localScale = _baseScale * Magnitude.GetScale();
         }
 
         protected override void DirtyUpdate()

@@ -17,8 +17,7 @@ namespace Assets.Scripts.Balls
 
         private readonly Random _random = new Random(11);
 
-        public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset, float spacing,
-            Sprite[] ballTypes)
+        public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset, float spacing)
         {
             _simpleObjectPool = simpleObjectPool;
             _ceiling = ceiling;

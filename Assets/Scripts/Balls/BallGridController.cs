@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Random = System.Random;
@@ -45,9 +46,9 @@ namespace Assets.Scripts.Balls
             _ballGrid.Clear();
         }
 
-        public void Generate(LevelSummary currentLevel)
+        public void Generate(ILevelDataController currentLevel)
         {
-            _ballGrid.Initialize(currentLevel.BallData);
+            _ballGrid.Initialize(currentLevel.GetBallData());
         }
 
         private void OnBallCollision(BallCollisionEventArgs e)

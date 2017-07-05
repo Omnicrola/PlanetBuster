@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Balls;
+using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Assets.Scripts.LevelEditor
     {
         public BallType BallType;
         public BallMagnitude Magnitude;
+        public bool HasPowerGem;
 
         public BallLevelData Export()
         {
@@ -33,8 +35,6 @@ namespace Assets.Scripts.LevelEditor
 
         protected override void Update()
         {
-            var sprite = BallType.GetSprite();
-            GetComponent<SpriteRenderer>().sprite = sprite;
         }
     }
 }
