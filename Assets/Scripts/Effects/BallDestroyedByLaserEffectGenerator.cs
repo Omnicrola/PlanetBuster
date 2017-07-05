@@ -32,7 +32,7 @@ namespace Assets.Scripts.Effects
             newExplosion.transform.position = ballPosition;
 
             var planetSprite = ball.CurrentBallSprite;
-            var magnitudeScale = ball.Model.Magnitude.GetScale();
+            var magnitudeScale = ball.Magnitude.GetScale();
 
             var ballDestroyEffect = newExplosion.GetComponent<BallDestroyedByLaserEffect>();
             ballDestroyEffect.RePlayEffect(planetSprite, magnitudeScale);

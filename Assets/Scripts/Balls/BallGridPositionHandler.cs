@@ -7,7 +7,7 @@ namespace Assets.Scripts.Balls
         public void AppendAt(IBallController[,] ballArray, IBallController newBall, GridPosition gridPosition)
         {
             ballArray[gridPosition.X, gridPosition.Y] = newBall;
-            var ballMagnitude = newBall.Model.Magnitude;
+            var ballMagnitude = newBall.Magnitude;
             if (ballMagnitude == BallMagnitude.Medium)
             {
                 AddExtraPositionsForStandardMagnitude(ballArray, newBall, gridPosition);

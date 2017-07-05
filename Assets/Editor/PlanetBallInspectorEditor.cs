@@ -25,9 +25,9 @@ namespace Assets.Editor
             _ballSpriteProperty = serializedObject.FindProperty("BallSprite");
             _damageSpriteProperty = serializedObject.FindProperty("DamageSprite");
 
-            _typeProperty = serializedObject.FindProperty("BallType");
-            _magnitudeProperty = serializedObject.FindProperty("Magnitude");
-            _powerGemProperty = serializedObject.FindProperty("HasPowerGem");
+            _typeProperty = serializedObject.FindProperty("i_BallType");
+            _magnitudeProperty = serializedObject.FindProperty("i_Magnitude");
+            _powerGemProperty = serializedObject.FindProperty("i_HasPowerGem");
         }
 
         public override void OnInspectorGUI()
@@ -45,6 +45,8 @@ namespace Assets.Editor
 
 
             serializedObject.ApplyModifiedProperties();
+            var ballController = target as BallController;
+            ballController.MarkDirty();
         }
 
     }

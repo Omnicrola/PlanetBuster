@@ -70,11 +70,7 @@ namespace planetbuster.Test.TestUtil
         {
             var ball1 = Substitute.For<IBallController>();
             ball1.GridPosition.Returns(new GridPosition(x, y));
-            var ballModel = new BallModel()
-            {
-                Type = type
-            };
-            ball1.Model.Returns(ballModel);
+            ball1.BallType.Returns(type);
 
             return ball1;
         }

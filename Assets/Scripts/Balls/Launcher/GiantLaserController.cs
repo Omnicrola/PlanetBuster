@@ -53,7 +53,7 @@ namespace Assets.Scripts.Balls.Launcher
             bool changedPower = false;
             foreach (var ballController in e.BallPath)
             {
-                if (ballController.Model.HasPowerGem)
+                if (ballController.HasPowerGem)
                 {
                     ChargeLevel += GameConstants.LaserChargePercentPerGem;
                     changedPower = true;

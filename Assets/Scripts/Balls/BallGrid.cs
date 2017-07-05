@@ -26,7 +26,7 @@ namespace Assets.Scripts.Balls
 
         public BallType[] TypesLeftActive
         {
-            get { return _activeBalls.Select(b => b.Model.Type).Distinct().ToArray(); }
+            get { return _activeBalls.Select(b => b.BallType).Distinct().ToArray(); }
         }
 
         public int ActiveBalls
@@ -99,7 +99,7 @@ namespace Assets.Scripts.Balls
 
             Logging.Instance.Log(LogLevel.Debug,
                 string.Format("Appending to grid : {0},{1} type: {2}", gridPosition.X, gridPosition.Y,
-                    newBall.Model.Type));
+                    newBall.BallType));
 
             var worldPosition = _ballFactory.GetWorldPositionFromGrid(gridPosition);
             newBall.SetActiveInGrid(gridPosition, worldPosition, _ballContainer.transform);
@@ -163,7 +163,7 @@ namespace Assets.Scripts.Balls
             if (controller != null)
             {
                 var logMessage = "Removing ball from grid: " + gridPosition.X + ", " + gridPosition.Y + " type:" +
-                                 controller.Model.Type;
+                                 controller.BallType;
                 Logging.Instance.Log(LogLevel.Debug, logMessage);
 
                 _activeBalls.Remove(controller);

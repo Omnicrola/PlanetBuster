@@ -10,15 +10,15 @@ using UnityEngine;
 namespace Assets.Scripts.Balls
 {
     [ExecuteInEditMode]
-    public class BallController : DirtyBehavior<BallModel>, IBallController
+    public class BallController : UnityBehavior, IBallController
     {
         public GameObject PowerGemSprite;
         public GameObject BallSprite;
         public GameObject DamageSprite;
 
-        public BallType BallType;
-        public BallMagnitude Magnitude;
-        public bool HasPowerGem;
+        public BallType i_BallType;
+        public BallMagnitude i_Magnitude;
+        public bool i_HasPowerGem;
 
 
         private SpriteRenderer _ballSpriteRenderer;
@@ -26,6 +26,9 @@ namespace Assets.Scripts.Balls
         private bool _active;
         private readonly AngleOfImpactCalculator angleOfImpactCalculator = new AngleOfImpactCalculator();
         private Vector3 _baseScale;
+        private float _maxHitpoints;
+        private float _hitpoints;
+        private bool _isDirty;
 
         public bool IsProjectile
         {
@@ -67,15 +70,36 @@ namespace Assets.Scripts.Balls
 
         public GridPosition GridPosition { get; private set; }
 
-
-        public BallMagnitude BallMagnitude
+        public BallType BallType
         {
-            get { return Model.Magnitude; }
+            get { return i_BallType; }
             set
             {
-                Model.Magnitude = value;
+                i_BallType = value;
+                _isDirty = true;
+            }
+        }
+
+        public BallMagnitude Magnitude
+        {
+            get { return i_Magnitude; }
+            set
+            {
+                i_Magnitude = value;
                 gameObject.transform.localScale = _baseScale * value.GetScale();
-                Hitpoints = value.GetHitpoints();
+                MaxHitpoints = value.GetHitpoints();
+                Hitpoints = MaxHitpoints;
+                _isDirty = true;
+            }
+        }
+
+        public bool HasPowerGem
+        {
+            get { return i_HasPowerGem; }
+            set
+            {
+                i_HasPowerGem = value;
+                _isDirty = true;
             }
         }
 
@@ -85,13 +109,19 @@ namespace Assets.Scripts.Balls
             set { transform.position = value; }
         }
 
+        public float MaxHitpoints
+        {
+            get { return _maxHitpoints; }
+            set { _maxHitpoints = value; }
+        }
+
         public float Hitpoints
         {
-            get { return Model.Hitpoints; }
+            get { return _hitpoints; }
             set
             {
-                Model.Hitpoints = value;
-                var percentAlive = 1 - (value / Model.MaxHitpoints);
+                _hitpoints = value;
+                var percentAlive = 1 - (value / _maxHitpoints);
                 DamageSprite.GetComponent<BallDamageController>().PercentDamaged = percentAlive;
             }
         }
@@ -100,11 +130,6 @@ namespace Assets.Scripts.Balls
         {
             get { return BallSprite.GetComponent<SpriteRenderer>().sprite; }
             set { BallSprite.GetComponent<SpriteRenderer>().sprite = value; }
-        }
-
-        public BallController()
-        {
-            Model = new BallModel();
         }
 
         protected override void Start()
@@ -116,23 +141,13 @@ namespace Assets.Scripts.Balls
 
         protected override void Update()
         {
-            base.Update();
-            _ballSpriteRenderer.sprite = BallType.GetSprite();
-            PowerGemSprite.SetActive(HasPowerGem);
-            DamageSprite.SetActive(Magnitude != BallMagnitude.Standard);
-            gameObject.transform.localScale = _baseScale * Magnitude.GetScale();
-        }
-
-        protected override void DirtyUpdate()
-        {
-            if (_ballSpriteRenderer != null && Model != null)
+            if (_isDirty && isActiveAndEnabled)
             {
-                _ballSpriteRenderer.sprite = Model.Type.GetSprite();
-                PowerGemSprite.SetActive(Model.HasPowerGem);
-                DamageSprite.SetActive(Model.Magnitude != BallMagnitude.Standard);
-
-                var scale = Model.Magnitude.GetScale();
-                gameObject.transform.localScale = _baseScale * scale;
+                _isDirty = false;
+                _ballSpriteRenderer.sprite = BallType.GetSprite();
+                PowerGemSprite.SetActive(HasPowerGem);
+                DamageSprite.SetActive(Magnitude != BallMagnitude.Standard);
+                gameObject.transform.localScale = _baseScale * Magnitude.GetScale();
             }
         }
 
@@ -177,12 +192,16 @@ namespace Assets.Scripts.Balls
             gameObject.transform.SetParent(null);
         }
 
-
         public void ResetBall()
         {
             GridPosition = GridPosition.Invalid;
             IsProjectile = false;
             Active = false;
+        }
+
+        public void MarkDirty()
+        {
+            _isDirty = true;
         }
     }
 }

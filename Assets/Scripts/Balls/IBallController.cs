@@ -8,19 +8,22 @@ namespace Assets.Scripts.Balls
 {
     public interface IBallController
     {
+        float Hitpoints { get; set; }
+        float MaxHitpoints { get; set; }
+        GridPosition GridPosition { get; }
+        BallType BallType { get; set; }
+        BallMagnitude Magnitude { get; set; }
+        bool HasPowerGem { get; set; }
+
         bool Active { get; set; }
         bool IsProjectile { get; set; }
-        BallModel Model { get; set; }
 
         GameObject gameObject { get; }
-        void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
-        void ResetBall();
-
         Vector3 Position { get; set; }
         Sprite CurrentBallSprite { get; set; }
-        float Hitpoints { get; set; }
 
-        GridPosition GridPosition { get; }
+        void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
+        void ResetBall();
         void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform);
         void SetInactiveInGrid();
     }

@@ -55,7 +55,7 @@ namespace Assets.Scripts.Balls
         {
             if (e.IncomingBall.IsProjectile)
             {
-                var magnitude = e.BallInGrid.Model.Magnitude;
+                var magnitude = e.BallInGrid.Magnitude;
                 var gridPosition = _gridPositionCalculator.FindGridPosition(e.BallInGrid, magnitude, e.AngleOfImpact);
                 _ballGrid.Append(e.IncomingBall, gridPosition);
             }
@@ -80,7 +80,7 @@ namespace Assets.Scripts.Balls
             bool chanceForPower = _random.Next(100) < GameConstants.ChanceForPowerGems;
             if (chanceForPower)
             {
-                ballController.Model.HasPowerGem = true;
+                ballController.HasPowerGem = true;
             }
             return ballController;
         }

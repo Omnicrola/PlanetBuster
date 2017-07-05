@@ -44,18 +44,12 @@ namespace Assets.Scripts.Balls
             var newBall = _simpleObjectPool.GetObjectFromPool();
             newBall.transform.position = GetWorldPositionFromGrid(gridPosition);
             var hitpoints = magnitude.GetHitpoints();
-            var ballModel = new BallModel()
-            {
-                Type = type,
-                Hitpoints = hitpoints,
-                MaxHitpoints = hitpoints,
-                HasPowerGem = hasPowerGem,
-                Magnitude = magnitude
-            };
-
             var ballController = newBall.GetComponent<IBallController>();
+
+            ballController.BallType = type;
+            ballController.Magnitude = magnitude;
+            ballController.HasPowerGem = hasPowerGem;
             ballController.IsProjectile = false;
-            ballController.Model = ballModel;
 
             Logging.Instance.Log(LogLevel.Debug, "Created ball at grid : " + gridPosition.X + ", " + gridPosition.Y);
             if (!_allBallsCreated.Contains(newBall.gameObject))
@@ -85,14 +79,10 @@ namespace Assets.Scripts.Balls
 
         public GameObject GenerateBall(BallType type)
         {
-            var ballModel = new BallModel()
-            {
-                Type = type,
-                Hitpoints = 1,
-            };
             var newBall = _simpleObjectPool.GetObjectFromPool();
             var ballController = newBall.GetComponent<IBallController>();
-            ballController.Model = ballModel;
+            ballController.BallType = type;
+            ballController.Magnitude = BallMagnitude.Standard;
 
             Logging.Instance.Log(LogLevel.Debug, "Created ball outside of grid, of type : " + type);
             return newBall;

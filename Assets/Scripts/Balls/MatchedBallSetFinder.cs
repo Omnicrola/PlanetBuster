@@ -16,7 +16,7 @@ namespace Assets.Scripts.Balls
             _positionsAlreadyChecked.Add(initialPositionToCheckFrom);
             var matchedBalls = new List<IBallController>();
 
-            BallType targetType = ballArray.GetFromPosition(initialPositionToCheckFrom).Model.Type;
+            BallType targetType = ballArray.GetFromPosition(initialPositionToCheckFrom).BallType;
             AddBallAtPosition(matchedBalls, targetType, initialPositionToCheckFrom, ballArray);
             return matchedBalls;
         }
@@ -56,8 +56,8 @@ namespace Assets.Scripts.Balls
             }
             else
             {
-                var typesAreAMatch = targetType == potentialNextBall.Model.Type;
-                var isNotOversized = potentialNextBall.Model.Magnitude == BallMagnitude.Standard;
+                var typesAreAMatch = targetType == potentialNextBall.BallType;
+                var isNotOversized = potentialNextBall.Magnitude == BallMagnitude.Standard;
                 if (typesAreAMatch && isNotOversized)
                 {
                     AddBallAtPosition(matchedBalls, targetType, potentialNextPosition, ballGrid);
