@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Ui.LevelBrowser
 {
-    public class LevelBrowserIconController : DirtyBehavior<LevelSummary>
+    public class LevelBrowserIconController : DirtyBehavior<ILevelDataController>
     {
         public GameObject LockIcon;
         public GameObject LevelNumber;
@@ -27,17 +28,19 @@ namespace Assets.Scripts.Ui.LevelBrowser
 
         private void SetLockIcon()
         {
-            if (Model.IsLocked)
-            {
-                LockIcon.SetActive(true);
-                LevelNumber.SetActive(false);
-            }
-            else
-            {
-                LockIcon.SetActive(false);
-                LevelNumber.SetActive(true);
-                LevelNumber.GetComponent<Text>().text = Model.LevelNumber;
-            }
+            LevelNumber.SetActive(true);
+            LevelNumber.GetComponent<Text>().text = Model.GetLevelNumber().ToString();
+            //            if (Model.IsLocked)
+            //            {
+            //                LockIcon.SetActive(true);
+            //                LevelNumber.SetActive(false);
+            //            }
+            //            else
+            //            {
+            //                LockIcon.SetActive(false);
+            //                LevelNumber.SetActive(true);
+            //                LevelNumber.GetComponent<Text>().text = Model.LevelNumber;
+            //            }
         }
 
         private void SetPips()

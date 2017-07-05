@@ -10,7 +10,7 @@ namespace Assets.Scripts.Balls
         int ActiveBalls { get; }
         float LowestBallPosition { get; }
         void Append(IBallController newBall, GridPosition gridPosition);
-        void Initialize(List<BallLevelData> newBalls);
+        void Initialize(List<IBallController> ballsToPutInGrid);
         void Clear();
         void Remove(GridPosition gameObject);
         void HandleOrphanedBalls();

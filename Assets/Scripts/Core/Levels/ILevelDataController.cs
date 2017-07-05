@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
 using JetBrains.Annotations;
 
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Core.Levels
     {
         int GetLevelNumber();
         string GetLevelName();
-        List<BallLevelData> GetBallData();
+        List<IBallController> GetInitialBallData();
         int MaxVerticalGridPosition { get; }
     }
 }

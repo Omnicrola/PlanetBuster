@@ -13,7 +13,7 @@ namespace Assets.Scripts.Core
         IGameEventBus EventBus { get; }
         bool Pause { get; set; }
         ILevelManager LevelManager { get; }
-        LevelSummary CurrentLevel { get; set; }
+        ILevelDataController CurrentLevel { get; set; }
         string TransitionToScene { get; set; }
     }
 }

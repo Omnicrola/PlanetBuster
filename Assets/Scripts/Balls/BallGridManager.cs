@@ -11,7 +11,7 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridManager : UnityBehavior, IBallGridManager
     {
-        public GameObject CurrentLevel;
+        public GameObject LevelForTesting;
 
         public float DefaultVerticalSpacing = 10f;
         public float Spacing = 1;
@@ -38,11 +38,18 @@ namespace Assets.Scripts.Balls
             GameManager.Instance.EventBus.Broadcast(new GamePrestartEventArgs());
             _ballGridController.Clear();
 
+            ILevelDataController currentLevel = null;
+            if (LevelForTesting != null && Application.isEditor)
+            {
+                currentLevel = LevelForTesting.GetComponent<ILevelDataController>();
+            }
+            else
+            {
+                currentLevel = GameManager.Instance.CurrentLevel;
+            }
 
-            var levelDataController = CurrentLevel.GetComponent<ILevelDataController>();
-            _ballGridController.Generate(levelDataController);
-
-            var gridSize = levelDataController.MaxVerticalGridPosition;
+            _ballGridController.Generate(currentLevel);
+            var gridSize = currentLevel.MaxVerticalGridPosition;
             var offset = gridSize + DefaultVerticalSpacing;
             transform.position = new Vector2(0, offset);
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());

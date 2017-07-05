@@ -47,7 +47,7 @@ namespace Assets.Scripts.Core
         }
 
         public ILevelManager LevelManager { get; private set; }
-        public LevelSummary CurrentLevel { get; set; }
+        public ILevelDataController CurrentLevel { get; set; }
         public string TransitionToScene { get; set; }
         public IGameEventBus EventBus { get; private set; }
 
@@ -57,7 +57,8 @@ namespace Assets.Scripts.Core
         {
             if (Application.isEditor)
             {
-                CurrentLevel = LevelManager.GetAll()[0];
+                var levelInEditor = GameObject.Find("LevelData");
+                CurrentLevel = levelInEditor.GetComponent<ILevelDataController>();
             }
         }
 

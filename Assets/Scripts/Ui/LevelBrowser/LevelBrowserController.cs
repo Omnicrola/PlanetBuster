@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Assets.Scripts.Ui.LevelBrowser
         public GameObject IconContainer;
         public GameObject LevelDescriptionWindow;
         public GameObject LevelBrowseWindow;
+
+        public ILevelDataController[] Levels;
 
         private SimpleObjectPool _iconPool;
 
@@ -39,11 +42,11 @@ namespace Assets.Scripts.Ui.LevelBrowser
 
         private void OnLevelSelected(SelectLevelEventArgs eventArgs)
         {
-            LevelDescriptionWindow.GetComponent<LevelDescriptionWindowController>().Model = eventArgs.LevelSummary;
+            LevelDescriptionWindow.GetComponent<LevelDescriptionWindowController>().Model = eventArgs.Level;
             ShowLevelDescriptionWindow();
         }
 
-        private void DisplayLevels(List<LevelSummary> allLevels)
+        private void DisplayLevels(List<ILevelDataController> allLevels)
         {
             foreach (var levelSummary in allLevels)
             {

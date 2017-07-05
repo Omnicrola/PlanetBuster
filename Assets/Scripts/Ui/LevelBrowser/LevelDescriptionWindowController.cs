@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Ui.LevelBrowser
 {
-    public class LevelDescriptionWindowController : DirtyBehavior<LevelSummary>
+    public class LevelDescriptionWindowController : DirtyBehavior<ILevelDataController>
     {
         public GameObject Description;
         public GameObject LevelBrowser;
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Ui.LevelBrowser
 
         protected override void DirtyUpdate()
         {
-            Description.GetComponent<Text>().text = "Level " + Model.LevelNumber;
+            Description.GetComponent<Text>().text = "Level " + Model.GetLevelNumber();
         }
 
         public void OnClick_Cancel()

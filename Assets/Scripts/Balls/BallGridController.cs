@@ -48,7 +48,7 @@ namespace Assets.Scripts.Balls
 
         public void Generate(ILevelDataController currentLevel)
         {
-            _ballGrid.Initialize(currentLevel.GetBallData());
+            _ballGrid.Initialize(currentLevel.GetInitialBallData());
         }
 
         private void OnBallCollision(BallCollisionEventArgs e)

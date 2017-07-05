@@ -68,13 +68,11 @@ namespace Assets.Scripts.Balls
         }
 
 
-        public void Initialize(List<BallLevelData> ballsToCreate)
+        public void Initialize(Dictionary<GridPosition, IBallController> ballsToPutInGrid)
         {
-            foreach (var ballData in ballsToCreate)
+            foreach (var kv in ballsToPutInGrid)
             {
-                var newBall = _ballFactory.GenerateBall(ballData);
-
-                AddBallToGrid(newBall, new GridPosition(ballData.XPos, ballData.YPos));
+                AddBallToGrid(kv.Value, kv.Key);
             }
         }
 

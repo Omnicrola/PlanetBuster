@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
 using Assets.Scripts.Util;
 
@@ -27,11 +28,10 @@ namespace Assets.Scripts.Core.Levels
         {
         }
 
-
-
-        public List<BallLevelData> GetBallData()
+        public List<IBallController> GetInitialBallData()
         {
-            return new List<BallLevelData>();
+            // be sure to derive grid positions from existing coordinates
+            return new List<IBallController>();
         }
 
         public int MaxVerticalGridPosition { get; private set; }

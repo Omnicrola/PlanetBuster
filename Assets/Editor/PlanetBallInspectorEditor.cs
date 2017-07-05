@@ -34,9 +34,9 @@ namespace Assets.Editor
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(_typeProperty);
-            EditorGUILayout.PropertyField(_magnitudeProperty);
-            EditorGUILayout.PropertyField(_powerGemProperty);
+            EditorGUILayout.PropertyField(_typeProperty, new GUIContent("Type"));
+            EditorGUILayout.PropertyField(_magnitudeProperty, new GUIContent("Magnitude"));
+            EditorGUILayout.PropertyField(_powerGemProperty, new GUIContent("Has Power Gem"));
 
             EditorGUILayout.LabelField("");
             EditorGUILayout.PropertyField(_powerGemSpriteProperty);
