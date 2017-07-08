@@ -13,7 +13,6 @@ namespace Assets.Scripts.Balls
     {
         public GameObject LevelForTesting;
 
-        public float DefaultVerticalSpacing = 10f;
         public float Spacing = 1;
         public GameObject Ceiling;
 
@@ -49,20 +48,13 @@ namespace Assets.Scripts.Balls
             }
 
             _ballGridController.Generate(currentLevel);
-            var gridSize = currentLevel.MaxVerticalGridPosition;
-            var offset = gridSize + DefaultVerticalSpacing;
-            transform.position = new Vector2(0, offset);
+            GetComponent<BallGridPositionController>().StartNewLevel(_ballGridController.HeightOfActiveGrid);
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
 
         public void StickBallToCeiling(IBallController incomingBall)
         {
             _ballGridController.StickBallToCeiling(incomingBall);
-        }
-
-        public IBallController GenerateBall()
-        {
-            return _ballGridController.GenerateBall(new GridPosition());
         }
 
         public GameObject GenerateBall(BallType type)

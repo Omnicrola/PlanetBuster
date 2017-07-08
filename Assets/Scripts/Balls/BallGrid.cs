@@ -38,19 +38,10 @@ namespace Assets.Scripts.Balls
         {
             get
             {
-                for (int x = 0; x < GRID_WIDTH; x++)
-                {
-                    for (int y = GRID_HEIGHT - 1; y <= 0; y--)
-                    {
-                        if (_ballArray[x, y] != null)
-                        {
-                            return _ballArray[x, y].Position.y;
-                        }
-                    }
-                }
-                return 0f;
+                return _activeBalls.Min(b => b.Position.y);
             }
         }
+        public int HeightOfActiveGrid { get { return _activeBalls.Max(b => b.GridPosition.Y); } }
 
         private readonly IBallController[,] _ballArray = new IBallController[GRID_WIDTH, GRID_HEIGHT];
         private List<IBallController> _activeBalls;
@@ -86,9 +77,15 @@ namespace Assets.Scripts.Balls
 
         private void AddBallToGrid(IBallController newBall, GridPosition gridPosition)
         {
+            if (!_ballArray.IsValidPosition(gridPosition))
+            {
+                Logging.Instance.Log(LogLevel.Warning,
+                    string.Format("Attempted to add at invalid grid position: {0}", gridPosition.ToString()));
+            }
             if (_ballArray[gridPosition.X, gridPosition.Y] != null)
             {
-                Debug.Log("**** Overlapping at position : " + gridPosition.X + ", " + gridPosition.Y);
+                Logging.Instance.Log(LogLevel.Warning,
+                    string.Format("Overlapping at position: {0}", gridPosition.ToString()));
             }
 
             _ballPositionHandler.AppendAt(_ballArray, newBall, gridPosition);

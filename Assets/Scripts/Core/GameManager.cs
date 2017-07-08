@@ -55,11 +55,6 @@ namespace Assets.Scripts.Core
 
         protected override void Start()
         {
-            if (Application.isEditor)
-            {
-                var levelInEditor = GameObject.Find("LevelData");
-                CurrentLevel = levelInEditor.GetComponent<ILevelDataController>();
-            }
         }
 
     }

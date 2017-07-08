@@ -86,7 +86,6 @@ namespace Assets.Scripts.Balls
             set
             {
                 i_Magnitude = value;
-                gameObject.transform.localScale = _baseScale * value.GetScale();
                 MaxHitpoints = value.GetHitpoints();
                 Hitpoints = MaxHitpoints;
                 _isDirty = true;

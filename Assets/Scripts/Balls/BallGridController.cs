@@ -32,6 +32,7 @@ namespace Assets.Scripts.Balls
         }
 
         public float LowestBallPosition { get { return _ballGrid.LowestBallPosition; } }
+        public int HeightOfActiveGrid { get { return _ballGrid.HeightOfActiveGrid; } }
 
         public void Dispose()
         {
@@ -72,17 +73,6 @@ namespace Assets.Scripts.Balls
             {
                 _ballGrid.HandleOrphanedBalls();
             }
-        }
-
-        public IBallController GenerateBall(GridPosition gridPosition)
-        {
-            var ballController = _ballFactory.GenerateBall(gridPosition);
-            bool chanceForPower = _random.Next(100) < GameConstants.ChanceForPowerGems;
-            if (chanceForPower)
-            {
-                ballController.HasPowerGem = true;
-            }
-            return ballController;
         }
 
         public GameObject GenerateBall(BallType type)

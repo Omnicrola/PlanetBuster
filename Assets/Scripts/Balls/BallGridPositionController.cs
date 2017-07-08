@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Balls
         public float DecentInterval = 30;
         public float DecentDistance = 1f;
         public float MinimumDistanceThreshold = 5f;
+        public float DefaultVerticalSpacing = 10f;
         public float MinimumDistance = 1f;
 
         private float _nextDropTime;
@@ -47,6 +49,12 @@ namespace Assets.Scripts.Balls
                 var newPosition = new Vector2(currentPosition.x, verticalDistanceToTravel);
                 iTween.MoveTo(gameObject, newPosition, 1f);
             }
+        }
+
+        public void StartNewLevel(int totalGridHeight)
+        {
+            var offset = totalGridHeight + DefaultVerticalSpacing;
+            transform.position = new Vector2(0, offset);
         }
     }
 }

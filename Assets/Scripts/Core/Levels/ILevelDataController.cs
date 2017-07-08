@@ -9,7 +9,6 @@ namespace Assets.Scripts.Core.Levels
     {
         int GetLevelNumber();
         string GetLevelName();
-        List<IBallController> GetInitialBallData();
-        int MaxVerticalGridPosition { get; }
+        Dictionary<GridPosition, IBallController> GetInitialBallData();
     }
 }

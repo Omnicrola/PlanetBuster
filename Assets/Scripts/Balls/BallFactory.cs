@@ -25,41 +25,6 @@ namespace Assets.Scripts.Balls
             _spacing = spacing;
         }
 
-        public IBallController GenerateBall(BallLevelData ballData)
-        {
-            var ballController = GenerateBall(new GridPosition(ballData.XPos, ballData.YPos), ballData.BallType,
-                ballData.HasPowerGem,
-                ballData.Magnitude);
-            return ballController;
-        }
-
-        public IBallController GenerateBall(GridPosition gridPosition)
-        {
-            return GenerateBall(gridPosition, BallType.Blue, false, BallMagnitude.Standard);
-        }
-
-        private IBallController GenerateBall(GridPosition gridPosition, BallType type, bool hasPowerGem,
-            BallMagnitude magnitude)
-        {
-            var newBall = _simpleObjectPool.GetObjectFromPool();
-            newBall.transform.position = GetWorldPositionFromGrid(gridPosition);
-            var hitpoints = magnitude.GetHitpoints();
-            var ballController = newBall.GetComponent<IBallController>();
-
-            ballController.BallType = type;
-            ballController.Magnitude = magnitude;
-            ballController.HasPowerGem = hasPowerGem;
-            ballController.IsProjectile = false;
-
-            Logging.Instance.Log(LogLevel.Debug, "Created ball at grid : " + gridPosition.X + ", " + gridPosition.Y);
-            if (!_allBallsCreated.Contains(newBall.gameObject))
-            {
-                _allBallsCreated.Add(newBall.gameObject);
-            }
-            return ballController;
-        }
-
-
         public virtual Vector3 GetWorldPositionFromGrid(GridPosition gridPosition)
         {
             var ceilingOffset = _ceiling.transform.position;
@@ -75,7 +40,6 @@ namespace Assets.Scripts.Balls
             int y = Mathf.RoundToInt((worldPosition.y - ceilingOffset.y - _offset.y) / _spacing);
             return new GridPosition(x, y);
         }
-
 
         public GameObject GenerateBall(BallType type)
         {

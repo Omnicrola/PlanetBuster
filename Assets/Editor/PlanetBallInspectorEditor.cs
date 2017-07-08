@@ -45,8 +45,11 @@ namespace Assets.Editor
 
 
             serializedObject.ApplyModifiedProperties();
-            var ballController = target as BallController;
-            ballController.MarkDirty();
+            foreach (var singleTarget in targets)
+            {
+                var ballController = singleTarget as BallController;
+                ballController.MarkDirty();
+            }
         }
 
     }

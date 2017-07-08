@@ -55,11 +55,15 @@ namespace Assets.Scripts.Extensions
             }
         }
 
-        public static IBallController GetFromPosition(this IBallController[,] ballArray, GridPosition gridPosition)
+        public static bool IsValidPosition(this IBallController[,] ballArray, GridPosition gridPosition)
         {
             var isInWidthBounds = gridPosition.X >= 0 && gridPosition.X < ballArray.GetLength(0);
             var isInHeightBounds = gridPosition.Y >= 0 && gridPosition.Y < ballArray.GetLength(1);
-            if (isInWidthBounds && isInHeightBounds)
+            return isInWidthBounds && isInHeightBounds;
+        }
+        public static IBallController GetFromPosition(this IBallController[,] ballArray, GridPosition gridPosition)
+        {
+            if (ballArray.IsValidPosition(gridPosition))
             {
                 return ballArray[gridPosition.X, gridPosition.Y];
             }

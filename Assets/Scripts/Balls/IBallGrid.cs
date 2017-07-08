@@ -9,8 +9,9 @@ namespace Assets.Scripts.Balls
         BallType[] TypesLeftActive { get; }
         int ActiveBalls { get; }
         float LowestBallPosition { get; }
+        int HeightOfActiveGrid { get; }
         void Append(IBallController newBall, GridPosition gridPosition);
-        void Initialize(List<IBallController> ballsToPutInGrid);
+        void Initialize(Dictionary<GridPosition, IBallController> ballsToPutInGrid);
         void Clear();
         void Remove(GridPosition gameObject);
         void HandleOrphanedBalls();
