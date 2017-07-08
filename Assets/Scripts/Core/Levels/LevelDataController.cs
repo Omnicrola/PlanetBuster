@@ -13,6 +13,10 @@ namespace Assets.Scripts.Core.Levels
     {
         public int LevelNumber;
         public string LevelName;
+        public bool ShowPowerBar;
+        public string StartMessage;
+
+        public GameObject i_BallSequence;
 
         public int GetLevelNumber()
         {
@@ -22,6 +26,11 @@ namespace Assets.Scripts.Core.Levels
         public string GetLevelName()
         {
             return LevelName;
+        }
+
+        public bool ShouldShowPowerbar()
+        {
+            return ShowPowerBar;
         }
 
         protected override void Start()
@@ -48,6 +57,16 @@ namespace Assets.Scripts.Core.Levels
 
             return ballControllers
                 .ToDictionary(controller => GetGridPosition(controller));
+        }
+
+        public List<BallType> GetLauncherSequence()
+        {
+            return i_BallSequence.GetChildren()
+                .Select(c => c.GetComponent<IBallController>())
+                .Where(Linq.IsNotNull)
+                .OrderBy(c => c.gameObject.transform.position.y)
+                .Select(c => c.BallType)
+                .ToList();
         }
 
         private GridPosition GetGridPosition(IBallController ballController)

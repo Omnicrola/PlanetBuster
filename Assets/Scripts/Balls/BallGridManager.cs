@@ -37,15 +37,11 @@ namespace Assets.Scripts.Balls
             GameManager.Instance.EventBus.Broadcast(new GamePrestartEventArgs());
             _ballGridController.Clear();
 
-            ILevelDataController currentLevel = null;
             if (LevelForTesting != null && Application.isEditor)
             {
-                currentLevel = LevelForTesting.GetComponent<ILevelDataController>();
+                GameManager.Instance.CurrentLevel = LevelForTesting.GetComponent<ILevelDataController>();
             }
-            else
-            {
-                currentLevel = GameManager.Instance.CurrentLevel;
-            }
+            var currentLevel = GameManager.Instance.CurrentLevel;
 
             _ballGridController.Generate(currentLevel);
             GetComponent<BallGridPositionController>().StartNewLevel(_ballGridController.HeightOfActiveGrid);

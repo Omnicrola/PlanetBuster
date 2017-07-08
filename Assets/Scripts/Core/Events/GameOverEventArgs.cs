@@ -14,6 +14,7 @@ namespace Assets.Scripts.Core.Events
 
     public enum GameOverCondition
     {
-        Win, LossByTime, LossByDropHeight
+        Win, LossByTime, LossByDropHeight,
+        LossByEmptyLauncher
     }
 }

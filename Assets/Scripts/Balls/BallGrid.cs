@@ -38,7 +38,7 @@ namespace Assets.Scripts.Balls
         {
             get
             {
-                return _activeBalls.Min(b => b.Position.y);
+                return _activeBalls.Any() ? _activeBalls.Min(b => b.Position.y) : 0;
             }
         }
         public int HeightOfActiveGrid { get { return _activeBalls.Max(b => b.GridPosition.Y); } }

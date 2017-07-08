@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Balls.Launcher
         private double _lastShotTime;
         private IBallGridManager _ballGridManager;
         private GiantLaserController _giantLaserControl;
+        private Queue<BallType> _ballSequence;
 
         protected override void Start()
         {
@@ -49,6 +51,7 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void OnGameStart(IGameEvent e)
         {
+            _ballSequence = new Queue<BallType>(GameManager.Instance.CurrentLevel.GetLauncherSequence());
             GenerateNextBall();
         }
 
@@ -77,10 +80,17 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void GenerateNextBall()
         {
-            _nextProjectileType = _ballGridManager.GetNextBallType();
-            var ballSprite = _nextProjectileType.GetSprite();
+            if (_ballSequence.Any())
+            {
+                _nextProjectileType = _ballSequence.Dequeue();
+                var ballSprite = _nextProjectileType.GetSprite();
 
-            NextProjectile.GetComponent<NextBallController>().SetNextBall(ballSprite);
+                NextProjectile.GetComponent<NextBallController>().SetNextBall(ballSprite);
+            }
+            else
+            {
+                GameManager.Instance.EventBus.Broadcast(new GameOverEventArgs(GameOverCondition.LossByEmptyLauncher));
+            }
         }
 
 

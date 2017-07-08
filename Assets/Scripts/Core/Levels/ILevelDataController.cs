@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Balls;
 using Assets.Scripts.Models;
-using JetBrains.Annotations;
 
 namespace Assets.Scripts.Core.Levels
 {
@@ -9,6 +8,9 @@ namespace Assets.Scripts.Core.Levels
     {
         int GetLevelNumber();
         string GetLevelName();
+        bool ShouldShowPowerbar();
+
         Dictionary<GridPosition, IBallController> GetInitialBallData();
+        List<BallType> GetLauncherSequence();
     }
 }

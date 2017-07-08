@@ -15,7 +15,16 @@ namespace Assets.Scripts.Ui
         protected override void Start()
         {
             _progressBarController = PowerMeter.GetComponent<ProgressBarController>();
-            GameManager.Instance.EventBus.Subscribe<PowerChangeEventArgs>(OnPowerChanged);
+            var gameEventBus = GameManager.Instance.EventBus;
+            gameEventBus.Subscribe<PowerChangeEventArgs>(OnPowerChanged);
+            gameEventBus.Subscribe<GameStartEventArgs>(OnGameStart);
+        }
+
+        private void OnGameStart(GameStartEventArgs obj)
+        {
+            var levelDataController = GameManager.Instance.CurrentLevel;
+            var shouldShowPowerBar = levelDataController.ShouldShowPowerbar();
+            PowerMeter.SetActive(shouldShowPowerBar);
         }
 
         private void OnPowerChanged(PowerChangeEventArgs e)
