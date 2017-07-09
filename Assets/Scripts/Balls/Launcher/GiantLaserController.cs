@@ -36,7 +36,6 @@ namespace Assets.Scripts.Balls.Launcher
             _particleChargeupEffect = BeamChargeupEffect.GetComponent<ParticleChargeupEffect>();
 
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Subscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
             gameEventBus.Subscribe<GameInputEventArgs>(OnInputEvent);
         }
 
@@ -44,27 +43,15 @@ namespace Assets.Scripts.Balls.Launcher
         protected override void OnDestroy()
         {
             var gameEventBus = GameManager.Instance.EventBus;
-            gameEventBus.Unsubscribe<BallGridMatchArgs>(OnBallMatch_ChargeLaser);
             gameEventBus.Unsubscribe<GameInputEventArgs>(OnInputEvent);
         }
 
-        private void OnBallMatch_ChargeLaser(BallGridMatchArgs e)
+        public void AddPowerCharge()
         {
-            bool changedPower = false;
-            foreach (var ballController in e.BallPath)
-            {
-                if (ballController.HasPowerGem)
-                {
-                    ChargeLevel += GameConstants.LaserChargePercentPerGem;
-                    changedPower = true;
-                }
-            }
-            if (changedPower)
-            {
-                GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
-            }
+            ChargeLevel += GameConstants.LaserChargePercentPerGem;
+            ChargeLevel = ChargeLevel > 1.0f ? 1.0f : ChargeLevel;
+            GameManager.Instance.EventBus.Broadcast(new PowerChangeEventArgs(ChargeLevel));
         }
-
 
         private void OnInputEvent(GameInputEventArgs obj)
         {

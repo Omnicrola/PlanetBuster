@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Util;
+﻿using Assets.Scripts.Ui;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.Effects
@@ -10,12 +11,14 @@ namespace Assets.Scripts.Effects
         private ParticleSystem _particleSystem;
         private bool _shouldReset;
         private bool _hasStarted;
-        private Vector3 _targetPosition;
         private float _startTime;
+        private PowerbarCollisionTargetController _particleTarget;
+        private ParticleAttractorLinear _particleAttractorLinear;
 
         protected override void Start()
         {
             _particleSystem = GetComponent<ParticleSystem>();
+            _particleAttractorLinear = GetComponent<ParticleAttractorLinear>();
             var mainModule = _particleSystem.main;
             mainModule.startColor = new ParticleSystem.MinMaxGradient(particleColor);
         }
@@ -23,8 +26,10 @@ namespace Assets.Scripts.Effects
         protected override void Update()
         {
             CheckForReset();
+            MovePosition();
             CheckForDone();
         }
+
 
         private void CheckForDone()
         {
@@ -45,6 +50,14 @@ namespace Assets.Scripts.Effects
             }
         }
 
+        private void MovePosition()
+        {
+            if (_hasStarted && _particleAttractorLinear.IsAttracting)
+            {
+                var calculateIncrementalMovement = _particleAttractorLinear.CalculateIncrementalMovement(transform.position);
+                transform.position += calculateIncrementalMovement;
+            }
+        }
         private void CheckForReset()
         {
             if (_shouldReset && Time.time >= _startTime)
@@ -53,15 +66,15 @@ namespace Assets.Scripts.Effects
                 _particleSystem.Clear();
                 _particleSystem.Play();
                 _hasStarted = false;
-                GetComponent<ParticleAttractorLinear>().TargetPosition = _targetPosition;
+                _particleAttractorLinear.TargetProvider = _particleTarget;
             }
         }
 
-        public void Reset(float startDelay, Vector2 emitterPosition, Vector2 targetPosition)
+        public void Reset(float startDelay, Vector2 emitterPosition, PowerbarCollisionTargetController target)
         {
             transform.position = emitterPosition;
+            _particleTarget = target;
             _startTime = Time.time + startDelay + 0.2f;
-            _targetPosition = targetPosition;
             _shouldReset = true;
             _hasStarted = false;
         }

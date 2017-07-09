@@ -10,7 +10,9 @@ namespace Assets.Scripts.Ui
     public class PowerDisplayController : UnityBehavior
     {
         public GameObject PowerMeter;
+        public float GrowthAmount = 1.0f;
         private ProgressBarController _progressBarController;
+        private float _targetLevel;
 
         protected override void Start()
         {
@@ -29,20 +31,19 @@ namespace Assets.Scripts.Ui
 
         private void OnPowerChanged(PowerChangeEventArgs e)
         {
-            var currentLevel = _progressBarController.Level;
-            Hashtable ht = iTween.Hash(
-                   "from", currentLevel,
-                   "to", e.NewPowerLevel,
-                   "time", 1f,
-                   "onupdate", "IncrementChargeLevel");
-            iTween.ValueTo(gameObject, ht);
-
-
+            _targetLevel = e.NewPowerLevel;
         }
 
-        void IncrementChargeLevel(float newValue)
+        protected override void Update()
         {
-            _progressBarController.Level = newValue;
+            if (_targetLevel > _progressBarController.Level)
+            {
+                _progressBarController.Level += GrowthAmount * Time.deltaTime;
+            }
+            else if (_targetLevel < _progressBarController.Level - GrowthAmount)
+            {
+                _progressBarController.Level -= GrowthAmount * Time.deltaTime * 2;
+            }
         }
 
         protected override void OnDestroy()

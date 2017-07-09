@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core;
+using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -7,20 +8,14 @@ namespace Assets.Scripts.Effects
     [RequireComponent(typeof(SimpleObjectPool))]
     public class PowerGemParticleEffectGenerator : UnityBehavior
     {
-        public GameObject ParticleTarget;
+        public PowerbarCollisionTargetController ParticleTarget;
         public GameObject ParticleContainer;
-        public GameObject Camera;
 
         private SimpleObjectPool _simpleObjectPool;
-        private Camera _camera;
-        private Vector3 _targetPosition;
 
         protected override void Start()
         {
             _simpleObjectPool = GetComponent<SimpleObjectPool>();
-            _camera = Camera.GetComponent<Camera>();
-            _targetPosition = _camera.ScreenToWorldPoint(ParticleTarget.transform.position);
-
         }
 
         public void GenerateParticles(float delay, Vector2 position)
@@ -29,8 +24,8 @@ namespace Assets.Scripts.Effects
             newParticleEffect.transform.SetParent(ParticleContainer.transform);
             var particleEffect = newParticleEffect.GetComponent<PowerGemParticleEffect>();
 
-            particleEffect.Reset(delay, position, _targetPosition);
-
+            particleEffect.Reset(delay, position, ParticleTarget);
+            Debug.Log("** CREATED " + newParticleEffect.name);
         }
 
     }
