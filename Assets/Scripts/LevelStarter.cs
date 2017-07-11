@@ -19,7 +19,8 @@ namespace Assets.Scripts
             PopupMenu.SetActive(false);
             GameOverWindow.SetActive(false);
 
-            BallGridManager.GetComponent<IBallGridManager>().StartNewLevel();
+            var newLevel = GameManager.Instance.CurrentLevel.Instantiate();
+            BallGridManager.GetComponent<IBallGridManager>().StartNewLevel(newLevel);
 
             GameManager.Instance.EventBus.Subscribe<GameOverEventArgs>(OnGameOver);
         }

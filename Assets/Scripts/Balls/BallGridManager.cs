@@ -32,18 +32,12 @@ namespace Assets.Scripts.Balls
             _ballGridController = new BallGridController(_ballFactory, ballGrid, new BallGridPositionCalculator());
         }
 
-        public void StartNewLevel()
+        public void StartNewLevel(ILevelDataController newLevel)
         {
             GameManager.Instance.EventBus.Broadcast(new GamePrestartEventArgs());
             _ballGridController.Clear();
 
-            if (LevelForTesting != null && Application.isEditor)
-            {
-                GameManager.Instance.CurrentLevel = LevelForTesting.GetComponent<ILevelDataController>();
-            }
-            var currentLevel = GameManager.Instance.CurrentLevel;
-
-            _ballGridController.Generate(currentLevel);
+            _ballGridController.Generate(newLevel);
             GetComponent<BallGridPositionController>().StartNewLevel(_ballGridController.HeightOfActiveGrid);
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }

@@ -15,15 +15,14 @@ namespace Assets.Scripts.Ui.LevelBrowser
         public GameObject LevelDescriptionWindow;
         public GameObject LevelBrowseWindow;
 
-        public ILevelDataController[] Levels;
+        public GameObject[] Levels;
 
         private SimpleObjectPool _iconPool;
 
         protected override void Start()
         {
             _iconPool = GetComponent<SimpleObjectPool>();
-            var allLevels = GameManager.Instance.LevelManager.GetAll();
-            DisplayLevels(allLevels);
+            DisplayLevels();
             GameManager.Instance.EventBus.Subscribe<SelectLevelEventArgs>(OnLevelSelected);
             ShowLevelBrowser();
         }
@@ -46,11 +45,13 @@ namespace Assets.Scripts.Ui.LevelBrowser
             ShowLevelDescriptionWindow();
         }
 
-        private void DisplayLevels(List<ILevelDataController> allLevels)
+        private void DisplayLevels()
         {
-            foreach (var levelSummary in allLevels)
+
+            foreach (var level in Levels)
             {
                 var levelIcon = _iconPool.GetObjectFromPool();
+                var levelSummary = level.GetComponent<ILevelDataController>();
                 levelIcon.GetComponent<LevelBrowserIconController>().Model = levelSummary;
                 levelIcon.transform.SetParent(IconContainer.transform);
             }

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Core.Levels;
+using Assets.Scripts.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Balls
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Balls
     {
         GameObject GenerateBall(BallType type);
         BallType GetNextBallType();
-        void StartNewLevel();
+        void StartNewLevel(ILevelDataController newLevel);
         float LowestBallPosition { get; }
         void StickBallToCeiling(IBallController gameObject);
     }

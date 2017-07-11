@@ -30,17 +30,17 @@ namespace Assets.Scripts.Ui.LevelBrowser
         {
             LevelNumber.SetActive(true);
             LevelNumber.GetComponent<Text>().text = Model.GetLevelNumber().ToString();
-            //            if (Model.IsLocked)
-            //            {
-            //                LockIcon.SetActive(true);
-            //                LevelNumber.SetActive(false);
-            //            }
-            //            else
-            //            {
-            //                LockIcon.SetActive(false);
-            //                LevelNumber.SetActive(true);
-            //                LevelNumber.GetComponent<Text>().text = Model.LevelNumber;
-            //            }
+            //                        if (Model.IsLocked)
+            //                        {
+            //                            LockIcon.SetActive(true);
+            //                            LevelNumber.SetActive(false);
+            //                        }
+            //                        else
+            //                        {
+            LockIcon.SetActive(false);
+            LevelNumber.SetActive(true);
+            LevelNumber.GetComponent<Text>().text = Model.GetLevelNumber().ToString();
+            //                        }
         }
 
         private void SetPips()

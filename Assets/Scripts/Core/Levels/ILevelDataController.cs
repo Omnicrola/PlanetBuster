@@ -12,5 +12,6 @@ namespace Assets.Scripts.Core.Levels
 
         Dictionary<GridPosition, IBallController> GetInitialBallData();
         List<BallType> GetLauncherSequence();
+        ILevelDataController Instantiate();
     }
 }

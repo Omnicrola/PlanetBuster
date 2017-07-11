@@ -49,14 +49,9 @@ namespace Assets.Scripts.Core.Levels
                 .ToList();
 
             var maxY = ballControllers.Max(c => c.gameObject.transform.localPosition.y);
-            if (maxY > 0)
-            {
-                Logging.Instance.Log(LogLevel.Error,
-                    string.Format("Position of balls in level {0} exceed 0 ({1}).", LevelNumber, maxY));
-            }
 
             return ballControllers
-                .ToDictionary(controller => GetGridPosition(controller));
+                .ToDictionary(controller => GetGridPosition(controller, maxY));
         }
 
         public List<BallType> GetLauncherSequence()
@@ -69,11 +64,17 @@ namespace Assets.Scripts.Core.Levels
                 .ToList();
         }
 
-        private GridPosition GetGridPosition(IBallController ballController)
+        public ILevelDataController Instantiate()
+        {
+            var instantiate = GameObject.Instantiate(gameObject);
+            return instantiate.GetComponent<ILevelDataController>();
+        }
+
+        private GridPosition GetGridPosition(IBallController ballController, float yOffset)
         {
             var position = ballController.gameObject.transform.localPosition;
             int x = (int)Math.Round(position.x);
-            int y = (int)Math.Round(Math.Abs(position.y));
+            int y = (int)Math.Round(Math.Abs(position.y - yOffset));
             var gridPosition = new GridPosition(x, y);
             Debug.Log(position + " => " + gridPosition);
             return gridPosition;
