@@ -11,17 +11,26 @@ namespace Assets.Scripts.Ui
     {
         public GameObject ValidInputArea;
 
-        private Camera _camera;
-        private bool _isPressed;
+        public bool _gameIsNotOver = true;
 
         protected override void Start()
         {
-            _camera = GetComponent<Camera>();
+            GameManager.Instance.EventBus.Subscribe<GameOverEventArgs>(OnGameOver);
+        }
+
+        protected override void OnDestroy()
+        {
+            GameManager.Instance.EventBus.Unsubscribe<GameOverEventArgs>(OnGameOver);
+        }
+
+        private void OnGameOver(GameOverEventArgs obj)
+        {
+            _gameIsNotOver = false;
         }
 
         protected override void Update()
         {
-            if (!GameManager.Instance.Pause)
+            if (!GameManager.Instance.Pause && _gameIsNotOver)
             {
                 var gameEventBus = GameManager.Instance.EventBus;
                 if (IsPressed())

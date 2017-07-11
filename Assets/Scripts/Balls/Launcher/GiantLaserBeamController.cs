@@ -20,6 +20,9 @@ namespace Assets.Scripts.Balls.Launcher
         public GameObject LaserImpactSphere;
         public float Radius = 1.0f;
         public float DamagePerSecond = 1.0f;
+        public LayerMask LayerMask;
+
+
         private bool _isPoweredUp = true;
 
         private Random _random = new Random();
@@ -80,7 +83,8 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void CircleCastForTarget()
         {
-            var raycastHit2D = Physics2D.CircleCast(gameObject.transform.position, Radius, gameObject.transform.up);
+            var distance = 100;
+            var raycastHit2D = Physics2D.CircleCast(gameObject.transform.position, Radius, gameObject.transform.up, distance, LayerMask.value);
             if (raycastHit2D.collider != null)
             {
                 DealDamageToTargetBall(raycastHit2D);
