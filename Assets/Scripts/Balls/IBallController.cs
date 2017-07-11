@@ -26,5 +26,6 @@ namespace Assets.Scripts.Balls
         void ResetBall();
         void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform);
         void SetInactiveInGrid();
+        void MarkDirty();
     }
 }

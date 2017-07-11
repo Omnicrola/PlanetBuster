@@ -89,7 +89,7 @@ namespace Assets.Scripts.Balls
             }
 
             _ballPositionHandler.AppendAt(_ballArray, newBall, gridPosition);
-
+            newBall.MarkDirty();
             _activeBalls.Add(newBall);
 
             Logging.Instance.Log(LogLevel.Debug,

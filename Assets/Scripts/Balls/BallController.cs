@@ -144,7 +144,8 @@ namespace Assets.Scripts.Balls
             {
                 _isDirty = false;
                 _ballSpriteRenderer.sprite = BallType.GetSprite();
-                PowerGemSprite.SetActive(HasPowerGem);
+                Hitpoints = Magnitude.GetHitpoints();
+                MaxHitpoints = Magnitude.GetHitpoints(); PowerGemSprite.SetActive(HasPowerGem);
                 DamageSprite.SetActive(Magnitude != BallMagnitude.Standard);
                 gameObject.transform.localScale = _baseScale * Magnitude.GetScale();
             }
