@@ -2,6 +2,7 @@
 using Assets.Scripts.Balls;
 using Assets.Scripts.Core;
 using Assets.Scripts.Core.Events;
+using Assets.Scripts.Core.Levels;
 using Assets.Scripts.Ui;
 using Assets.Scripts.Util;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Assets.Scripts
 {
     public class LevelStarter : UnityBehavior
     {
+        public LevelDataController LevelUnderTest;
         public GameObject BallGridManager;
         public GameObject PopupMenu;
         public GameObject GameOverWindow;
@@ -19,8 +21,14 @@ namespace Assets.Scripts
             PopupMenu.SetActive(false);
             GameOverWindow.SetActive(false);
 
+
+            if (LevelUnderTest != null)
+            {
+                GameManager.Instance.CurrentLevel = LevelUnderTest;
+            }
             var newLevel = GameManager.Instance.CurrentLevel.Instantiate();
             BallGridManager.GetComponent<IBallGridManager>().StartNewLevel(newLevel);
+
 
             GameManager.Instance.EventBus.Subscribe<GameOverEventArgs>(OnGameOver);
         }

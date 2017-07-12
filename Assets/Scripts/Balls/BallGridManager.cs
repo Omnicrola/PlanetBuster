@@ -11,8 +11,6 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridManager : UnityBehavior, IBallGridManager
     {
-        public GameObject LevelForTesting;
-
         public float Spacing = 1;
         public GameObject Ceiling;
 
