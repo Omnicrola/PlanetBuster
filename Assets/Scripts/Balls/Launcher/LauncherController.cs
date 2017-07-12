@@ -22,6 +22,7 @@ namespace Assets.Scripts.Balls.Launcher
         public GameObject BallContainer;
         public GameObject NextProjectile;
         public GameObject ParticleEmitter;
+        public TextMesh BallCounterText;
 
 
         private BallType _nextProjectileType;
@@ -80,6 +81,7 @@ namespace Assets.Scripts.Balls.Launcher
 
         private void GenerateNextBall()
         {
+            BallCounterText.text = _ballSequence.Count.ToString();
             if (_ballSequence.Any())
             {
                 _nextProjectileType = _ballSequence.Dequeue();
