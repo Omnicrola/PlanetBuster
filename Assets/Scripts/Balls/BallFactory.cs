@@ -10,35 +10,27 @@ namespace Assets.Scripts.Balls
     public class BallFactory : IBallFactory
     {
         private readonly SimpleObjectPool _simpleObjectPool;
-        private readonly HashSet<GameObject> _allBallsCreated = new HashSet<GameObject>();
         private readonly GameObject _ceiling;
         private readonly Vector2 _offset;
-        private readonly float _spacing;
 
-        private readonly Random _random = new Random(11);
+        private readonly BallGridPositionCalculator _ballPositionCalculator;
 
-        public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset, float spacing)
+        public BallFactory(SimpleObjectPool simpleObjectPool, GameObject ceiling, Vector2 offset)
         {
             _simpleObjectPool = simpleObjectPool;
+            _ballPositionCalculator = new BallGridPositionCalculator();
             _ceiling = ceiling;
             _offset = offset;
-            _spacing = spacing;
         }
 
         public virtual Vector3 GetWorldPositionFromGrid(GridPosition gridPosition)
         {
-            var ceilingOffset = _ceiling.transform.position;
-            var x = gridPosition.X * _spacing + _offset.x + ceilingOffset.x;
-            var y = (gridPosition.Y * _spacing * -1) + _offset.y + ceilingOffset.y;
-            return new Vector3(x, y, 0);
+            return _ballPositionCalculator.GetWorldPosition(gridPosition, _ceiling.transform.position, _offset);
         }
 
         public GridPosition GetGridPositionFromWorldPosition(Vector2 worldPosition)
         {
-            var ceilingOffset = _ceiling.transform.position;
-            int x = Mathf.RoundToInt((worldPosition.x - ceilingOffset.x - _offset.x) / _spacing);
-            int y = Mathf.RoundToInt((worldPosition.y - ceilingOffset.y - _offset.y) / _spacing);
-            return new GridPosition(x, y);
+            return _ballPositionCalculator.GetGridPosition(worldPosition, _ceiling.transform.position, _offset);
         }
 
         public GameObject GenerateBall(BallType type)

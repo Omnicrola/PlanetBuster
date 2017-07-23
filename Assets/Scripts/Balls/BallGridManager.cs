@@ -11,7 +11,6 @@ namespace Assets.Scripts.Balls
 {
     public class BallGridManager : UnityBehavior, IBallGridManager
     {
-        public float Spacing = 1;
         public GameObject Ceiling;
 
         public Vector2 Offset = new Vector2(0, 0);
@@ -24,7 +23,7 @@ namespace Assets.Scripts.Balls
         protected override void Start()
         {
             var simpleObjectPool = GetComponent<SimpleObjectPool>();
-            _ballFactory = new BallFactory(simpleObjectPool, Ceiling, Offset, Spacing);
+            _ballFactory = new BallFactory(simpleObjectPool, Ceiling, Offset);
             var orphanedBallFinder = new OrphanedBallFinder();
             var ballGrid = new BallGrid(_ballFactory, orphanedBallFinder, gameObject);
             _ballGridController = new BallGridController(_ballFactory, ballGrid, new BallGridPositionCalculator());
@@ -36,7 +35,7 @@ namespace Assets.Scripts.Balls
             _ballGridController.Clear();
 
             _ballGridController.Generate(newLevel);
-            GetComponent<BallGridPositionController>().StartNewLevel(_ballGridController.HeightOfActiveGrid);
+            GetComponent<LevelPositionController>().StartNewLevel(_ballGridController.HeightOfActiveGrid);
             GameManager.Instance.EventBus.Broadcast(new GameStartEventArgs());
         }
 

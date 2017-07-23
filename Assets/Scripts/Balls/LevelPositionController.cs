@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Balls
 {
-    public class BallGridPositionController : UnityBehavior
+    public class LevelPositionController : UnityBehavior
     {
         public float DelayBeforeFirstDrop = 30f;
         public float DecentInterval = 30;

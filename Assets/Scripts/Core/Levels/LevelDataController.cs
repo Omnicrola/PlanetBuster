@@ -15,6 +15,7 @@ namespace Assets.Scripts.Core.Levels
         public string LevelName;
         public bool ShowPowerBar;
         public string StartMessage;
+        public GameObject BallPrefab;
 
         public GameObject i_BallSequence;
 

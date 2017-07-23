@@ -10,16 +10,16 @@ namespace Assets.Scripts.Balls
             var ballMagnitude = newBall.Magnitude;
             if (ballMagnitude == BallMagnitude.Medium)
             {
-                AddExtraPositionsForStandardMagnitude(ballArray, newBall, gridPosition);
+                AddExtraPositionsForMediumMagnitude(ballArray, newBall, gridPosition);
             }
             else if (ballMagnitude == BallMagnitude.Large)
             {
-                AddExtraPositionsForStandardMagnitude(ballArray, newBall, gridPosition);
+                AddExtraPositionsForMediumMagnitude(ballArray, newBall, gridPosition);
                 AddExtraPositionsForLargeMagnitude(ballArray, newBall, gridPosition);
             }
             else if (ballMagnitude == BallMagnitude.Huge)
             {
-                AddExtraPositionsForStandardMagnitude(ballArray, newBall, gridPosition);
+                AddExtraPositionsForMediumMagnitude(ballArray, newBall, gridPosition);
                 AddExtraPositionsForLargeMagnitude(ballArray, newBall, gridPosition);
                 AddExtraPositionsForHugeMagnitude(ballArray, newBall, gridPosition);
             }
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Balls
             ballArray[gridPosition.X, gridPosition.Y + 2] = newBall;
         }
 
-        private static void AddExtraPositionsForStandardMagnitude(IBallController[,] ballArray, IBallController newBall,
+        private static void AddExtraPositionsForMediumMagnitude(IBallController[,] ballArray, IBallController newBall,
             GridPosition gridPosition)
         {
             ballArray[gridPosition.X + 1, gridPosition.Y] = newBall;
