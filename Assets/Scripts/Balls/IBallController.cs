@@ -19,12 +19,12 @@ namespace Assets.Scripts.Balls
         bool IsProjectile { get; set; }
 
         GameObject gameObject { get; }
-        Vector3 Position { get; set; }
+        Vector3 Position { get; }
         Sprite CurrentBallSprite { get; set; }
 
         void Launch(Vector3 position, Quaternion rotation, Vector3 trajectory, float projectileSpeed);
         void ResetBall();
-        void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform);
+        void SetActiveInGrid(GridPosition gridPosition, Transform parentTransform);
         void SetInactiveInGrid();
         void MarkDirty();
     }

@@ -29,6 +29,8 @@ namespace Assets.Scripts.Balls
         private float _maxHitpoints;
         private float _hitpoints;
         private bool _isDirty;
+        public float shieldArea;
+        private GridPosition _gridPosition;
 
         public bool IsProjectile
         {
@@ -68,7 +70,15 @@ namespace Assets.Scripts.Balls
             }
         }
 
-        public GridPosition GridPosition { get; private set; }
+        public GridPosition GridPosition
+        {
+            get { return _gridPosition; }
+            private set
+            {
+                _gridPosition = value;
+                Position = value.ToWorldPosition();
+            }
+        }
 
         public BallType BallType
         {
@@ -105,7 +115,7 @@ namespace Assets.Scripts.Balls
         public Vector3 Position
         {
             get { return transform.position; }
-            set { transform.position = value; }
+            private set { transform.position = value; }
         }
 
         public float MaxHitpoints
@@ -177,12 +187,11 @@ namespace Assets.Scripts.Balls
         }
 
 
-        public void SetActiveInGrid(GridPosition gridPosition, Vector3 worldPosition, Transform parentTransform)
+        public void SetActiveInGrid(GridPosition gridPosition, Transform parentTransform)
         {
             GridPosition = gridPosition;
             gameObject.transform.SetParent(parentTransform);
             IsProjectile = false;
-            gameObject.transform.position = worldPosition;
             gameObject.transform.rotation = Quaternion.identity;
         }
 

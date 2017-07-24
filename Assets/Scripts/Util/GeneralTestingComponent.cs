@@ -1,27 +1,32 @@
-﻿using Assets.Scripts.Balls.Launcher;
+﻿using Assets.Scripts.Balls;
+using Assets.Scripts.Balls.Launcher;
 using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.Util
 {
+    [ExecuteInEditMode]
     public class GeneralTestingComponent : UnityBehavior
     {
-        public GameObject GiantLaserController;
-        private GiantLaserController _giantLaserController;
+        private GridPosition _gridPosition;
+
+        public GridPosition GridPosition
+        {
+            get { return _gridPosition; }
+            set
+            {
+                _gridPosition = value;
+                transform.position = value.ToWorldPosition();
+            }
+        }
 
         protected override void Start()
         {
-            _giantLaserController = GiantLaserController.GetComponent<GiantLaserController>();
         }
+
 
         protected override void Update()
         {
-        }
-
-        public void OnClick_PrimeLaser()
-        {
-            _giantLaserController.ChargeLevel = 1f;
-            _giantLaserController.PrimeZeeLazer();
         }
     }
 }
